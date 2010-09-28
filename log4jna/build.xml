@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="log4jna" default="build" basedir=".">
+	<property name="log4jna.java.version" value="1.5" />
+	<property name="log4jna.version" value="1.0" />
+	<property name="log4jna.copyright" value="Daniel Doubrovkine (dblock[at]dblock[dot]org)" />
+	<property name="log4jna.root" value="${basedir}" />
+	<property name="log4jna.bin" value="${log4jna.root}/bin" />
+	<property name="log4jna.build" value="${log4jna.root}/build" />
+	<property name="log4jna.doc" value="${log4jna.root}/doc" />
+	<property name="log4jna.lib" value="${log4jna.root}/lib" />
+	<property name="log4jna.src" value="${log4jna.root}/src" />
+	<property name="log4jna.test.src" value="${log4jna.root}/src-test" />
+	<property name="log4jna.test.lib" value="${log4jna.root}/lib-test" />
+	<property name="log4jna.test" value="${log4jna.root}/test" />
+	<property name="thirdparty.dir" location="${basedir}/../thirdparty" />
+	<!-- compile -->
+	<path id="jna.classpath">
+		<fileset dir="${thirdparty.dir}/jna">
+			<include name="jna.jar" />
+			<include name="platform.jar" />
+		</fileset>
+	</path>
+	<path id="log4j.classpath">
+		<fileset dir="${thirdparty.dir}/log4j">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<path id="log4jna.classpath">
+		<path refid="jna.classpath" />
+		<path refid="log4j.classpath" />
+	</path>
+	<macrodef name="compile">
+		<attribute name="optimize" />
+		<attribute name="debug" />
+		<sequential>
+			<delete dir="${log4jna.lib}" />
+			<mkdir dir="${log4jna.lib}" />
+			<javac target="${log4jna.java.version}" srcdir="${log4jna.src}"
+				destdir="${log4jna.lib}" optimize="@{optimize}" debug="@{debug}">
+				<classpath refid="log4jna.classpath" />
+				<include name="**/*.java" />
+			</javac>
+		</sequential>
+	</macrodef>
+	<!-- test -->
+	<path id="log4jna.test.classpath">
+		<pathelement location="${log4jna.lib}" />
+		<path refid="log4jna.classpath" />
+		<fileset dir="${thirdparty.dir}/junit">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${log4jna.test.src}" />
+		<pathelement location="${log4jna.test.lib}" />
+	</path>
+	<target name="compile-tests">
+		<mkdir dir="${log4jna.test.lib}" />
+		<javac target="${log4jna.java.version}" srcdir="${log4jna.test.src}"
+			destdir="${log4jna.test.lib}" optimize="no" debug="yes">
+			<classpath refid="log4jna.test.classpath" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+	<target name="test" depends="compile-tests">
+		<mkdir dir="${log4jna.test}" />
+		<junit fork="true" newenvironment="true" failureproperty="tests.failed"
+			haltonfailure="no" haltonerror="no" printsummary="on" errorproperty="tests.failed">
+			<batchtest todir="${log4jna.test}">
+				<fileset dir="${log4jna.test.lib}" includes="**/*Test*.class" />
+			</batchtest>
+			<formatter type="xml" />
+			<classpath refid="log4jna.test.classpath" />
+		</junit>
+		<fail message="Unit Tests failed" if="tests.failed" />
+	</target>
+	<!-- package -->
+	<target name="jar">
+		<delete dir="${log4jna.build}" />
+		<mkdir dir="${log4jna.build}" />
+		<jar jarfile="${log4jna.build}/log4jna.jar">
+			<fileset dir="${log4jna.lib}">
+				<include name="log4jna/**/*.class" />
+			</fileset>
+			<manifest>
+				<attribute name="Version" value="${log4jna.version}" />
+				<attribute name="Created-By" value="${log4jna.copyright}" />
+			</manifest>
+		</jar>
+		<jar jarfile="${log4jna.build}/log4jna-src.zip">
+			<fileset dir="${log4jna.src}">
+				<include name="**/*.java" />
+				<include name="**/*.mc" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.rc" />
+			</fileset>
+			<manifest>
+				<attribute name="Version" value="${log4jna.version}" />
+				<attribute name="Created-By" value="${log4jna.copyright}" />
+			</manifest>
+		</jar>
+	</target>
+	<target name="doc">
+		<javadoc destdir="${log4jna.doc}" sourcepath="${log4jna.src}"
+			classpathref="log4jna.classpath" />
+	</target>
+	<target name="clean">
+		<delete dir="${log4jna.bin}" />
+		<delete dir="${log4jna.build}" />
+		<delete dir="${log4jna.lib}" />
+		<delete dir="${log4jna.test.lib}" />
+		<delete dir="${log4jna.doc}" />
+		<delete dir="${log4jna.test}" />
+		<ant antfile="build.xml" target="clean" dir="${log4jna.src}/win32dll" />
+	</target>
+	<target name="compile">
+		<echo message="Building version ${log4jna.version}" />
+		<compile debug="no" optimize="yes" />
+		<antcall target="jar" />
+	</target>
+	<target name="build">
+		<echo message="Building version ${log4jna.version}" />
+		<compile debug="no" optimize="yes" />
+		<antcall target="jar" />
+		<ant antfile="build.xml" target="msbuild" dir="${log4jna.src}/win32dll" />
+		<antcall target="test" />
+		<antcall target="doc" />
+	</target>
+	<target name="clean-build" depends="clean,build" />
+</project>

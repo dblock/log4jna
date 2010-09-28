@@ -1,0 +1,29 @@
+<project name="Artifacts" basedir="." default="build">
+	<property name="artifacts.root" value="${basedir}" />
+	<property name="dist.dir" location="${basedir}/../dist" />
+	<property name="artifacts.dir" location="${dist.dir}/log4jna" />
+	<property name="tree.root" location="${basedir}/.." />
+	<target name="build">
+		<delete dir="${dist.dir}" quiet="true" />
+		<mkdir dir="${artifacts.dir}"/>
+		<copy file="${artifacts.root}/LICENSE.txt" todir="${artifacts.dir}" />
+		<copy file="${tree.root}/log4jna/build/log4jna.jar" todir="${artifacts.dir}" />
+		<copy file="${tree.root}/log4jna/src/win32dll/target/Win32EventLogAppender.dll" todir="${artifacts.dir}" />
+		<copy file="${tree.root}/log4jna/build/log4jna-src.zip" todir="${artifacts.dir}" />
+		<copy file="${tree.root}/thirdparty/jna/jna.jar" todir="${artifacts.dir}" />
+		<copy file="${tree.root}/thirdparty/jna/platform.jar" todir="${artifacts.dir}" />
+		<copy todir="${artifacts.dir}/doc">
+			<fileset dir="${tree.root}/log4jna/doc" />
+		</copy>
+		<zip basedir="${artifacts.dir}" destfile="${dist.dir}/log4jna.zip" />
+		<echo message="================ Done: ${artifacts.dir} ================"/>
+	</target>
+	<target name="clean">
+		<tstamp><format property="top.clean.time" pattern="hh:mm:ss"/></tstamp>
+		<echo message="================ ${top.clean.time}: Cleaning DbProtect Suite build ================"/>
+		<delete dir="${artifacts.dir}" quiet="true"/>
+	</target>	
+	<target name="test">
+		<echo message="Project ${ant.project.name} doesn't have any tests" />
+	</target>
+</project>
