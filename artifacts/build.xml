@@ -8,6 +8,8 @@
 		<mkdir dir="${artifacts.dir}"/>
 		<copy file="${artifacts.root}/LICENSE.txt" todir="${artifacts.dir}" />
 		<copy file="${tree.root}/log4jna/build/log4jna.jar" todir="${artifacts.dir}" />
+		<copy file="${tree.root}/demo/build/demo-src.zip" todir="${artifacts.dir}/demo" />
+		<copy file="${tree.root}/demo/build/demo.jar" todir="${artifacts.dir}/demo" />
 		<copy file="${tree.root}/log4jna/src/win32dll/target/Win32EventLogAppender.dll" todir="${artifacts.dir}" />
 		<copy file="${tree.root}/log4jna/build/log4jna-src.zip" todir="${artifacts.dir}" />
 		<copy file="${tree.root}/thirdparty/jna/jna.jar" todir="${artifacts.dir}" />

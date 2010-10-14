@@ -2,6 +2,7 @@
 <project name="DbProtectSuite" basedir="." default="build">
 	<target name="recurse">
 		<ant dir="log4jna" target="${ant.target}" />
+		<ant dir="demo" target="${ant.target}" />
 		<ant dir="artifacts" target="${ant.target}" />
 	</target>
 	<target name="build">

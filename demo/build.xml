@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="demo" default="build" basedir=".">
+	<property name="demo.java.version" value="1.5" />
+	<property name="demo.version" value="1.0" />
+	<property name="demo.copyright" value="Daniel Doubrovkine (dblock[at]dblock[dot]org)" />
+	<property name="demo.root" value="${basedir}" />
+	<property name="demo.bin" value="${demo.root}/bin" />
+	<property name="demo.build" value="${demo.root}/build" />
+	<property name="demo.lib" value="${demo.root}/lib" />
+	<property name="demo.src" value="${demo.root}/src" />
+	<property name="demo.main-class" value="org.apache.log4jna.nt.demo.Demo" />
+	<property name="root.dir" location="${basedir}/../" />
+	<property name="thirdparty.dir" location="${root.dir}/thirdparty" />
+	<!-- compile -->
+	<path id="log4j.classpath">
+		<fileset id="log4j.fileset" dir="${thirdparty.dir}/log4j">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<path id="jna.classpath">
+		<fileset id="jna.fileset" dir="${thirdparty.dir}/jna">
+			<include name="jna.jar" />
+			<include name="platform.jar" />
+		</fileset>
+	</path>
+	<path id="log4jna.classpath">
+		<fileset id="log4jna.fileset" dir="${root.dir}/log4jna/build">
+			<include name="log4jna.jar" />
+		</fileset>
+	</path>
+	<path id="demo.classpath">
+		<path refid="log4j.classpath" />
+	</path>
+	<macrodef name="compile">
+		<attribute name="optimize" />
+		<attribute name="debug" />
+		<sequential>
+			<delete dir="${demo.lib}" />
+			<mkdir dir="${demo.lib}" />
+			<javac target="${demo.java.version}" srcdir="${demo.src}"
+				destdir="${demo.lib}" optimize="@{optimize}" debug="@{debug}">
+				<classpath refid="demo.classpath" />
+				<include name="**/*.java" />
+			</javac>
+		</sequential>
+	</macrodef>
+	<!-- package -->
+	<target name="jar">
+		<delete dir="${demo.build}" />
+		<mkdir dir="${demo.build}" />
+		<jar jarfile="${demo.build}/demo.jar">
+			<fileset dir="${demo.lib}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${demo.src}">
+				<include name="*.properties" />
+			</fileset>
+			<manifest>
+				<attribute name="Version" value="${demo.version}" />
+				<attribute name="Created-By" value="${demo.copyright}" />
+			</manifest>
+		</jar>
+		<copy todir="${demo.build}">
+			<fileset refid="log4j.fileset" />
+			<fileset refid="log4jna.fileset" />
+			<fileset refid="jna.fileset" />
+		</copy>
+		<jar jarfile="${demo.build}/demo-src.zip">
+			<fileset dir="${demo.src}">
+				<include name="**/*.java" />
+				<include name="**/*.properties" />
+			</fileset>
+			<manifest>
+				<attribute name="Version" value="${demo.version}" />
+				<attribute name="Created-By" value="${demo.copyright}" />
+			</manifest>
+		</jar>
+	</target>
+	<target name="clean">
+		<delete dir="${demo.bin}" />
+		<delete dir="${demo.build}" />
+		<delete dir="${demo.lib}" />
+	</target>
+	<target name="compile">
+		<echo message="Building version ${demo.version}" />
+		<compile debug="no" optimize="yes" />
+		<antcall target="jar" />
+	</target>
+	<target name="build">
+		<echo message="Building version ${demo.version}" />
+		<compile debug="no" optimize="yes" />
+		<antcall target="jar" />
+	</target>
+	<target name="clean-build" depends="clean,build" />
+    <target name="run" depends="compile">
+        <java classname="${demo.main-class}" fork="true" args="hello world">
+            <classpath>
+            	<path refid="jna.classpath" />
+            	<path refid="log4j.classpath" />
+            	<path refid="log4jna.classpath" />
+                <pathelement location="${demo.build}/demo.jar" />
+            </classpath>
+        </java>
+    </target>
+</project>
