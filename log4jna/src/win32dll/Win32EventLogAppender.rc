@@ -75,39 +75,7 @@ END
 // Version
 //
 
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION  1, 2, 16, 1
- PRODUCTVERSION 1, 2, 16, 1
- FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904b0"
-        BEGIN
-            VALUE "CompanyName", "Apache Software Foundation"
-            VALUE "FileDescription", "Message file for Win32EventLogAppender"
-            VALUE "FileVersion", "1, 2, 16, 1"
-            VALUE "InternalName", "Win32EventLogAppender"
-            VALUE "LegalCopyright",  "Licensed to the Apache Software Foundation (ASF) under one or more\ncontributor license agreements.  See the NOTICE file distributed with\nthis work for additional information regarding copyright ownership.\nThe ASF licenses this file to You under the Apache License, Version 2.0\n(the ""License""); you may not use this file except in compliance with\nthe License.  You may obtain a copy of the License at\n\n     http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an ""AS IS"" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License."
-            VALUE "OriginalFilename", "Win32EventLogAppender.dll"
-            VALUE "ProductName", "Apache log4j"
-            VALUE "ProductVersion", "1, 2, 16, 1"
-            VALUE "OLESelfRegister", "\0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x409, 1200
-    END
-END
+#include "version.rc"
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////

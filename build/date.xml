@@ -1,0 +1,6 @@
+<project name="date">
+	<tstamp>
+		<format property="build.time" pattern="hh:mm:ss"/>
+		<format property="build.date" pattern="MM/dd/yyyy" />
+	</tstamp>
+</project>

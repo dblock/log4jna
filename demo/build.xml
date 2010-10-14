@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="demo" default="build" basedir=".">
 	<property name="demo.java.version" value="1.5" />
-	<property name="demo.version" value="1.0" />
-	<property name="demo.copyright" value="Daniel Doubrovkine (dblock[at]dblock[dot]org)" />
 	<property name="demo.root" value="${basedir}" />
 	<property name="demo.bin" value="${demo.root}/bin" />
 	<property name="demo.build" value="${demo.root}/build" />
@@ -11,6 +9,8 @@
 	<property name="demo.main-class" value="org.apache.log4jna.nt.demo.Demo" />
 	<property name="root.dir" location="${basedir}/../" />
 	<property name="thirdparty.dir" location="${root.dir}/thirdparty" />
+	<property file="${root.dir}/build/svn.properties" />	
+	<property file="${root.dir}/build/version.properties" />
 	<!-- compile -->
 	<path id="log4j.classpath">
 		<fileset id="log4j.fileset" dir="${thirdparty.dir}/log4j">
@@ -56,8 +56,8 @@
 				<include name="*.properties" />
 			</fileset>
 			<manifest>
-				<attribute name="Version" value="${demo.version}" />
-				<attribute name="Created-By" value="${demo.copyright}" />
+				<attribute name="Version" value="${version}" />
+				<attribute name="Created-By" value="${copyright}" />
 			</manifest>
 		</jar>
 		<copy todir="${demo.build}">
@@ -71,8 +71,8 @@
 				<include name="**/*.properties" />
 			</fileset>
 			<manifest>
-				<attribute name="Version" value="${demo.version}" />
-				<attribute name="Created-By" value="${demo.copyright}" />
+				<attribute name="Version" value="${version}" />
+				<attribute name="Created-By" value="${copyright}" />
 			</manifest>
 		</jar>
 	</target>
@@ -82,12 +82,12 @@
 		<delete dir="${demo.lib}" />
 	</target>
 	<target name="compile">
-		<echo message="Building version ${demo.version}" />
+		<echo message="Building version ${version}" />
 		<compile debug="no" optimize="yes" />
 		<antcall target="jar" />
 	</target>
 	<target name="build">
-		<echo message="Building version ${demo.version}" />
+		<echo message="Building version ${version}" />
 		<compile debug="no" optimize="yes" />
 		<antcall target="jar" />
 	</target>
