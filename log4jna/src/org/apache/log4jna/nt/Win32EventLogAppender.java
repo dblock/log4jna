@@ -48,8 +48,8 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  */
 public class Win32EventLogAppender extends AppenderSkeleton {
-	private String source = null;
-	private String server = null;
+	private String _source = null;
+	private String _server = null;
 	private HANDLE _handle = null;
 
 	public Win32EventLogAppender() {
@@ -73,21 +73,17 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	}
 
 	public Win32EventLogAppender(String server, String source, Layout layout) {
-		if (source == null) {
+		if (source == null || source.length() == 0) {
 			source = "Log4jna";
 		}
+		
 		if (layout == null) {
-			this.layout = new TTCCLayout();
-		} else {
-			this.layout = layout;
+			layout = new TTCCLayout();
 		}
-
-		try {
-			_handle = registerEventSource(server, source);
-		} catch (Exception e) {
-			e.printStackTrace();
-			close();
-		}
+		
+		this.layout = layout;
+		this._server = server;
+		this._source = source;		
 	}
 
 	public void close() {
@@ -98,22 +94,26 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 			_handle = null;
 		}
 	}
+	
+	private void registerEventSource() {
+		close();
+		
+		try {
+			_handle = registerEventSource(_server, _source);
+		} catch (Exception e) {
+			LogLog.error("Could not register event source.", e);
+			close();
+		}
+	}
 
 	public void activateOptions() {
-		if (source != null) {
-			try {
-				_handle = registerEventSource(server, source);
-			} catch (Exception e) {
-				LogLog.error("Could not register event source.", e);
-				close();
-			}
-		}
+		registerEventSource();
 	}
 
 	public void append(LoggingEvent event) {
 
 		if (_handle == null) {
-			_handle = registerEventSource(null, "Log4jna");
+			registerEventSource();
 		}
 
 		StringBuffer sbuf = new StringBuffer();
@@ -147,11 +147,11 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	 * value of this constant is <b>Source</b>.
 	 */
 	public void setSource(String source) {
-		this.source = source.trim();
+		_source = source.trim();		
 	}
 
 	public String getSource() {
-		return source;
+		return _source;
 	}
 
 	/**
