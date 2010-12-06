@@ -22,4 +22,5 @@
 		</antcall>
 	</target>
 	<target name="dist" depends="clean, build" />
+	<target name="all" depends="dist" />
 </project>
