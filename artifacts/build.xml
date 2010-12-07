@@ -1,6 +1,6 @@
 <project name="Artifacts" basedir="." default="build">
 	<property name="artifacts.root" value="${basedir}" />
-	<property name="dist.dir" location="${basedir}/../dist" />
+	<property name="dist.dir" location="${basedir}/../target/Release" />
 	<property name="root.dir" location="${basedir}/.." />
 	<property file="${root.dir}/build/svn.properties" />	
 	<property file="${root.dir}/build/version.properties" />

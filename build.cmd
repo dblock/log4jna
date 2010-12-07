@@ -12,7 +12,7 @@ for /D %%n in ( "%ProgramFilesDir%\NUnit*" ) do (
  set NUnitDir=%%~n
 )
 
-call ant.bat %*
+call ant.bat %~1
 
 popd
 endlocal
