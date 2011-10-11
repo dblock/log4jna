@@ -1,6 +1,8 @@
 Log4JNA
 =======
 
+![Log4JNA](log4jna.jpg?raw=true "Log4JNA")
+
 Log4jna is a library of native appenders for log4j. Unlike the native implementation(s) in Log4j, this project uses JNA and therefore does not require a native DLL in a system directory or on PATH.
 
 * [org.apache.log4jna.nt.Win32EventLogAppender](log4jna/tree/master/doc/org.apache.log4jna.nt.Win32EventLogAppender.md): a replacement for NTEventLogAppender based on JNA that doesn't require a native DLL in a system directory.
@@ -8,7 +10,7 @@ Log4jna is a library of native appenders for log4j. Unlike the native implementa
 Download
 ========
 
-* TODO
+* [log4jna-1.0.zip](http://dblock.github.com/log4jna/downloads/log4jna-1.0.zip)
 
 License
 =======
