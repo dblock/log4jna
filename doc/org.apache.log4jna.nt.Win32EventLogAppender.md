@@ -21,3 +21,9 @@ In order to get properly formatted messages in the event log, create `HKEY_LOCAL
 The Log4jna value above is the name of your event source. This can be changed by defining the appender's source property.
 
 Creating this registry key is typically done in your application's installer. Log4jna will attempt to create it if it doesn't exist, but won't know where to find the *Win32EventLogAppender.dll*. This will cause the Event Viewer to be confused and include a warning about not finding the message resource. Messages will still be logged and display.
+
+FAQ
+===
+
+* [log4j:ERROR Could not register event source (Access is denied.)](http://code.dblock.org/log4jna-log4jerror-could-not-register-event-source-access-is-denied)
+* [The description for Event ID 4096 from source log4jna cannot be found.](http://code.dblock.org/log4jna-the-description-for-event-id-4096-from-source-log4jna-cannot-be-found)
