@@ -6,10 +6,10 @@ Include *log4jna.jar*, *jna.jar* and *platform.jar* in your application. If you'
 Properties
 ==========
 
-`log4j.appender.A=org.apache.log4jna.nt.Win32EventLogAppender
-log4j.appender.A.source=Log4jna
-log4j.appender.A.layout=org.apache.log4j.PatternLayout 
-log4j.appender.A.layout.ConversionPattern=%d{EEE dd MMM HH:mm:ss} - %m%n`
+    log4j.appender.A=org.apache.log4jna.nt.Win32EventLogAppender
+    log4j.appender.A.source=Log4jna
+    log4j.appender.A.layout=org.apache.log4j.PatternLayout 
+    log4j.appender.A.layout.ConversionPattern=%d{EEE dd MMM HH:mm:ss} - %m%n
 
 Registry
 ========
