@@ -16,7 +16,7 @@ Registry
 
 In order to get properly formatted messages in the event log, create `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\eventlog\Application\Log4jna` with the values of `EventMessageFile` and `CategoryMessageFile` pointing to the location of *Win32EventLogAppender.dll* (eg. `c:\Program Files\MyApplication\Win32EventLogAppender.dll`) and the values of `TypesSupported = 7` and `CategoryCount = 6`. Note that unlike log4j's NTEventLogAppender, this DLL only contains message formats and you do not need to place it in the system directory.
 
-![org.apache.log4jna.nt.Win32EventLogAppender registry](org.apache.log4jna.nt.Win32EventLogAppender.registry.png "Registry")
+![org.apache.log4jna.nt.Win32EventLogAppender registry](https://raw.github.com/dblock/log4jna/master/doc/org.apache.log4jna.nt.Win32EventLogAppender.registry.png "Registry")
 
 The Log4jna value above is the name of your event source. This can be changed by defining the appender's source property.
 
