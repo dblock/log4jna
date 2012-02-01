@@ -10,7 +10,7 @@ Log4jna is a library of native appenders for [log4j](http://logging.apache.org/l
 Download
 ========
 
-* [log4jna-1.0.zip](http://dblock.github.com/log4jna/downloads/log4jna-1.0.zip)
+* [log4jna-1.0.zip](https://github.com/downloads/dblock/log4jna/log4jna-1.0.zip)
 
 License
 =======
