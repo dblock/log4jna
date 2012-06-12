@@ -89,7 +89,8 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	public void close() {
 		if (_handle != null) {
 			if (!Advapi32.INSTANCE.DeregisterEventSource(_handle)) {
-				throw new Win32Exception(Kernel32.INSTANCE.GetLastError());
+				Exception e = new Win32Exception(Kernel32.INSTANCE.GetLastError());
+				getErrorHandler().error("Could not close appender.", e, ErrorCode.CLOSE_FAILURE);
 			}
 			_handle = null;
 		}
@@ -194,7 +195,8 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		if (!Advapi32.INSTANCE.ReportEvent(_handle, getEventLogType(priority),
 				getEventLogCategory(priority), messageID, null, 1, 0, buffer,
 				null)) {
-			throw new Win32Exception(Kernel32.INSTANCE.GetLastError());
+			Exception e =  new Win32Exception(Kernel32.INSTANCE.GetLastError());
+			getErrorHandler().error("Failed to report event ["+message+"].", e, ErrorCode.WRITE_FAILURE);
 		}
 	}
 
