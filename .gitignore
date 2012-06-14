@@ -1,0 +1,17 @@
+build/date.properties
+log4jna/src/win32dll/EventLogCategories.h
+log4jna/src/win32dll/EventLogCategories.rc
+log4jna/src/win32dll/MSG00001.bin
+log4jna/src/win32dll/Win32EventLogAppender.res
+log4jna/src/win32dll/target/
+log4jna/src/win32dll/version.rc
+demo/bin
+demo/build
+demo/lib
+log4jna/bin
+log4jna/build
+log4jna/doc
+log4jna/lib-test
+log4jna/lib
+log4jna/test
+target
