@@ -22,6 +22,7 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.Priority;
 import org.apache.log4j.TTCCLayout;
 import org.apache.log4j.helpers.LogLog;
+import org.apache.log4j.spi.ErrorCode;
 import org.apache.log4j.spi.LoggingEvent;
 
 import com.sun.jna.platform.win32.Advapi32;

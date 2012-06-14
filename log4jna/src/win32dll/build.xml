@@ -37,10 +37,11 @@ target platform and specify msbuild as the target on the ant command line.
   <property name="failifexecutionfails" value="${failonerror}"/>
   <property environment="env"/>
   <property name="root.dir" location="${basedir}/../.." />
-  <property file="${root.dir}/build/svn.properties" />	
+  <property file="${root.dir}/build/date.properties" />	
   <property file="${root.dir}/build/version.properties" />
 
   <target name="clean" description="Deletes generated files">
+		<echo message="Building ${version}" />
     <delete dir="${target.dir}"/>
     <delete file="${src.dir}/version.rc" />
     <delete file="${src.dir}/MSG00001.bin" />
