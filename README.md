@@ -1,7 +1,7 @@
 Log4JNA
 =======
 
-![Log4JNA](log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA")
+![Log4JNA](https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA")
 
 Log4jna is a library of native appenders for [log4j](http://logging.apache.org/log4j/). Unlike the native implementation(s) in Log4j, this project uses [JNA](http://github.com/twall/jna) and therefore does not require a native DLL in a system directory or on PATH.
 
