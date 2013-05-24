@@ -51,31 +51,44 @@ import com.sun.jna.platform.win32.WinReg;
 public class Win32EventLogAppender extends AppenderSkeleton {
 	private String _source = null;
 	private String _server = null;
+	private String _log = null;
 	private HANDLE _handle = null;
 
 	public Win32EventLogAppender() {
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 
 	public Win32EventLogAppender(String source) {
-		this(null, source, null);
+		this(null, source, null, null);
 	}
 
 	public Win32EventLogAppender(String server, String source) {
-		this(server, source, null);
+		this(server, source, null, null);
 	}
 
+	public Win32EventLogAppender(String server, String source, String log) {
+		this(server, source, null, null);
+	}
+	
 	public Win32EventLogAppender(Layout layout) {
-		this(null, null, layout);
+		this(null, null, null, layout);
 	}
 
 	public Win32EventLogAppender(String source, Layout layout) {
-		this(null, source, layout);
+		this(null, source, null, layout);
 	}
 
-	public Win32EventLogAppender(String server, String source, Layout layout) {
+	public Win32EventLogAppender(String source, String log, Layout layout) {
+		this(null, source, log, layout);
+	}
+	
+	public Win32EventLogAppender(String server, String source, String log, Layout layout) {
 		if (source == null || source.length() == 0) {
 			source = "Log4jna";
+		}
+		
+		if (log == null || log.length() == 0){
+			log = "Application";
 		}
 		
 		if (layout == null) {
@@ -84,7 +97,8 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		
 		this.layout = layout;
 		this._server = server;
-		this._source = source;		
+		this._source = source;
+		this._log = log;
 	}
 
 	public void close() {
@@ -101,7 +115,7 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		close();
 		
 		try {
-			_handle = registerEventSource(_server, _source);
+			_handle = registerEventSource(_server, _source, _log);
 		} catch (Exception e) {
 			LogLog.error("Could not register event source.", e);
 			close();
@@ -156,6 +170,14 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		return _source;
 	}
 
+	public String getLog() {
+		return _log;
+	}
+
+	public void setLog(String log) {
+		_log = log.trim();
+	}
+
 	/**
 	 * The <code>Win32EventLogAppender</code> requires a layout. Hence, this method
 	 * always returns <code>true</code>.
@@ -164,8 +186,9 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		return true;
 	}
 
-	private static HANDLE registerEventSource(String server, String source) {
-		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\"
+	private static HANDLE registerEventSource(String server, String source, String log) {
+		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"
+				+ log + "\\"
 				+ source;
 		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE,
 				eventSourceKeyPath)) {
