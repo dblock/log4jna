@@ -97,7 +97,8 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		
 		this.layout = layout;
 		this._server = server;
-		this._source = source;		
+		this._source = source;
+		this._log = log;
 	}
 
 	public void close() {

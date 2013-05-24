@@ -42,7 +42,7 @@ public class Win32EventLogAppenderTest extends TestCase {
 	private Logger _logger = null;
 	
 	public void setUp() {
-		BasicConfigurator.configure(new Win32EventLogAppender());
+		BasicConfigurator.configure(new Win32EventLogAppender(null, null, "Log4jnaTest"));
 		_logger = Logger.getLogger(Win32EventLogAppenderTest.class);		
 	}
 	
@@ -86,7 +86,7 @@ public class Win32EventLogAppenderTest extends TestCase {
 	*/
 	
 	private void expectEvent(String message, Level level, EventLogType eventLogType) {
-		EventLogIterator iter = new EventLogIterator(null, "Application", WinNT.EVENTLOG_BACKWARDS_READ);
+		EventLogIterator iter = new EventLogIterator(null, "Log4jnaTest", WinNT.EVENTLOG_BACKWARDS_READ);
 		try {
 			assertTrue(iter.hasNext());
 			EventLogRecord record = iter.next();

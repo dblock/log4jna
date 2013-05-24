@@ -1,3 +1,8 @@
+1.2 (5/24/2013)
+===============
+
+* [#2](https://github.com/dblock/log4jna/pull/2): Added ability to change the log name - [@marmstrong](https://github.com/marmstrong).
+
 1.1 (6/13/2012)
 ===============
 
