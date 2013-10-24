@@ -17,6 +17,9 @@
 
 package org.apache.log4jna.nt;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import junit.framework.TestCase;
 
 import org.apache.log4j.BasicConfigurator;
@@ -27,8 +30,10 @@ import org.apache.log4j.Logger;
 import com.sun.jna.platform.win32.Advapi32Util.EventLogIterator;
 import com.sun.jna.platform.win32.Advapi32Util.EventLogRecord;
 import com.sun.jna.platform.win32.Advapi32Util.EventLogType;
+import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT;
+import com.sun.jna.platform.win32.WinReg;
 
 /**
  * 
@@ -36,13 +41,30 @@ import com.sun.jna.platform.win32.WinNT;
  * 
  * @author Curt Arnold
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
+ * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
+ * 
  */
 public class Win32EventLogAppenderTest extends TestCase {
 
 	private Logger _logger = null;
+	private Win32EventLogAppender w32ela = null;
 	
 	public void setUp() {
-		BasicConfigurator.configure(new Win32EventLogAppender(null, null, "Log4jnaTest"));
+		w32ela = new Win32EventLogAppender();
+		w32ela.setSource("Log4jnaTest");
+		w32ela.setApplication("Log4jnaApplicationTest");
+
+		String categoryMessageFile = System.getProperty("categoryMessageFile");
+		if (categoryMessageFile != null) {
+			w32ela.setCategoryMessageFile(categoryMessageFile);
+		}
+		
+		String eventMessageFile = System.getProperty("eventMessageFile");
+		if (eventMessageFile != null) {
+			w32ela.setEventMessageFile(eventMessageFile);
+		}
+		
+		BasicConfigurator.configure(w32ela);
 		_logger = Logger.getLogger(Win32EventLogAppenderTest.class);		
 	}
 	
@@ -77,6 +99,34 @@ public class Win32EventLogAppenderTest extends TestCase {
 		expectEvent(message, Level.FATAL, EventLogType.Error);				
 	}
 	
+	public void testLongEvent() {
+		String message = getLongString();
+		_logger.info(message + "Truncated bit");
+		expectEvent(message, Level.INFO, EventLogType.Informational);		
+	}
+
+	public void testRegistryValues() {
+		
+		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"
+				+ w32ela.getApplication() + "\\" + w32ela.getSource();
+		
+		if (System.getProperty("eventMessageFile") != null) {
+			String eventMessageFileInRegistry = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE,
+					eventSourceKeyPath, "EventMessageFile");
+	
+			Path eventMessageFileGiven = Paths.get(System.getProperty("eventMessageFile"));
+			assertEquals(eventMessageFileInRegistry, eventMessageFileGiven.toString().replaceAll("\\\\\\\\", "\\\\"));
+		}
+		
+		if (System.getProperty("categoryMessageFile") != null) {
+			String categoryMessageFileInRegistry = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE,
+					eventSourceKeyPath, "CategoryMessageFile");
+
+			Path categoryMessageFileGiven = Paths.get(System.getProperty("categoryMessageFile"));
+			assertEquals(categoryMessageFileInRegistry, categoryMessageFileGiven.toString().replaceAll("\\\\\\\\", "\\\\"));
+		}
+	}
+	
 	/*
 	public void testException() {
 		String message = "log4jna exception message @ " + Kernel32.INSTANCE.GetTickCount();		
@@ -90,19 +140,44 @@ public class Win32EventLogAppenderTest extends TestCase {
 		try {
 			assertTrue(iter.hasNext());
 			EventLogRecord record = iter.next();
-			assertEquals("Log4jna", record.getSource());
+			assertEquals("Log4jnaTest", record.getSource());
+
+			//assertEquals("Log4jnaApplicationTest", record.get());
 			assertEquals(eventLogType, record.getType());			
 			assertEquals(1, record.getRecord().NumStrings.intValue());
 			assertNull(record.getData());
+			
+			// The full message includes a level and the full class name
 			String fullMessage = level + " " + Win32EventLogAppenderTest.class.getCanonicalName() + " - " + message;
+
+			// The event message has the location tacked on the front
 			String eventMessage = record.getStrings()[0].trim();
+
 			int levelMarker = eventMessage.indexOf(level.toString());
 			assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
 			String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
+
+			// Truncated messages will have lost the length of the location, level and class name
+			// Normal messages will be unaffected by this adjustment
+			int eventMsgWL_len = eventMessageWithoutLocation.length();
+			fullMessage = fullMessage.substring(0, eventMsgWL_len);
+			
 			assertEquals(fullMessage, eventMessageWithoutLocation);
+
+			// Long strings will not be seen in eclipse
 			System.out.println(record.getStrings()[0]);
 		} finally {
 			iter.close();
 		}
+	}
+	
+	private String getLongString(){
+		int strSize = 31000;
+		StringBuilder str = new StringBuilder(strSize);
+		for (int i = 0; i < strSize; i++){
+			str.append("X");
+		}
+		
+		return str.toString();
 	}
 }
