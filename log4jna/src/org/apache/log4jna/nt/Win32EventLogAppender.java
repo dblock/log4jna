@@ -266,8 +266,14 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		final int messageID = 0x1000;
 
 		// There is a limit on the message size just over 31k
-		// We choose to simply truncate the message.
+		// By stacking the remainder of the message it will be appear AFTER we
+		// have reported the first part in the Event Log
 		if (message.length() > 31000) {
+			String remainder_message = message.substring(31001);
+			if (remainder_message != null) {
+				reportEvent(remainder_message, priority);
+			}
+
 			message = message.substring(0, 31000);
 		}
 
@@ -280,6 +286,7 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 					"Failed to report event [" + message + "].", e,
 					ErrorCode.WRITE_FAILURE);
 		}
+
 	}
 
 	/**
