@@ -47,11 +47,15 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:cstaylor@pacbell.net">Chris Taylor</a>
  * @author <a href="mailto:jim_cakalic@na.biomerieux.com">Jim Cakalic</a>
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
+ * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
  */
 public class Win32EventLogAppender extends AppenderSkeleton {
 	private String _source = null;
 	private String _server = null;
-	private String _log = null;
+	private String _application = "Application";
+	private String _eventMessageFile = "";
+	private String _categoryMessageFile = "";
+
 	private HANDLE _handle = null;
 
 	public Win32EventLogAppender() {
@@ -69,7 +73,7 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	public Win32EventLogAppender(String server, String source, String log) {
 		this(server, source, null, null);
 	}
-	
+
 	public Win32EventLogAppender(Layout layout) {
 		this(null, null, null, layout);
 	}
@@ -81,41 +85,101 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	public Win32EventLogAppender(String source, String log, Layout layout) {
 		this(null, source, log, layout);
 	}
-	
-	public Win32EventLogAppender(String server, String source, String log, Layout layout) {
+
+	public Win32EventLogAppender(String server, String source, String log,
+			Layout layout) {
 		if (source == null || source.length() == 0) {
 			source = "Log4jna";
 		}
-		
-		if (log == null || log.length() == 0){
+
+		if (log == null || log.length() == 0) {
 			log = "Application";
 		}
-		
+
 		if (layout == null) {
 			layout = new TTCCLayout();
 		}
-		
+
 		this.layout = layout;
 		this._server = server;
-		this._source = source;
-		this._log = log;
+		setSource(source);
+		setApplication(log);
+	}
+
+	/**
+	 * The <b>Source</b> option which names the source of the event. The current
+	 * value of this constant is <b>Source</b>.
+	 */
+	public void setSource(String source) {
+
+		if (source == null || source.length() == 0) {
+			source = "Log4jna";
+		}
+
+		_source = source.trim();
+	}
+
+	public String getSource() {
+		return _source;
+	}
+
+	/**
+	 * The <b>Application</b> option which names the subsection of the
+	 * 'Applications and Services Log'. The default value of this constant is
+	 * <b>Application</b>.
+	 */
+	public void setApplication(String application) {
+
+		if (application == null || application.length() == 0) {
+			application = "Application";
+		}
+
+		_application = application.trim();
+	}
+
+	public String getApplication() {
+		return _application;
 	}
 
 	public void close() {
 		if (_handle != null) {
 			if (!Advapi32.INSTANCE.DeregisterEventSource(_handle)) {
-				Exception e = new Win32Exception(Kernel32.INSTANCE.GetLastError());
-				getErrorHandler().error("Could not close appender.", e, ErrorCode.CLOSE_FAILURE);
+				throw new Win32Exception(Kernel32.INSTANCE.GetLastError());
 			}
 			_handle = null;
 		}
 	}
-	
+
+	/**
+	 * The <b>EventMessageFile</b> option which sets file location of the Event
+	 * Messages
+	 */
+	public void setEventMessageFile(String eventMessageFile) {
+		_eventMessageFile = eventMessageFile.trim();
+	}
+
+	public String getEventMessageFile() {
+		return _eventMessageFile;
+	}
+
+	/**
+	 * The <b>CategoryMessageFile</b> option which sets file location of the
+	 * Catagory Messages
+	 */
+	public void setCategoryMessageFile(String categoryMessageFile) {
+		_categoryMessageFile = categoryMessageFile.trim();
+	}
+
+	public String getCategoryMessageFile() {
+		return _categoryMessageFile;
+	}
+
 	private void registerEventSource() {
 		close();
-		
+
 		try {
-			_handle = registerEventSource(_server, _source, _log);
+			_handle = registerEventSource(_server, _source, _application,
+					_eventMessageFile, _categoryMessageFile);
 		} catch (Exception e) {
 			LogLog.error("Could not register event source.", e);
 			close();
@@ -133,7 +197,6 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		}
 
 		StringBuffer sbuf = new StringBuffer();
-
 		sbuf.append(layout.format(event));
 		if (layout.ignoresThrowable()) {
 			String[] s = event.getThrowableStrRep();
@@ -149,7 +212,7 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 
 		// Anything above FATAL or below DEBUG is labeled as INFO.
 		// if (nt_category > FATAL || nt_category < DEBUG) {
-		// nt_category = INFO;
+		// 	nt_category = INFO;
 		// }
 		reportEvent(sbuf.toString(), nt_category);
 	}
@@ -159,46 +222,30 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	}
 
 	/**
-	 * The <b>Source</b> option which names the source of the event. The current
-	 * value of this constant is <b>Source</b>.
-	 */
-	public void setSource(String source) {
-		_source = source.trim();		
-	}
-
-	public String getSource() {
-		return _source;
-	}
-
-	public String getLog() {
-		return _log;
-	}
-
-	public void setLog(String log) {
-		_log = log.trim();
-	}
-
-	/**
-	 * The <code>Win32EventLogAppender</code> requires a layout. Hence, this method
-	 * always returns <code>true</code>.
+	 * The <code>Win32EventLogAppender</code> requires a layout. Hence, this
+	 * method always returns <code>true</code>.
 	 */
 	public boolean requiresLayout() {
 		return true;
 	}
 
-	private static HANDLE registerEventSource(String server, String source, String log) {
+	private static HANDLE registerEventSource(String server, String source,
+			String application, String eventMessageFile,
+			String categoryMessageFile) {
 		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"
-				+ log + "\\"
-				+ source;
+				+ application + "\\" + source;
+
 		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE,
 				eventSourceKeyPath)) {
-			// TODO: set event message file and source
-			// EventMessageFile
-			// CategoryMessageFile
 			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE,
 					eventSourceKeyPath, "TypesSupported", 7);
 			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE,
 					eventSourceKeyPath, "CategoryCount", 6);
+			Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE,
+					eventSourceKeyPath, "EventMessageFile", eventMessageFile);
+			Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE,
+					eventSourceKeyPath, "CategoryMessageFile",
+					categoryMessageFile);
 		}
 
 		HANDLE h = Advapi32.INSTANCE.RegisterEventSource(server, source);
@@ -216,11 +263,14 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		final int messageID = 0x1000;
 
 		String[] buffer = { message };
-		if (!Advapi32.INSTANCE.ReportEvent(_handle, getEventLogType(priority),
-				getEventLogCategory(priority), messageID, null, 1, 0, buffer,
-				null)) {
-			Exception e =  new Win32Exception(Kernel32.INSTANCE.GetLastError());
-			getErrorHandler().error("Failed to report event ["+message+"].", e, ErrorCode.WRITE_FAILURE);
+
+		if (Advapi32.INSTANCE.ReportEvent(_handle, getEventLogType(priority),
+				getEventLogCategory(priority), messageID, null, buffer.length, 0, buffer,
+				null) == false) {
+			Exception e = new Win32Exception(Kernel32.INSTANCE.GetLastError());
+			getErrorHandler().error(
+					"Failed to report event [" + message + "].", e,
+					ErrorCode.WRITE_FAILURE);
 		}
 	}
 
@@ -228,8 +278,9 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	 * Convert log4j Priority to an EventLog type. The log4j package supports 8
 	 * defined priorities, but the NT EventLog only knows 3 event types of
 	 * interest to us: ERROR, WARNING, and INFO.
+	 * 
 	 * @param priority
-	 *  Log4j priority.
+	 *            Log4j priority.
 	 * @return EventLog type.
 	 */
 	private static int getEventLogType(int priority) {
@@ -243,6 +294,7 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 				}
 			}
 		}
+
 		return type;
 	}
 
@@ -250,8 +302,9 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	 * Convert log4j Priority to an EventLog category. Each category is backed
 	 * by a message resource so that proper category names will be displayed in
 	 * the NT Event Viewer.
+	 * 
 	 * @param priority
-	 *  Log4J priority.
+	 *            Log4J priority.
 	 * @return EventLog category.
 	 */
 	private static int getEventLogCategory(int priority) {
