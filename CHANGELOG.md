@@ -1,5 +1,5 @@
-Next Release
-------------
+1.3 (3/5/2014)
+--------------
 
 * [#3](https://github.com/dblock/log4jna/pull/3): Allow setting of an application name as log4j parameters - [@tonyniemira](https://github.com/tonyniemira).
 * [#3](https://github.com/dblock/log4jna/pull/3): Allow setting of an event and category message file - [@tonyniemira](https://github.com/tonyniemira).
