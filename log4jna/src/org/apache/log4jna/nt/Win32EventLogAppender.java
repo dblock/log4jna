@@ -17,13 +17,17 @@
 
 package org.apache.log4jna.nt;
 
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Layout;
-import org.apache.log4j.Priority;
-import org.apache.log4j.TTCCLayout;
-import org.apache.log4j.helpers.LogLog;
-import org.apache.log4j.spi.ErrorCode;
-import org.apache.log4j.spi.LoggingEvent;
+import java.io.Serializable;
+
+import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
+import org.apache.logging.log4j.core.config.plugins.PluginElement;
+import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 
 import com.sun.jna.platform.win32.Advapi32;
 import com.sun.jna.platform.win32.Advapi32Util;
@@ -49,7 +53,13 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
  */
-public class Win32EventLogAppender extends AppenderSkeleton {
+@SuppressWarnings("serial")
+@Plugin(name = "Win32EventLog", category = "Core",
+		elementType = "appender", printObject=true)
+public class Win32EventLogAppender extends AbstractAppender {
+	/**
+	 * 
+	 */
 	private String _source = null;
 	private String _server = null;
 	private String _application = "Application";
@@ -57,37 +67,24 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	private String _categoryMessageFile = "";
 
 	private HANDLE _handle = null;
-
-	public Win32EventLogAppender() {
-		this(null, null, null, null);
+	
+	@PluginFactory
+	public static Win32EventLogAppender createAppender(
+			@PluginAttribute("name") String name,
+			@PluginAttribute("server") String server,
+			@PluginAttribute("source") String source,
+			@PluginAttribute("log") String log,
+			@PluginElement("Layout") Layout<? extends Serializable> layout,
+			@PluginElement("Filters") Filter filter) {
+		return new Win32EventLogAppender(name, server, source, log, layout, filter);
 	}
-
-	public Win32EventLogAppender(String source) {
-		this(null, source, null, null);
-	}
-
-	public Win32EventLogAppender(String server, String source) {
-		this(server, source, null, null);
-	}
-
-	public Win32EventLogAppender(String server, String source, String log) {
-		this(server, source, null, null);
-	}
-
-	public Win32EventLogAppender(Layout layout) {
-		this(null, null, null, layout);
-	}
-
-	public Win32EventLogAppender(String source, Layout layout) {
-		this(null, source, null, layout);
-	}
-
-	public Win32EventLogAppender(String source, String log, Layout layout) {
-		this(null, source, log, layout);
-	}
-
-	public Win32EventLogAppender(String server, String source, String log,
-			Layout layout) {
+	public Win32EventLogAppender(String name,
+			String server,
+			String source,
+			String log, 
+			Layout<? extends Serializable> layout,
+			Filter filter) {
+		super(name, filter, layout);
 		if (source == null || source.length() == 0) {
 			source = "Log4jna";
 		}
@@ -96,11 +93,6 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 			log = "Application";
 		}
 
-		if (layout == null) {
-			layout = new TTCCLayout();
-		}
-
-		this.layout = layout;
 		this._server = server;
 		setSource(source);
 		setApplication(log);
@@ -178,43 +170,49 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		close();
 
 		try {
+			System.err.println(String.format("Server: %s; source:%s; application:%s; eventMessageFile:%s;categoryFile:%s",
+					_server, _source, _application,
+					_eventMessageFile, _categoryMessageFile));
 			_handle = registerEventSource(_server, _source, _application,
 					_eventMessageFile, _categoryMessageFile);
 		} catch (Exception e) {
-			LogLog.error("Could not register event source.", e);
 			close();
+			throw new RuntimeException("Could not register event source.", e);
 		}
 	}
 
 	public void activateOptions() {
 		registerEventSource();
 	}
-
-	public void append(LoggingEvent event) {
+	
+	@Override
+	public void append(LogEvent event) {
 
 		if (_handle == null) {
 			registerEventSource();
 		}
 
-		StringBuffer sbuf = new StringBuffer();
-		sbuf.append(layout.format(event));
-		if (layout.ignoresThrowable()) {
-			String[] s = event.getThrowableStrRep();
-			if (s != null) {
-				int len = s.length;
-				for (int i = 0; i < len; i++) {
-					sbuf.append(s[i]);
-				}
-			}
-		}
+		
+		String s = new String(getLayout().toByteArray(event));
 		// Normalize the log message level into the supported categories
-		int nt_category = event.getLevel().toInt();
-
 		// Anything above FATAL or below DEBUG is labeled as INFO.
 		// if (nt_category > FATAL || nt_category < DEBUG) {
 		// 	nt_category = INFO;
 		// }
-		reportEvent(sbuf.toString(), nt_category);
+		// This is the only message supported by the package. It is backed by
+		// a message resource which consists of just '%1' which is replaced
+		// by the string we just created.
+		final int messageID = 0x1000;
+		
+		String[] buffer = { s };
+		
+		if (Advapi32.INSTANCE.ReportEvent(_handle, getEventLogType(event.getLevel()),
+				getEventLogCategory(event.getLevel()), messageID, null, buffer.length, 0, buffer,
+				null) == false) {
+			Exception e = new Win32Exception(Kernel32.INSTANCE.GetLastError());
+			getHandler().error(
+					"Failed to report event [" + s + "].", event, e);
+		}
 	}
 
 	public void finalize() {
@@ -234,7 +232,6 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 			String categoryMessageFile) {
 		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"
 				+ application + "\\" + source;
-
 		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE,
 				eventSourceKeyPath)) {
 			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE,
@@ -256,40 +253,23 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		return h;
 	}
 
-	private void reportEvent(String message, int priority) {
-		// This is the only message supported by the package. It is backed by
-		// a message resource which consists of just '%1' which is replaced
-		// by the string we just created.
-		final int messageID = 0x1000;
-
-		String[] buffer = { message };
-
-		if (Advapi32.INSTANCE.ReportEvent(_handle, getEventLogType(priority),
-				getEventLogCategory(priority), messageID, null, buffer.length, 0, buffer,
-				null) == false) {
-			Exception e = new Win32Exception(Kernel32.INSTANCE.GetLastError());
-			getErrorHandler().error(
-					"Failed to report event [" + message + "].", e,
-					ErrorCode.WRITE_FAILURE);
-		}
-	}
-
 	/**
 	 * Convert log4j Priority to an EventLog type. The log4j package supports 8
 	 * defined priorities, but the NT EventLog only knows 3 event types of
 	 * interest to us: ERROR, WARNING, and INFO.
 	 * 
-	 * @param priority
+	 * @param level
 	 *            Log4j priority.
 	 * @return EventLog type.
 	 */
-	private static int getEventLogType(int priority) {
+	private static int getEventLogType(Level level) {
 		int type = WinNT.EVENTLOG_SUCCESS;
-		if (priority >= Priority.INFO_INT) {
+		
+		if (level.intLevel() <= Level.INFO.intLevel()) {
 			type = WinNT.EVENTLOG_INFORMATION_TYPE;
-			if (priority >= Priority.WARN_INT) {
+			if (level.intLevel() <= Level.WARN.intLevel()) {
 				type = WinNT.EVENTLOG_WARNING_TYPE;
-				if (priority >= Priority.ERROR_INT) {
+				if (level.intLevel() <=  Level.ERROR.intLevel()) {
 					type = WinNT.EVENTLOG_ERROR_TYPE;
 				}
 			}
@@ -303,21 +283,21 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 	 * by a message resource so that proper category names will be displayed in
 	 * the NT Event Viewer.
 	 * 
-	 * @param priority
+	 * @param level.intLevel()
 	 *            Log4J priority.
 	 * @return EventLog category.
 	 */
-	private static int getEventLogCategory(int priority) {
+	private static int getEventLogCategory(Level level) {
 		int category = 1;
-		if (priority >= Priority.DEBUG_INT) {
+		if (level.intLevel() >= Level.DEBUG.intLevel()) {
 			category = 2;
-			if (priority >= Priority.INFO_INT) {
+			if (level.intLevel() >= Level.INFO.intLevel()) {
 				category = 3;
-				if (priority >= Priority.WARN_INT) {
+				if (level.intLevel() >= Level.WARN.intLevel()) {
 					category = 4;
-					if (priority >= Priority.ERROR_INT) {
+					if (level.intLevel() >= Level.ERROR.intLevel()) {
 						category = 5;
-						if (priority >= Priority.FATAL_INT) {
+						if (level.intLevel() >= Level.FATAL.intLevel()) {
 							category = 6;
 						}
 					}
@@ -326,4 +306,5 @@ public class Win32EventLogAppender extends AppenderSkeleton {
 		}
 		return category;
 	}
+
 }

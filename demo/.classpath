@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="/thirdparty/jna/jna.jar"/>
 	<classpathentry kind="lib" path="/thirdparty/jna/platform.jar"/>
-	<classpathentry kind="lib" path="/thirdparty/log4j/log4j-1.2.16.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/log4jna"/>
+	<classpathentry kind="lib" path="/thirdparty/log4j/log4j-api-2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

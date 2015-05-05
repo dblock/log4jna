@@ -1,3 +1,8 @@
+2.0 (pending)
+--------------
+
+* [#7](https://github.com/dblock/log4jna/pull/8): Upgrade to log4j2 - [@cstorey](https://github.com/cstorey).
+
 1.3 (3/5/2014)
 --------------
 
