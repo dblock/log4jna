@@ -185,7 +185,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 		registerEventSource();
 	}
 	
-	@Override
+	//@Override
 	public void append(LogEvent event) {
 
 		if (_handle == null) {
