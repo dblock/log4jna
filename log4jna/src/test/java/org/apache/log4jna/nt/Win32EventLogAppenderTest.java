@@ -1,10 +1,7 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+ * use this file except in compliance with the License.  You may obtain a copy 
+ * of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -47,6 +44,7 @@ import com.sun.jna.platform.win32.WinReg;
  * @author Curt Arnold
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
+ * @author <a href="mailto:claudio.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
  * 
  */
 public class Win32EventLogAppenderTest {
@@ -56,7 +54,9 @@ public class Win32EventLogAppenderTest {
 	// If the events from this test need to be observed in the Windows Event
 	// Logger then ensure the Win32EventlogAppender.dll can be found at this
 	// location, or change as appropriate
-	private static String _eventLogAppenderDLL = "c:\\users\\claudiow\\.m2\\repository\\org\\apache\\log4jna\\2.0\\Win32EventlogAppender.dll";
+	
+	//private static String _eventLogAppenderDLL = "c:\\users\\claudiow\\.m2\\repository\\org\\apache\\log4jna\\2.0\\Win32EventlogAppender.dll";
+	private static String _eventLogAppenderDLL = Paths.get("src/test/resources/Win32EventlogAppender.dll").toAbsolutePath().toString();
 
 	private Win32EventLogAppender _eventLogAppender = null;
 
@@ -82,18 +82,21 @@ public class Win32EventLogAppenderTest {
 		expectEvent(message, Level.DEBUG, EventLogType.Informational);
 	}
 
+	@Test
 	public void testInfoEvent() {
 		String message = "log4jna info message @ " + Kernel32.INSTANCE.GetTickCount();
 		_eventLogAppender.append(asLogEvent(message, Level.INFO));
 		expectEvent(message, Level.INFO, EventLogType.Informational);
 	}
 
+	@Test
 	public void testWarnEvent() {
 		String message = "log4jna warn message @ " + Kernel32.INSTANCE.GetTickCount();
 		_eventLogAppender.append(asLogEvent(message, Level.WARN));
 		expectEvent(message, Level.WARN, EventLogType.Warning);
 	}
 
+	@Test
 	public void testFatalEvent() {
 		String message = "log4jna fatal message @ " + Kernel32.INSTANCE.GetTickCount();
 		_eventLogAppender.append(asLogEvent(message, Level.FATAL));

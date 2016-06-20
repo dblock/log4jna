@@ -1,10 +1,7 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+ * use this file except in compliance with the License.  You may obtain a copy 
+ * of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -53,7 +50,6 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
  */
-@SuppressWarnings("serial")
 @Plugin(name = "Win32EventLog", category = "Core",
 		elementType = "appender", printObject=true)
 public class Win32EventLogAppender extends AbstractAppender {
