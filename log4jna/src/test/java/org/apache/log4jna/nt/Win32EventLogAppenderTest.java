@@ -38,8 +38,7 @@ import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinReg;
 
 /**
- * 
- * Win32EventLogAppender tests.
+ * Test case for {@link Win32EventLogAppender}.
  * 
  * @author Curt Arnold
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
@@ -49,17 +48,44 @@ import com.sun.jna.platform.win32.WinReg;
  */
 public class Win32EventLogAppenderTest {
 
+	/**
+	 * This must exist in the windows registry.
+	 * <p>
+	 * Key:
+	 * </p>
+	 * <p>
+	 * <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Application\Log4jnaTest</code>
+	 * </p>
+	 * <p>
+	 * With entries:<br/>
+	 * </p>
+	 * 
+	 * <pre>
+	 * Name: <code>TypesSupported</code> 
+	 * Type: <code>REG_DWORD</code> 
+	 * Data: <code>0x7</code><br/>
+	 * 
+	 * Name: <code>CategoryCount</code> 
+	 * Type: <code>REG_DWORD</code> 
+	 * Data: <code>0x6</code>
+	 * </pre>
+	 */
 	private static final String TEST_LOGGER_NAME = "Log4jnaTest";
 
-	// If the events from this test need to be observed in the Windows Event
-	// Logger then ensure the Win32EventlogAppender.dll can be found at this
-	// location, or change as appropriate
-	
-	//private static String _eventLogAppenderDLL = "c:\\users\\claudiow\\.m2\\repository\\org\\apache\\log4jna\\2.0\\Win32EventlogAppender.dll";
-	private static String _eventLogAppenderDLL = Paths.get("src/test/resources/Win32EventlogAppender.dll").toAbsolutePath().toString();
+	/**
+	 * The dll file location from the <code>src/test/resources</code> folder.
+	 */
+	private static String _eventLogAppenderDLL = Paths.get("src/test/resources/Win32EventlogAppender.dll")
+			.toAbsolutePath().toString();
 
+	/**
+	 * Class under test
+	 */
 	private Win32EventLogAppender _eventLogAppender = null;
 
+	/**
+	 * 
+	 */
 	@Before
 	public void setUp() {
 		String source = null;
@@ -69,12 +95,16 @@ public class Win32EventLogAppenderTest {
 
 		Filter filter = null;
 		_eventLogAppender = Win32EventLogAppender.createAppender("appenderName", null, source, log, layout, filter);
-		_eventLogAppender.setSource("Log4jnaTest");
+		_eventLogAppender.setSource(TEST_LOGGER_NAME);
 		_eventLogAppender.setApplication("Application");
 		_eventLogAppender.setCategoryMessageFile(_eventLogAppenderDLL);
 		_eventLogAppender.setEventMessageFile(_eventLogAppenderDLL);
 	}
 
+	/**
+	 * Test case for {@link Win32EventLogAppender#append(LogEvent)} with debug
+	 * level.
+	 */
 	@Test
 	public void testDebugEvent() {
 		String message = "log4jna debug message @ " + Kernel32.INSTANCE.GetTickCount();
@@ -82,6 +112,10 @@ public class Win32EventLogAppenderTest {
 		expectEvent(message, Level.DEBUG, EventLogType.Informational);
 	}
 
+	/**
+	 * Test case for {@link Win32EventLogAppender#append(LogEvent)} with info
+	 * level.
+	 */
 	@Test
 	public void testInfoEvent() {
 		String message = "log4jna info message @ " + Kernel32.INSTANCE.GetTickCount();
@@ -89,6 +123,10 @@ public class Win32EventLogAppenderTest {
 		expectEvent(message, Level.INFO, EventLogType.Informational);
 	}
 
+	/**
+	 * Test case for {@link Win32EventLogAppender#append(LogEvent)} with warn
+	 * level.
+	 */
 	@Test
 	public void testWarnEvent() {
 		String message = "log4jna warn message @ " + Kernel32.INSTANCE.GetTickCount();
@@ -96,6 +134,9 @@ public class Win32EventLogAppenderTest {
 		expectEvent(message, Level.WARN, EventLogType.Warning);
 	}
 
+	/**
+	 * Test case for {@link Win32EventLogAppender#append(LogEvent)} with fatal level.
+	 */
 	@Test
 	public void testFatalEvent() {
 		String message = "log4jna fatal message @ " + Kernel32.INSTANCE.GetTickCount();
@@ -125,11 +166,6 @@ public class Win32EventLogAppenderTest {
 		return new Log4jLogEvent.Builder().setLoggerName(TEST_LOGGER_NAME).setMarker(null)
 				.setLoggerFqcn(_eventLogAppender.getClass().getName()).setLevel(level)
 				.setMessage(new SimpleMessage(message)).setTimeMillis(System.currentTimeMillis()).build();
-		// return new Log4jLogEvent(TEST_LOGGER_NAME, null,
-		// _eventLogAppender.getClass().getName(), level,
-		// new SimpleMessage(message), null, null, null,
-		// getClass().getSimpleName(), null,
-		// System.currentTimeMillis());
 	}
 
 	/*
@@ -140,11 +176,11 @@ public class Win32EventLogAppenderTest {
 	 */
 
 	private void expectEvent(String message, Level level, EventLogType eventLogType) {
-		EventLogIterator iter = new EventLogIterator(null, "Log4jnaTest", WinNT.EVENTLOG_BACKWARDS_READ);
+		EventLogIterator iter = new EventLogIterator(null, TEST_LOGGER_NAME, WinNT.EVENTLOG_BACKWARDS_READ);
 		try {
 			assertTrue(iter.hasNext());
 			EventLogRecord record = iter.next();
-			assertEquals("Log4jnaTest", record.getSource());
+			assertEquals(TEST_LOGGER_NAME, record.getSource());
 
 			assertEquals(eventLogType, record.getType());
 			assertEquals(1, record.getRecord().NumStrings.intValue());
