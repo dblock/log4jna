@@ -19,4 +19,5 @@
 		<version>2.0-SNAPSHOT</version>
 		<artifactId>parent</artifactId>
 	</parent>
+	<name>Log4jna</name>
 </project>
