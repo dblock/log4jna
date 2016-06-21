@@ -20,7 +20,7 @@
   <bannerLeft>
     <name>${project.name}</name>
     <title></title>
-    <src>resources/img/claudiow.png</src>
+    <src>img/log4jna.jpg</src>
     <alt>log4jna</alt>
   </bannerLeft>
   <bannerRight>
@@ -37,8 +37,8 @@
     </menu>
     <menu name="Guides and Documentation">
       <item name="Usage" href="/guide/index.html" collapse="false">
-        <item name="How to use the BOM" href="/guide/usage.html" />
-        <item name="How to maintain the BOM" href="/guide/develop.html" />
+        <item name="How to use Log4jna" href="/guide/usage.html" />
+        <item name="How to run the Demo" href="/guide/develop.html" />
       </item>
     </menu>
     <menu ref="reports" />
