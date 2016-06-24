@@ -48,7 +48,6 @@ public class NewDemo {
 	 */
 	public void trace() {
 		LOGGER.trace("Enter trace");
-		System.out.println("Trace");
 		LOGGER.trace("Exit trace");
 	}
 
@@ -57,7 +56,6 @@ public class NewDemo {
 	 */
 	public void debug() {
 		LOGGER.debug("Enter debug");
-		System.out.println("Debug");
 		LOGGER.debug("Exit debug");
 	}
 
@@ -66,7 +64,6 @@ public class NewDemo {
 	 */
 	public void info() {
 		LOGGER.info("Enter info");
-		System.out.println("Info");
 		LOGGER.info("Exit info");
 	}
 
@@ -75,7 +72,6 @@ public class NewDemo {
 	 */
 	public void warn() {
 		LOGGER.warn("Enter warn");
-		System.out.println("Warn");
 		LOGGER.warn("Exit warn");
 	}
 
@@ -84,7 +80,6 @@ public class NewDemo {
 	 */
 	public void error() {
 		LOGGER.error("Enter error");
-		System.out.println("Error");
 		LOGGER.error("Exit error");
 	}
 
@@ -93,7 +88,6 @@ public class NewDemo {
 	 */
 	public void fatal() {
 		LOGGER.fatal("Enter fatal");
-		System.out.println("Fatal");
 		LOGGER.fatal("Exit fatal");
 	}
 

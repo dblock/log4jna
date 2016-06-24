@@ -166,9 +166,6 @@ public class Win32EventLogAppender extends AbstractAppender {
 		close();
 
 		try {
-			System.err.println(String.format("Server: %s; source:%s; application:%s; eventMessageFile:%s;categoryFile:%s",
-					_server, _source, _application,
-					_eventMessageFile, _categoryMessageFile));
 			_handle = registerEventSource(_server, _source, _application,
 					_eventMessageFile, _categoryMessageFile);
 		} catch (Exception e) {

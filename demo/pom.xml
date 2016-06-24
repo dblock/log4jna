@@ -2,9 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.apache.log4jna</groupId>
+		<groupId>org.log4jna</groupId>
 		<version>2.0-SNAPSHOT</version>
 		<artifactId>parent</artifactId>
+		<relativePath>../parent</relativePath>
 	</parent>
 	<artifactId>demo</artifactId>
 	<build>

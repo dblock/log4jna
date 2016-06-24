@@ -148,7 +148,6 @@ public class Win32EventLogAppenderTest {
 		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"
 				+ _eventLogAppender.getApplication() + "\\" + _eventLogAppender.getSource();
 
-		System.err.println("Key path: " + eventSourceKeyPath);
 		String eventMessageFileInRegistry = Advapi32Util.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE,
 				eventSourceKeyPath, "EventMessageFile");
 
@@ -195,13 +194,10 @@ public class Win32EventLogAppenderTest {
 				eventMessage.append(record.getStrings()[i].trim());
 			}
 
-			System.err.println("Got: " + eventMessage.toString());
-
 			int levelMarker = eventMessage.indexOf(level.toString());
 			assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
 			String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
 
-			System.err.println("Expecting: " + fullMessage);
 			assertEquals(fullMessage, eventMessageWithoutLocation);
 		} finally {
 			iter.close();

@@ -43,20 +43,8 @@ public class NewDemoTest {
 	 */
 	private static final String EVENT_SOURCE = "WinLogger";
 
-	// FIXME: Do we really need this?
-	/*
-	 * Use this configuration if using the Application log4j2.xml file
-	 */
-	// private static final String TEST_LOGGER_NAME = "Application";
-
-	/*
-	 * Use this configuration if using the Win32LogApplication log4j2.xml file
-	 */
-	// FIXME: Do we really need this?
-	private static final String TEST_LOGGER_NAME = "Win32LogApplication";
-
 	private static final String EXCEPTION = "java.lang.Exception: Pouporselly thrown for demo";
-	
+
 	private NewDemo classUnderTest;
 
 	private long testStartedTime;
@@ -170,7 +158,7 @@ public class NewDemoTest {
 	private void expectEventNoException(Level level, EventLogType eventLogType) {
 		EventLogIterator iter = new EventLogIterator(null, EVENT_SOURCE, WinNT.EVENTLOG_BACKWARDS_READ);
 		try {
-			assertTrue(iter.hasNext());
+			assertTrue("No event log records to process", iter.hasNext());
 			int recordCount = 0;
 			while (iter.hasNext() && recordCount < 2) {
 				EventLogRecord record = iter.next();
@@ -209,13 +197,10 @@ public class NewDemoTest {
 						eventMessage.append(record.getStrings()[i].trim());
 					}
 
-					System.err.println("Got: " + eventMessage.toString());
-
 					int levelMarker = eventMessage.indexOf(level.toString());
 					assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
 					String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
 
-					System.err.println("Expecting: " + fullMessage);
 					assertEquals(fullMessage, eventMessageWithoutLocation);
 				}
 			}
@@ -250,14 +235,12 @@ public class NewDemoTest {
 					eventMessage.append(record.getStrings()[i].trim());
 				}
 
-				System.err.println("Got: " + eventMessage.toString());
-
 				int levelMarker = eventMessage.indexOf(level.toString());
 				assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
 				String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
 
-				System.err.println("Expecting: " + messageStart);
-				assertTrue(String.format("Mising %s", messageStart), eventMessageWithoutLocation.contains(messageStart));
+				assertTrue(String.format("Mising %s", messageStart),
+						eventMessageWithoutLocation.contains(messageStart));
 				assertTrue(String.format("Mising %s", EXCEPTION), eventMessageWithoutLocation.contains(EXCEPTION));
 			}
 		} finally {
