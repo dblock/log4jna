@@ -6,7 +6,7 @@
   <name>Log4JNA Win32dll</name>
   <parent>
     <groupId>org.log4jna</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>log4jna</artifactId>
     <version>2.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>

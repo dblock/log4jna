@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.log4jna</groupId>
 		<version>2.0-SNAPSHOT</version>
-		<artifactId>parent</artifactId>
+		<artifactId>log4jna</artifactId>
 		<relativePath>../</relativePath>
 	</parent>
 	<dependencies>
