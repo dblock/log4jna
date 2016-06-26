@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>assembly</artifactId>
+  <name>Log4JNA Assembly</name>
+  <packaging>pom</packaging>
+  <parent>
+    <groupId>org.log4jna</groupId>
+    <version>2.0-SNAPSHOT</version>
+    <artifactId>parent</artifactId>
+    <relativePath>../</relativePath>
+  </parent>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/log4jna-assembly.xml</descriptor>
+          </descriptors>
+          <finalName>${project.name}-${project.version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <description>A ziped file withh all what you need to run or build log4jna</description>
+</project>
