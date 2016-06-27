@@ -15,6 +15,9 @@
 package org.apache.log4jna.nt;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.core.Filter;
@@ -49,6 +52,7 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:jim_cakalic@na.biomerieux.com">Jim Cakalic</a>
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
+ * @author <a href="mailto:claudio.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
  */
 @Plugin(name = "Win32EventLog", category = "Core",
 		elementType = "appender", printObject=true)
@@ -70,14 +74,19 @@ public class Win32EventLogAppender extends AbstractAppender {
 			@PluginAttribute("server") String server,
 			@PluginAttribute("source") String source,
 			@PluginAttribute("log") String log,
+			@PluginAttribute("eventMessageFile") String eventMessageFile,
+			@PluginAttribute("categoryMessageFile") String categoryMessageFile,
 			@PluginElement("Layout") Layout<? extends Serializable> layout,
 			@PluginElement("Filters") Filter filter) {
-		return new Win32EventLogAppender(name, server, source, log, layout, filter);
+		// Check that we can see the dll.
+		return new Win32EventLogAppender(name, server, source, log, eventMessageFile, categoryMessageFile, layout, filter);
 	}
 	public Win32EventLogAppender(String name,
 			String server,
 			String source,
-			String log, 
+			String log,
+			String eventMessageFile, 
+			String categoryMessageFile,
 			Layout<? extends Serializable> layout,
 			Filter filter) {
 		super(name, filter, layout);
@@ -87,6 +96,20 @@ public class Win32EventLogAppender extends AbstractAppender {
 
 		if (log == null || log.length() == 0) {
 			log = "Application";
+		}
+		
+		if (eventMessageFile != null) {
+			Path p = Paths.get(eventMessageFile);
+			if (Files.exists(p)) {
+				setEventMessageFile(p.toAbsolutePath().toString());
+			}
+		}
+
+		if (categoryMessageFile != null) {
+			Path p = Paths.get(categoryMessageFile);
+			if (Files.exists(p)) {
+				setCategoryMessageFile(p.toAbsolutePath().toString());
+			}
 		}
 
 		this._server = server;

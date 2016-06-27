@@ -94,11 +94,11 @@ public class Win32EventLogAppenderTest {
 				.withPattern(PatternLayout.TTCC_CONVERSION_PATTERN).build();
 
 		Filter filter = null;
-		_eventLogAppender = Win32EventLogAppender.createAppender("appenderName", null, source, log, layout, filter);
+		_eventLogAppender = Win32EventLogAppender.createAppender("appenderName", null, source, log, _eventLogAppenderDLL, _eventLogAppenderDLL, layout, filter);
 		_eventLogAppender.setSource(TEST_LOGGER_NAME);
 		_eventLogAppender.setApplication("Application");
-		_eventLogAppender.setCategoryMessageFile(_eventLogAppenderDLL);
-		_eventLogAppender.setEventMessageFile(_eventLogAppenderDLL);
+//		_eventLogAppender.setCategoryMessageFile(_eventLogAppenderDLL);
+//		_eventLogAppender.setEventMessageFile(_eventLogAppenderDLL);
 	}
 
 	/**
