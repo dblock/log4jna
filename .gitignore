@@ -15,3 +15,5 @@ log4jna/lib-test
 log4jna/lib
 log4jna/test
 target
+.settings
+
