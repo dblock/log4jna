@@ -17,14 +17,15 @@ install:
   - cmd: SET PATH=%MAVEN_HOME%\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
-cache:
-  - '%MAVEN_HOME%'
-  - '%USERPROFILE%\.m2'
 build_script:
+  - echo '%MAVEN_HOME'
   - mvn -version
   - javac -version
   - mvn clean install -B -DskipTests
-  - DIR C:\maven
-  - DIR C:\Users\appveyor\.m2\repository
+  - DIR '%MAVEN_HOME'
+  - DIR '%USERPROFILE%\.m2\repository'
 #test_script:
 #  - cmd: mvn clean test
+cache:
+  - '%MAVEN_HOME%'
+  - '%USERPROFILE%\.m2'
