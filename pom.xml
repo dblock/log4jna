@@ -170,7 +170,7 @@
   <modules>
     <module>win32dll</module>
     <module>log4jna-api</module>
-    <module>win32dll</module>
+    <module>demo</module>
     <module>assembly</module>
   </modules>
 </project>
