@@ -22,7 +22,8 @@ cache:
   - '%USER_PROFILE%\.m2'
 build_script:
   - mvn -version
-  - java -version
+  - javac -version
+  - mvn clean install
   
-test_script:
-  - cmd: mvn clean test
+#test_script:
+#  - cmd: mvn clean test
