@@ -24,7 +24,7 @@ build_script:
   - mvn -version
   - javac -version
   - mvn clean install -B -DskipTests
-  - DIR C:\Users\appveyor\.m2
+  - DIR C:\maven
   - DIR C:\Users\appveyor\.m2\repository
 #test_script:
 #  - cmd: mvn clean test
