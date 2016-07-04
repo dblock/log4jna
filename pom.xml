@@ -71,7 +71,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
         <executions>
           <execution>
             <goals>
@@ -104,6 +103,11 @@
             <target>1.8</target>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${mavenjavadocplugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -114,6 +118,7 @@
     <java.version>1.8</java.version>
     <antrunplugin.version>1.8</antrunplugin.version>
     <mavencompilerplugin.version>3.5.1</mavencompilerplugin.version>
+    <mavenjavadocplugin.version>2.10.4</mavenjavadocplugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencyManagement>
@@ -143,29 +148,29 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-	<distributionManagement>
-		<site>
-			<id>sites</id>
-			<name>CGTCA Project Sites</name>
-			<url>scp://httpd.cgtca.ca/var/www/sites/log4jna/</url>
-		</site>
-		<repository>
-			<id>CGTCANexus</id>
-			<layout>default</layout>
-			<name>CGTCA Repo - Nexus Server Releases</name>
-			<url>http://repo.cgtca.ca:8081/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>CGTCANexus</id>
-			<layout>default</layout>
-			<name>CGTCA Repo - Nexus Server Snapshots</name>
-			<url>http://repo.cgtca.ca:8081/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	<modules>
-	  <module>log4jna-api</module>
-	  <module>assembly</module>
-	  <module>demo</module>
-	  <module>win32dll</module>
-	</modules>
+  <distributionManagement>
+    <site>
+      <id>sites</id>
+      <name>CGTCA Project Sites</name>
+      <url>scp://httpd.cgtca.ca/var/www/sites/log4jna/</url>
+    </site>
+    <repository>
+      <id>CGTCANexus</id>
+      <layout>default</layout>
+      <name>CGTCA Repo - Nexus Server Releases</name>
+      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>CGTCANexus</id>
+      <layout>default</layout>
+      <name>CGTCA Repo - Nexus Server Snapshots</name>
+      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <modules>
+    <module>win32dll</module>
+    <module>log4jna-api</module>
+    <module>win32dll</module>
+    <module>assembly</module>
+  </modules>
 </project>
