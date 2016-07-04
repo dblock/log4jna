@@ -22,8 +22,8 @@ cache:
   - '%MAVEN_HOME%'
   - '%USER_PROFILE%\.m2'
 build_script:
-  - cmd: mvn -version
-  - cmd: java -version
+  - mvn -version
+  - java -version
   
 test_script:
   - cmd: mvn clean test
