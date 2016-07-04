@@ -19,11 +19,12 @@ install:
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
 cache:
   - '%MAVEN_HOME%'
-  - '%USER_PROFILE%\.m2'
+  - '%USERPROFILE%\.m2'
 build_script:
   - mvn -version
   - javac -version
   - mvn clean install -DskipTests
-  
+  - ps: ls %USERPRILE%\.m2
+  - ps: ls %USERPRILE%\.m2\repository
 #test_script:
 #  - cmd: mvn clean test
