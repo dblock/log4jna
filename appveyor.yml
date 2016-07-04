@@ -16,16 +16,15 @@ install:
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.3.9
   - cmd: SET PATH=%MAVEN_HOME%\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
-  - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
+  - cmd: SET JAVA_OPTS=-Xmx4g
+  - cmd: mvn -version
+  - cmd: javac -version
 build_script:
-  - echo '%MAVEN_HOME%'
-  - mvn -version
-  - javac -version
   - mvn clean install -B -DskipTests
   - DIR %MAVEN_HOME%
   - DIR %USERPROFILE%\.m2\repository
-#test_script:
-#  - cmd: mvn clean test
+test_script:
+  - mvn clean -B test -Djna.nosys=true
 cache:
-  - '%MAVEN_HOME%'
+  - C:\maven\apache-maven-3.3.9
   - '%USERPROFILE%\.m2'
