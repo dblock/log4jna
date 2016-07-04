@@ -1,0 +1,29 @@
+version: 2.0.{build}
+os: Windows Server 2012
+branches:
+  only:
+  - maven-conversion
+install:
+  - ps: |
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      if (!(Test-Path -Path "C:\maven" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip',
+          'C:\maven-bin.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
+      }
+environment:
+  MAVEN_HOME: C:\maven\apache-maven-3.2.9
+  PATH: '%MAVEN_HOME%\bin;%JAVA_HOME%\bin;%PATH%'
+  MAVEN_OPTS: XX:MaxPermSize=2g -Xmx4g
+  JAVA_OPTS: XX:MaxPermSize=2g -Xmx4g
+cache:
+  - '%MAVEN_HOME%'
+  - '%USER_PROFILE%\.m2'
+build_script:
+  - cmd: mvn -version
+  - cmd: java -version
+  
+test_script:
+  - cmd: mvn clean test
