@@ -15,8 +15,8 @@ install:
       }
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.3.9
   - cmd: SET PATH=%MAVEN_HOME%\bin;%JAVA_HOME%\bin;%PATH%
-  - cmd: SET MAVEN_OPTS=XX:MaxPermSize=2g -Xmx4g
-  - cmd: SET JAVA_OPTS=XX:MaxPermSize=2g -Xmx4g
+  - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
+  - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
 cache:
   - '%MAVEN_HOME%'
   - '%USER_PROFILE%\.m2'
