@@ -19,12 +19,14 @@ install:
   - cmd: SET JAVA_OPTS=-Xmx4g
   - cmd: mvn -version
   - cmd: javac -version
+  
+# For build and test we need to pass -Djna.nosys=true  to avoid exception:
+# java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - mvn clean install -B -DskipTests
-  - DIR %MAVEN_HOME%
-  - DIR %USERPROFILE%\.m2\repository
+  - mvn clean install -B -Djna.nosys=true
+
 test_script:
-  - mvn clean -B test -Djna.nosys=true
+  - mvn clean -B test -Djna.nosys=true 
 cache:
   - C:\maven\apache-maven-3.3.9
   - '%USERPROFILE%\.m2'
