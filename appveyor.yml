@@ -27,5 +27,5 @@ build_script:
 #test_script:
 #  - cmd: mvn clean test
 cache:
-  - '%MAVEN_HOME%'
-  - '%USERPROFILE%\.m2'
+  - %MAVEN_HOME%
+  - %USERPROFILE%\.m2
