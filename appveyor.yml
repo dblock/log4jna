@@ -23,7 +23,7 @@ cache:
 build_script:
   - mvn -version
   - javac -version
-  - mvn clean install
+  - mvn clean install -DskipTests
   
 #test_script:
 #  - cmd: mvn clean test
