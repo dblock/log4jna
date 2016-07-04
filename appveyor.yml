@@ -24,7 +24,7 @@ build_script:
   - mvn -version
   - javac -version
   - mvn clean install -DskipTests
-  - ps: ls %USERPROFIEL%\.m2
-  - ps: ls %USERPROFILE%\.m2\repository
+  - cmd: DIR %USERPROFIEL%\.m2
+  - cmd: DIR %USERPROFILE%\.m2\repository
 #test_script:
 #  - cmd: mvn clean test
