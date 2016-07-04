@@ -33,9 +33,7 @@
 			<workspace>\src\test\resources\Win32EventLogAppender.dll
 		</Property -->
 		
-		<Property name="dllfile">
-			C:\Users\claudiow\git\log4jna\src\main\resources\Win32EventLogAppender.dll
-		</Property>
+		<Property name="dllfile">src\main\resources\Win32EventLogAppender.dll</Property>
 
 	</Properties>
 	<Appenders>

@@ -162,9 +162,9 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<modules>
+	  <module>log4jna-api</module>
 	  <module>assembly</module>
 	  <module>demo</module>
-	  <module>log4jna</module>
 	  <module>win32dll</module>
 	</modules>
 </project>
