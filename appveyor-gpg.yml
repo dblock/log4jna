@@ -4,17 +4,17 @@ branches:
   only:
   - maven-conversion
 install:
-#  - ps: |
-#      Add-Type -AssemblyName System.IO.Compression.FileSystem
-#      if (!(Test-Path -Path "C:\Program Files (x86)\GNU\GnuPG" )) {
-#        (new-object System.Net.WebClient).DownloadFile(
-#          'https://files.gpg4win.org/gpg4win-vanilla-2.3.2.exe',
-#          'C:\gpg4win-vanilla-2.3.2.exe'
-#        )
-#      }
-#  - cmd: C:\gpg4win-vanilla-2.3.2.exe /S
   - cmd: gpg --version
-  
+  - cmd: DIR %APPVEYOR_BUILD_FOLDER%
+  - nuget install secure-file -ExcludeVersion
+  - secure-file\tools\secure-file -decrypt %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc.enc -secret %secret%
+  - secure-file\tools\secure-file -decrypt %APPVEYOR_BUILD_FOLDER%\build\Maven\secring.gpg.asc.enc -secret %secret%
+  - gpg --import %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc
+  - gpg --import %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc
+
+environment:
+  secret:
+    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=  
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
@@ -22,7 +22,12 @@ build_script:
 #  - mvn clean install -B -Djna.nosys=true
 
 test_script:
+#build_script:
+#  - mvn clean install -B -Djna.nosys=true
+
+#test_script:
 #  - mvn clean -B test -Djna.nosys=true 
-#cache:
+cache:
+  - '%USERPROFILE%\.gnupg -> %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc.enc'
 #  - C:\maven\apache-maven-3.3.9
 #  - '%USERPROFILE%\.m2'
