@@ -1,8 +1,7 @@
 Log4JNA
 =======
-[![Build status](https://ci.appveyor.com/api/projects/status/dre9sl70e8wegiti/branch/maven-conversion?svg=true)](https://ci.appveyor.com/project/claudiow/log4jna/branch/maven-conversion)
 
-![Log4JNA](https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA")
+![Log4JNA](https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA") [![Build status](https://ci.appveyor.com/api/projects/status/dre9sl70e8wegiti/branch/maven-conversion?svg=true)](https://ci.appveyor.com/project/claudiow/log4jna/branch/maven-conversion)
 
 Log4jna is a library of native appenders for [log4j](http://logging.apache.org/log4j/). Unlike the native implementation(s) in Log4j, this project uses [JNA](http://github.com/twall/jna) and therefore does not require a native DLL in a system directory or on PATH.
 
