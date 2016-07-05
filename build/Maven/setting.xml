@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <proxies>
+    <!-- Add proxies if needed -->
+  </proxies>
+  <servers>
+    <!-- GPG Configuration -->
+    <server>
+      <id>gpg.passphrase</id>
+      <passphrase>{Ko72dpDZy3IHrYCW+136McfJ40151RPKdWhgUgFK5y8=}</passphrase>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <gpg.keyname>gpg.passphrase</gpg.keyname>
+      </properties>
+    </profile>
+  </profiles>
+</settings>

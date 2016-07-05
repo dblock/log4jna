@@ -17,10 +17,11 @@ install:
   
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
-#build_script:
+build_script:
+   - gpg --list-keys
 #  - mvn clean install -B -Djna.nosys=true
 
-#test_script:
+test_script:
 #  - mvn clean -B test -Djna.nosys=true 
 #cache:
 #  - C:\maven\apache-maven-3.3.9
