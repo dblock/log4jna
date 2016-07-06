@@ -99,7 +99,7 @@ cache:
   # Cache all installed software and gpg and maven directories
   - C:\secure-file
   # Rebuild the gpg key directory if the keys change
-  - '%GNUPG_HOME% -> %PUB_KEY_FILE%, %SEC_KEY_FILE'
+  #- '%GNUPG_HOME% -> %PUB_KEY_FILE%, %SEC_KEY_FILE'
   - C:\maven\apache-maven-3.3.9
   # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
   - '%M2% > %SETTINGS%, %SETTINGS_SEC%'
