@@ -45,21 +45,21 @@ install:
         }
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
         }
   
         if(!(Test-Path -Path $env:M2_SETTINGS_SEC)) {
-          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGSSEC
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Verbose
         }
   
       } else {
         # Test if maven settings are up todate
         if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
         if((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
       }
