@@ -18,7 +18,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <gpg.keyname>gpg.passphrase</gpg.keyname>
+         <gpg.keyname>9DA1C28D</gpg.keyname>
+         <gpg.homedir>${user.home}\.gnupg</gpg.homedir>
       </properties>
     </profile>
   </profiles>
