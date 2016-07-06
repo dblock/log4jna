@@ -81,6 +81,9 @@ skip_commits:
   files:
     - '**/*.md'  
     - '**/*.txt'  
+    - '**/.gitignore'  
+    - '**/.project'  
+    - '**/.classpath'  
 
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
