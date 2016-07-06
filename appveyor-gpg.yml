@@ -45,21 +45,21 @@ install:
         }
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
         }
   
         if(!(Test-Path -Path $env:M2_SETTINGS_SEC)) {
-          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGSSEC
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Verbose
         }
   
       } else {
         # Test if maven settings are up todate
         if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
         if((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
       }
@@ -99,7 +99,7 @@ cache:
   # Cache all installed software and gpg and maven directories
   - C:\secure-file
   # Rebuild the gpg key directory if the keys change
-  - '%GNUPG_HOME% -> %PUB_KEY_FILE%, %SEC_KEY_FILE'
+  #- '%GNUPG_HOME% -> %PUB_KEY_FILE%, %SEC_KEY_FILE'
   - C:\maven\apache-maven-3.3.9
   # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
   - '%M2% > %SETTINGS%, %SETTINGS_SEC%'
