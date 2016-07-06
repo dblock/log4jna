@@ -5,9 +5,10 @@ branches:
   - maven-conversion
 install:
 
+  -cmd: echo %SECURE_FILE_DIR%
+  
   # Install secure-file if not present
   - ps: |
-     $env:SECURE_FILE_DIR="C:\secure_file"
      if (!(Test-Path -Path $env:SECURE_FILE_DIR )) {
         nuget install secure-file -ExcludeVersion -o C:\
      }
@@ -19,6 +20,9 @@ install:
   - gpg --import %APPVEYOR_BUILD_FOLDER%\build\Maven\secring.gpg.asc
 
 environment:
+  
+  SECURE_FILE_DIR: C:\secure_file
+  
   secret:
     secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=  
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
