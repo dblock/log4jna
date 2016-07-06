@@ -13,7 +13,7 @@ environment:
   SETTINGS: $(APPVEYOR_BUILD_FOLDER)\build\Maven\settings.xml
   SETTINGS_SEC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\settings-security.xml
   M2_SETTINGS: $(USERPROFILE)\.m2\settings.xml
-  M2_SETTINGS_SEC: $(USERPROFILE)\.ms\settings-security.xml
+  M2_SETTINGS_SEC: $(USERPROFILE)\.m2\settings-security.xml
   GNUPG_HOME: $(USERPROFILE)\.gnupg
   PUB_KEY_FILE: $(APPVEYOR_BUILD_FOLDER)\build\Maven\pubring.gpg.asc.enc
   SEC_KEY_FILE: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc.enc
