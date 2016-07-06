@@ -16,4 +16,5 @@ log4jna/lib
 log4jna/test
 target
 .settings
-
+.project
+.classpath
