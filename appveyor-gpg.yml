@@ -3,43 +3,100 @@ os: Windows Server 2012
 branches:
   only:
   - maven-conversion
-install:
-
-  -cmd: echo %SECURE_FILE_DIR%
-  
-  # Install secure-file if not present
-  - ps: |
-     if (!(Test-Path -Path $env:SECURE_FILE_DIR )) {
-        nuget install secure-file -ExcludeVersion -o C:\
-     }
-      
-  - cmd: DIR %SECURE_FILE_DIR%
-  - '%SECURE_FILE_DIR%\tools\secure-file -decrypt %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc.enc -secret %secret%'
-  - '%SECURE_FILE_DIR%\tools\secure-file -decrypt %APPVEYOR_BUILD_FOLDER%\build\Maven\secring.gpg.asc.enc -secret %secret%'
-  - gpg --import %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc
-  - gpg --import %APPVEYOR_BUILD_FOLDER%\build\Maven\secring.gpg.asc
 
 environment:
-  
-  SECURE_FILE_DIR: C:\secure_file
-  
+  MAVEN_HOME: C:\maven\apache-maven-3.3.9
+  PATH: C:\maven\apache-maven-3.3.9\bin;$(JAVA_HOME)\bin;$(PATH)
+  MAVEN_OPTS: -Xmx4g
+  JAVA_OPTS: -Xmx4g
+  M2: $(USERPROFILE)\.m2
+  SETTINGS: $(APPVEYOR_BUILD_FOLDER)\build\Maven\settings.xml
+  SETTINGS_SEC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\settings-security.xml
+  M2_SETTINGS: $(USERPROFILE)\.m2\settings.xml
+  M2_SETTINGS_SEC: $(USERPROFILE)\.ms\settings-security.xml
+  GNUPG_HOME: $(USERPROFILE)\.gnupg
+  PUB_KEY_FILE: $(APPVEYOR_BUILD_FOLDER)\build\Maven\pubring.gpg.asc.enc
+  SEC_KEY_FILE: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc.enc
+
   secret:
-    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=  
+    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
+
+install:
+
+  # Install secure-file if not present
+  - ps: |
+     if (!(Test-Path -Path "C:\secure-file" )) {
+        nuget install secure-file -ExcludeVersion -o C:\
+     }
+
+  # Install Maven if not present
+  - ps: |
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      if (!(Test-Path -Path "C:\maven" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'http://www.us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip',
+          'C:\maven-bin.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
+        
+        # Test and force creation of .m2 by running mvn clean
+        if(!(Test-Path -Path $env:M2)) {
+          mvn clean
+        }
+        # Test for maven setting and isntall if not exists
+        if(!(Test-Path -Path $env:M2_SETTINGS)) {
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS
+        }
+  
+        if(!(Test-Path -Path $env:M2_SETTINGS_SEC)) {
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGSSEC
+        }
+  
+      } else {
+        # Test if maven settings are up todate
+        if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force
+        }
+  
+        if((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force
+        }
+  
+      }
+
+  - cmd: mvn -version
+  - cmd: javac -version
+
+  # Decript and install gpg keys if they don't exist
+  - ps: |
+     if (!(Test-Path -Path "$env:GNUPG_HOME" )) {
+       C:\secure-file\tools\secure-file -decrypt $env:APPVEYOR_BUILD_FOLDER\build\Maven\pubring.gpg.asc.enc -secret $env:secret
+       C:\secure-file\tools\secure-file -decrypt $env:APPVEYOR_BUILD_FOLDER\build\Maven\secring.gpg.asc.enc -secret $env:secret
+       gpg --import $env:APPVEYOR_BUILD_FOLDER\build\Maven\pubring.gpg.asc
+       gpg --import $env:APPVEYOR_BUILD_FOLDER\build\Maven\secring.gpg.asc
+     }
+
+# Ignore changes that not affect the build      
+skip_commits:
+  files:
+    - '**/*.md'  
+    - '**/*.txt'  
+
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
   - gpg --list-keys
   - gpg --list-secret-keys
-# - mvn clean install -B -Djna.nosys=true
+  - mvn clean install -B -Djna.nosys=true
 
 test_script:
-#build_script:
-#  - mvn clean install -B -Djna.nosys=true
+# Maven run the tests as part of the build we do not need to run them again
 
-#test_script:
-#  - mvn clean -B test -Djna.nosys=true 
 cache:
-  - '%secure_file_dir%'
-  - '%USERPROFILE%\.gnupg -> %APPVEYOR_BUILD_FOLDER%\build\Maven\pubring.gpg.asc.enc'
-#  - C:\maven\apache-maven-3.3.9
-#  - '%USERPROFILE%\.m2'
+  # Cache all installed software and gpg and maven directories
+  - C:\secure-file
+  # Rebuild the gpg key directory if the keys change
+  - '%GNUPG_HOME% -> %PUB_KEY_FILE%, %SEC_KEY_FILE'
+  - C:\maven\apache-maven-3.3.9
+  # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
+  - '%M2% > %SETTINGS%, %SETTINGS_SEC%'
