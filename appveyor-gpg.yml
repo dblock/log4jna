@@ -71,8 +71,6 @@ install:
   - cmd: mvn -version
   - cmd: javac -version
 
-  - dir %GNUPG_HOME%
-
   # Decript and install gpg keys if they don't exist
   - ps: |
      if (!(Test-Path -Path "$env:GNUPG_HOME" )) {
