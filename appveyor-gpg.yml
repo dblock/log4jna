@@ -25,7 +25,6 @@ environment:
     secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
 
 install:
-  - ps: Write-Host "PUB_KEY_FILE_ENC = $env:PUB_KEY_FILE_ENC SEC_KEY_FILE_ENC = $env:SEC_KEY_FILE_ENC PUB_KEY_FILE_GPG = $env:PUB_KEY_FILE_GPG SEC_KEY_FILE_GPG =  $env:SEC_KEY_FILE_GPG SECURE_FILE_DIR = $ENV:SECURE_FILE_DIR"
   
   # Install secure-file if not present
   - ps: |
@@ -68,22 +67,12 @@ install:
   
       }
 
-  - dir %M2%
-
-  - cmd: mvn -version
-  - cmd: javac -version
-
-  - dir %APPVEYOR_BUILD_FOLDER%\build\Maven
-
   # Decript and install gpg keys
-  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret%
-  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret%
-  -  dir %APPVEYOR_BUILD_FOLDER%\build\Maven
+  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret&
+  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret$
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
    
-  - dir %GNUPG_HOME%
-
 # Ignore changes that not affect the build      
 skip_commits:
   files:
