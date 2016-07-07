@@ -72,6 +72,8 @@ install:
   - cmd: mvn -version
   - cmd: javac -version
 
+  - dir %APPVEYOR_BUILD_FOLDER%\build\Maven
+
   # Decript and install gpg keys if they don't exist
   - ps: |
      if (!(Test-Path -Path "$env:GNUPG_HOME" )) {
