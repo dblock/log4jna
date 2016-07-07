@@ -44,7 +44,10 @@ install:
         
         # Test and force creation of .m2 by running mvn clean
         if(!(Test-Path -Path $env:M2)) {
+          Write-Host "$env:M2 not found. Forcing creation by runing maven"
           mvn clean -q
+        } else {
+          Write-Host "$env:M2 found."
         }
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
@@ -97,4 +100,4 @@ cache:
   - '%SECURE_FILE_DIR%'
   - '%MAVEN_HOME%'
   # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
-  #- '%M2% -> %SETTINGS%, %SETTINGS_SEC%'
+  - '%M2%' #-> %SETTINGS%, %SETTINGS_SEC%'
