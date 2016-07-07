@@ -44,11 +44,8 @@ install:
         
         # Test and force creation of .m2 by running mvn clean
         if(!(Test-Path -Path $env:M2)) {
-          Write-Host "$env:M2 not found. Forcing creation by runing maven"
           mvn clean -q
         } else {
-          Write-Host "$env:M2 found."
-        }
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
@@ -59,6 +56,9 @@ install:
         }
   
       } else {
+        if(!(Test-Path -Path $env:M2)) {
+          mvn clean -q
+        } else {
         # Test if maven settings are up todate
         if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
