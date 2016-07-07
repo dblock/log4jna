@@ -45,7 +45,7 @@ install:
         # Test and force creation of .m2 by running mvn clean
         if(!(Test-Path -Path $env:M2)) {
           mvn clean -q
-        }
+        } else {
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
@@ -56,6 +56,9 @@ install:
         }
   
       } else {
+        if(!(Test-Path -Path $env:M2)) {
+          mvn clean -q
+        }
         # Test if maven settings are up todate
         if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
@@ -97,4 +100,4 @@ cache:
   - '%SECURE_FILE_DIR%'
   - '%MAVEN_HOME%'
   # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
-  #- '%M2% -> %SETTINGS%, %SETTINGS_SEC%'
+  - '%M2%' #-> %SETTINGS%, %SETTINGS_SEC%'
