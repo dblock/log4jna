@@ -75,15 +75,12 @@ install:
 
   - dir %APPVEYOR_BUILD_FOLDER%\build\Maven
 
-  # Decript and install gpg keys if they don't exist
-  - ps: |
-     if (!(Test-Path -Path "$env:GNUPG_HOME" )) {
-       C:\secure-file\tools\secure-file -decrypt $env:PUB_KEY_FILE_ENC -secret $env:secret
-       C:\secure-file\tools\secure-file -decrypt $env:SEC_KEY_FILE_ENC -secret $env:secret
-       dir $env:APPVEYOR_BUILD_FOLDER\build\Maven
-       gpg --import '$env:PUB_KEY_FILE_GPG'
-       gpg --import '$env:SEC_KEY_FILE_GPG'
-     }
+  # Decript and install gpg keys
+  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret%
+  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret%
+  -  dir %APPVEYOR_BUILD_FOLDER%\build\Maven
+  - gpg --import %PUB_KEY_FILE_GPG%
+  - gpg --import %SEC_KEY_FILE_GPG%
    
   - dir %GNUPG_HOME%
 
@@ -109,8 +106,6 @@ test_script:
 cache:
   # Cache all installed software and gpg and maven directories
   - '%SECURE_FILE_DIR%'
-  # Rebuild the gpg key directory if the keys change
-  #- '%GNUPG_HOME% -> %PUB_KEY_FILE%, %SEC_KEY_FILE'
   - '%MAVEN_HOME%'
   # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
   - '%M2% > %SETTINGS%, %SETTINGS_SEC%'
