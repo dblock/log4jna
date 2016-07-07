@@ -97,4 +97,4 @@ cache:
   - '%SECURE_FILE_DIR%'
   - '%MAVEN_HOME%'
   # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
-  - '%M2% > %SETTINGS%, %SETTINGS_SEC%'
+  #- '%M2% -> %SETTINGS%, %SETTINGS_SEC%'
