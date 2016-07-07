@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This is the setings file for Maven as it contains  -->
+<!-- This is the setings file for Maven as it contains -->
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <proxies>
     <!-- Add proxies if needed -->
   </proxies>
   <servers>
+    <!-- Sonatype deployment -->
+    <server>
+      <id>ossh</id>
+      <username>claudiow</username>
+      <password>{7LQhdQy5LeQHMBP60Acv7Oa2GV0O0Yf3s6Nyk9T9YZQ=}</password>
+    </server>
     <!-- GPG Configuration -->
     <server>
       <id>gpg.passphrase</id>
@@ -18,8 +24,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-         <gpg.keyname>9DA1C28D</gpg.keyname>
-         <gpg.homedir>${user.home}\.gnupg</gpg.homedir>
+        <gpg.keyname>9DA1C28D</gpg.keyname>
+        <gpg.homedir>${user.home}\.gnupg</gpg.homedir>
       </properties>
     </profile>
   </profiles>
