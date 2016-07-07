@@ -69,12 +69,10 @@ install:
 
   # Decript and install gpg keys
   - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret&
-  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret $env:secret
+  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret$
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
    
-  - dir %GNUPG_HOME%
-
 # Ignore changes that not affect the build      
 skip_commits:
   files:
