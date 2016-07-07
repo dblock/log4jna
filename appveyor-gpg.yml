@@ -45,7 +45,7 @@ install:
         # Test and force creation of .m2 by running mvn clean
         if(!(Test-Path -Path $env:M2)) {
           mvn clean -q
-        } else {
+        }
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
@@ -58,7 +58,7 @@ install:
       } else {
         if(!(Test-Path -Path $env:M2)) {
           mvn clean -q
-        } else {
+        }
         # Test if maven settings are up todate
         if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
@@ -88,8 +88,6 @@ skip_commits:
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - gpg --list-keys
-  - gpg --list-secret-keys
   - mvn clean install -B -Djna.nosys=true
 
 test_script:
