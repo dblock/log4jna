@@ -9,66 +9,69 @@
   <!-- Sources -->
   <fileSets>
     <fileSet>
-      <directory>../assembly</directory>
+      <directory>..\assembly</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>\</outputDirectory>
       <excludes>
-        <exclude>**/*.*</exclude>
+        <exclude>**\*.*</exclude>
       </excludes>
     </fileSet>
     <fileSet>
-      <directory>../artifacts/</directory>
+      <directory>..\artifacts</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources/artifacts</outputDirectory>
+      <outputDirectory>sources\artifacts</outputDirectory>
       <includes>
-        <include>/**/*.*</include>
+        <include>\**\*.*</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../build/</directory>
+      <directory>..\build</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources/build</outputDirectory>
+      <outputDirectory>sources\build</outputDirectory>
       <includes>
-        <include>/**/*.*</include>
+        <include>src\*.*</include>
+      </includes>
+     <excludes>
+        <exclude>\src\Maven\**\*.*</exclude>
+     </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>..\demo</directory>
+      <filtered>false</filtered>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <outputDirectory>sources\demo</outputDirectory>
+      <includes>
+        <include>src\**\*.*</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../demo/</directory>
+      <directory>..\log4jna/</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources/demo</outputDirectory>
+      <outputDirectory>sources\log4jna</outputDirectory>
       <includes>
-        <include>src/**/*.*</include>
+        <include>src\**\*.*</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../log4jna/</directory>
+      <directory>..\win32dll/</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>sources/log4jna</outputDirectory>
       <includes>
-        <include>src/**/*.*</include>
+        <include>src\**\*.*</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../win32dll/</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources/log4jna</outputDirectory>
-      <includes>
-        <include>src/**/*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>../</directory>
+      <directory>..\</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>src/**/*</include>
+        <include>src\**\*</include>
         <include>*.md</include>
         <include>log4jna.jpg</include>
         <include>pom.xml</include>
@@ -76,68 +79,68 @@
       </includes>
     </fileSet><!-- Documentation -->
     <fileSet>
-      <directory>../doc</directory>
+      <directory>..\doc</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>/doc</outputDirectory>
+      <outputDirectory>\doc</outputDirectory>
+      <includes>
+        <include>**\*.*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>..\demo\target\site</directory>
+      <filtered>false</filtered>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <outputDirectory>doc\demo</outputDirectory>
+      <includes>
+        <include>**\*.*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>..\log4jna\target\site</directory>
+      <filtered>false</filtered>
+      <useDefaultExcludes>true</useDefaultExcludes>
+      <outputDirectory>doc\log4jna-api</outputDirectory>
       <includes>
         <include>**/*.*</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../demo/target/site</directory>
+      <directory>..\target\site</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc/demo</outputDirectory>
+      <outputDirectory>doc\</outputDirectory>
       <includes>
-        <include>**/*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>../log4jna/target/site</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc/log4jna-api</outputDirectory>
-      <includes>
-        <include>**/*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>../target/site</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc/</outputDirectory>
-      <includes>
-        <include>**/*.*</include>
+        <include>**\*.*</include>
       </includes>
     </fileSet>
     <!-- Libraries (Jars and DLL) -->
     <fileSet>
-      <directory>../win32dll/target</directory>
+      <directory>..\win32dll\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>/lib</outputDirectory>
+      <outputDirectory>\lib</outputDirectory>
       <includes>
         <include>Win32EventLogAppender.dll</include>
       </includes>
     </fileSet>
     <fileSet>
       <!-- Include all jars including javadoc and sources (developers would like to use them on IDEs -->
-      <directory>../log4jna/target</directory>
+      <directory>..\log4jna-api\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>/lib</outputDirectory>
+      <outputDirectory>\lib</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../demo/target</directory>
+      <directory>..\demo\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>/lib</outputDirectory>
+      <outputDirectory>\lib</outputDirectory>
       <includes>
-        <include>demo-${project.version}.jar</include>
+        <include>*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
