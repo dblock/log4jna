@@ -58,7 +58,7 @@ install:
       } else {
         if(!(Test-Path -Path $env:M2)) {
           mvn clean -q
-        } else {
+        }
         # Test if maven settings are up todate
         if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
