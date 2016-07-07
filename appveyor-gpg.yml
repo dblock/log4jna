@@ -76,8 +76,8 @@ install:
   - dir %APPVEYOR_BUILD_FOLDER%\build\Maven
 
   # Decript and install gpg keys
-  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret&
-  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret $env:secret
+  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret%
+  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret%
   -  dir %APPVEYOR_BUILD_FOLDER%\build\Maven
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
