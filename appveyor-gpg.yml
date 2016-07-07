@@ -80,6 +80,7 @@ install:
      if (!(Test-Path -Path "$env:GNUPG_HOME" )) {
        C:\secure-file\tools\secure-file -decrypt $env:PUB_KEY_FILE_ENC -secret $env:secret
        C:\secure-file\tools\secure-file -decrypt $env:SEC_KEY_FILE_ENC -secret $env:secret
+       dir $env:APPVEYOR_BUILD_FOLDER\build\Maven
        gpg --import '$env:PUB_KEY_FILE_GPG'
        gpg --import '$env:SEC_KEY_FILE_GPG'
      }
