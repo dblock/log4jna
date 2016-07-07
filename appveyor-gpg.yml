@@ -15,8 +15,10 @@ environment:
   M2_SETTINGS: $(USERPROFILE)\.m2\settings.xml
   M2_SETTINGS_SEC: $(USERPROFILE)\.m2\settings-security.xml
   GNUPG_HOME: $(USERPROFILE)\.gnupg
-  PUB_KEY_FILE: $(APPVEYOR_BUILD_FOLDER)\build\Maven\pubring.gpg.asc.enc
-  SEC_KEY_FILE: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc.enc
+  PUB_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\pubring.gpg.asc.enc
+  SEC_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc.enc
+  PUB_KEY_FILE_GPG: $(APPVEYOR_BUILD_FOLDER)\build\Maven\pubring.gpg.asc
+  SEC_KEY_FILE_GPG: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc
 
   secret:
     secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
@@ -41,7 +43,7 @@ install:
         
         # Test and force creation of .m2 by running mvn clean
         if(!(Test-Path -Path $env:M2)) {
-          mvn clean
+          mvn clean -q
         }
         # Test for maven setting and isntall if not exists
         if(!(Test-Path -Path $env:M2_SETTINGS)) {
@@ -64,17 +66,23 @@ install:
   
       }
 
+  - dir %GNUPG_HOME%
+
   - cmd: mvn -version
   - cmd: javac -version
+
+  - dir %GNUPG_HOME%
 
   # Decript and install gpg keys if they don't exist
   - ps: |
      if (!(Test-Path -Path "$env:GNUPG_HOME" )) {
-       C:\secure-file\tools\secure-file -decrypt $env:APPVEYOR_BUILD_FOLDER\build\Maven\pubring.gpg.asc.enc -secret $env:secret
-       C:\secure-file\tools\secure-file -decrypt $env:APPVEYOR_BUILD_FOLDER\build\Maven\secring.gpg.asc.enc -secret $env:secret
-       gpg --import $env:APPVEYOR_BUILD_FOLDER\build\Maven\pubring.gpg.asc
-       gpg --import $env:APPVEYOR_BUILD_FOLDER\build\Maven\secring.gpg.asc
+       C:\secure-file\tools\secure-file -decrypt $env:PUB_KEY_FILE_ENC -secret $env:secret
+       C:\secure-file\tools\secure-file -decrypt $env:SEC_KEY_FILE_ENC -secret $env:secret
+       gpg --import $env:PUB_KEY_FILE_GPG
+       gpg --import $env:SEC_KEY_FILE_GPG
      }
+   
+  - dir %GNUPG_HOME%
 
 # Ignore changes that not affect the build      
 skip_commits:
