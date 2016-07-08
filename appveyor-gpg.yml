@@ -53,14 +53,14 @@ install:
       # The directory exists test Meven settings
         if (!(Test-Path $env:M2_SETTINGS)) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
-        } esle ((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
+        } elsee ((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           # Test if maven settings are up todate
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
         if (!(Test-Path $env:M2_M2_SETTINGS_SEC)) {
           Copy-Item $env:SETTINGS $M2_SETTINGS_SEC -Verbose
-        } esle((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
+        } else((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
@@ -93,5 +93,5 @@ cache:
   # Cache all installed software and gpg and maven directories
   - '%SECURE_FILE_DIR%'
   - '%MAVEN_HOME%'
-  # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
-  - '%M2%' #-> %SETTINGS%, %SETTINGS_SEC%'
+  # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the files hashes)
+  - '%M2%'
