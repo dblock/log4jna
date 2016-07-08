@@ -56,12 +56,16 @@ install:
         } elseif ((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           # Test if maven settings are up todate
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
+        } else {
+          Write-Host "$env:M2_SETTINGS up to date"
         }
   
-        if (!(Test-Path $env:M2_M2_SETTINGS_SEC)) {
+        if (!(Test-Path $env:M2_SETTINGS_SEC)) {
           Copy-Item $env:SETTINGS $M2_SETTINGS_SEC -Verbose
         } elseif((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS_SEC -Force -Verbose
+        } else {
+          Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
   
       }
