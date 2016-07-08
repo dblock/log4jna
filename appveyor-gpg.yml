@@ -53,14 +53,14 @@ install:
       # The directory exists test Meven settings
         if (!(Test-Path $env:M2_SETTINGS)) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
-        } elsee ((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
+        } elseif ((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
           # Test if maven settings are up todate
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
         if (!(Test-Path $env:M2_M2_SETTINGS_SEC)) {
           Copy-Item $env:SETTINGS $M2_SETTINGS_SEC -Verbose
-        } else((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
+        } elseif((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
