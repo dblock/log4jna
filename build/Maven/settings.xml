@@ -6,6 +6,12 @@
     <!-- Add proxies if needed -->
   </proxies>
   <servers>
+    <!-- Guit Hub -->
+    <server>
+      <id>git</id>
+      <username>claudiow</username>
+      <password>{7LQhdQy5LeQHMBP60Acv7Oa2GV0O0Yf3s6Nyk9T9YZQ=}</password>
+    </server>
     <!-- Sonatype deployment -->
     <server>
       <id>ossh</id>
