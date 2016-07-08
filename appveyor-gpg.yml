@@ -42,29 +42,25 @@ install:
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
         
-        # Test and force creation of .m2 by running mvn clean
-        if(!(Test-Path -Path $env:M2)) {
-          mvn clean -q
-        }
-        # Test for maven setting and isntall if not exists
-        if(!(Test-Path -Path $env:M2_SETTINGS)) {
+      }
+      # Test if .m2 exists and create or update maven settings
+      if(!(Test-Path -Path $env:M2)) {
+          New-Item $env:M2 -type directory -Verbose
+          # Install maven settings
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
-        }
-  
-        if(!(Test-Path -Path $env:M2_SETTINGS_SEC)) {
           Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Verbose
-        }
-  
       } else {
-        if(!(Test-Path -Path $env:M2)) {
-          mvn clean -q
-        }
-        # Test if maven settings are up todate
-        if((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
+      # The directory exists test Meven settings
+        if (!(Test-Path $env:M2_SETTINGS)) {
+          Copy-Item $env:SETTINGS $env:M2_SETTINGS -Verbose
+        } elsee ((Get-FileHash $env:M2_SETTINGS).hash -ne (Get-FileHash $env:SETTINGS).hash) {
+          # Test if maven settings are up todate
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
-        if((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
+        if (!(Test-Path $env:M2_M2_SETTINGS_SEC)) {
+          Copy-Item $env:SETTINGS $M2_SETTINGS_SEC -Verbose
+        } else((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
           Copy-Item $env:SETTINGS $env:M2_SETTINGS -Force -Verbose
         }
   
@@ -97,5 +93,5 @@ cache:
   # Cache all installed software and gpg and maven directories
   - '%SECURE_FILE_DIR%'
   - '%MAVEN_HOME%'
-  # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the filed hashes)
-  - '%M2%' #-> %SETTINGS%, %SETTINGS_SEC%'
+  # Rebuild .m2 if the maven setting changed (It prbably is more efficient to test the files hashes)
+  - '%M2%'
