@@ -1,6 +1,8 @@
 Log4JNA 
 =======
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ske73kq2ilvjbt0v?svg=true)](https://ci.appveyor.com/project/dblock/log4jna)
+
 ![Log4JNA](https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA")
 
 [![Build status](https://ci.appveyor.com/api/projects/status/l9fbjhdl9sbytjqm/branch/maven-conversion?svg=true)](https://ci.appveyor.com/project/claudiow/log4jna-xs47m/branch/maven-conversion)
