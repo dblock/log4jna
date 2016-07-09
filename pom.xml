@@ -24,6 +24,10 @@
     <developerConnection>scm:git:https://github.com/claudiow/log4jna.git</developerConnection>
     <url>https://github.com/claudiow/log4jna.git</url>
   </scm>
+  <ciManagement>
+    <system>AppVeyor</system>
+    <url>https://ci.appveyor.com/project/dblock/log4jna</url>
+  </ciManagement>
   <developers>
     <developer>
       <id>dblock</id>
