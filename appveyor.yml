@@ -32,6 +32,8 @@ install:
         nuget install secure-file -ExcludeVersion -o C:\
      }
 
+  - cmd: ECHO %secret%
+   
   # Install Maven if not present
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
