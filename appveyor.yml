@@ -32,6 +32,8 @@ install:
         nuget install secure-file -ExcludeVersion -o C:\
      }
 
+  - echo %MAVEN_HOME%
+  - echo %PATH%
   # Install Maven if not present
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
