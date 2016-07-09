@@ -143,6 +143,17 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <properties>
@@ -183,23 +194,22 @@
     </dependency>
   </dependencies>
   <distributionManagement>
+    <!-- We have to find a location for the site -->
+    <!-- 
     <site>
       <id>sites</id>
       <name>CGTCA Project Sites</name>
       <url>scp://httpd.cgtca.ca/var/www/sites/log4jna/</url>
     </site>
-    <repository>
-      <id>CGTCANexus</id>
-      <layout>default</layout>
-      <name>CGTCA Repo - Nexus Server Releases</name>
-      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/releases/</url>
-    </repository>
+    -->
     <snapshotRepository>
-      <id>CGTCANexus</id>
-      <layout>default</layout>
-      <name>CGTCA Repo - Nexus Server Snapshots</name>
-      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/snapshots/</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
   <modules>
     <module>win32dll</module>
