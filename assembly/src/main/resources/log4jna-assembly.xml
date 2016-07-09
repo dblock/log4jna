@@ -6,79 +6,22 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
-  
   <!-- Sources -->
   <fileSets>
     <fileSet>
-      <directory>..\assembly</directory>
+      <directory>..\assembly\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>\</outputDirectory>
       <excludes>
-        <exclude>**\*.*</exclude>
+        <exclude>archive-tmp\**\*.*</exclude>
+        <exclude>${project.name}-${project.version}\**\*.*</exclude>
       </excludes>
-    </fileSet>
-    <fileSet>
-      <directory>..\artifacts</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources\artifacts</outputDirectory>
       <includes>
-        <include>\**\*.*</include>
+        <include>sources.zip</include>
       </includes>
     </fileSet>
-    <fileSet>
-      <directory>..\build</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources\build</outputDirectory>
-      <includes>
-        <include>src\*.*</include>
-      </includes>
-     <excludes>
-        <exclude>\src\Maven\**\*.*</exclude>
-     </excludes>
-    </fileSet>
-    <fileSet>
-      <directory>..\demo</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources\demo</outputDirectory>
-      <includes>
-        <include>src\**\*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>..\log4jna/</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources\log4jna</outputDirectory>
-      <includes>
-        <include>src\**\*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>..\win32dll/</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>sources/log4jna</outputDirectory>
-      <includes>
-        <include>src\**\*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>..\</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>src\**\*</include>
-        <include>*.md</include>
-        <include>log4jna.jpg</include>
-        <include>pom.xml</include>
-        <include>LICENSE.txt</include>
-      </includes>
-    </fileSet><!-- Documentation -->
+    <!-- Documentation -->
     <fileSet>
       <directory>..\doc</directory>
       <filtered>false</filtered>
@@ -120,7 +63,7 @@
       <directory>..\win32dll\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>\lib</outputDirectory>
+      <outputDirectory>\</outputDirectory>
       <includes>
         <include>Win32EventLogAppender.dll</include>
       </includes>
@@ -130,7 +73,7 @@
       <directory>..\log4jna-api\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>\lib</outputDirectory>
+      <outputDirectory>\</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>
@@ -139,10 +82,19 @@
       <directory>..\demo\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>\lib</outputDirectory>
+      <outputDirectory>\demo</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>
     </fileSet>
   </fileSets>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/lib</outputDirectory>
+      <useTransitiveDependencies>true</useTransitiveDependencies>
+      <includes>
+        <include>*:jar:*</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
 </assembly>
