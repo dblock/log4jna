@@ -5,11 +5,21 @@
   <name>Log4JNA Assembly</name>
   <packaging>pom</packaging>
   <parent>
-    <groupId>org.log4jna</groupId>
+    <groupId>org.dblock</groupId>
     <version>2.0-SNAPSHOT</version>
     <artifactId>log4jna</artifactId>
     <relativePath>../</relativePath>
   </parent>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.java.dev.jna</groupId>
+      <artifactId>jna-platform</artifactId>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
@@ -17,12 +27,26 @@
         <version>2.6</version>
         <configuration>
           <descriptors>
-            <descriptor>src/assembly/log4jna-assembly.xml</descriptor>
+            <descriptor>src/main/resources/log4jna-assembly.xml</descriptor>
           </descriptors>
           <finalName>${project.name}-${project.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
         </configuration>
         <executions>
+          <execution>
+            <id>make-src-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/resources/sources-assembly.xml</descriptor>
+              </descriptors>
+              <finalName>sources</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
           <execution>
             <id>make-assembly</id> <!-- this is used for inheritance merges -->
             <phase>package</phase> <!-- bind to the packaging phase -->
