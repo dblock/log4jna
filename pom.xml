@@ -149,7 +149,7 @@
         <version>1.6.7</version>
         <extensions>true</extensions>
         <configuration>
-          <serverId>ossrh</serverId>
+          <serverId>osshr</serverId>
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>false</autoReleaseAfterClose>
         </configuration>
@@ -203,12 +203,12 @@
     </site>
     -->
     <snapshotRepository>
-      <id>ossrh</id>
+      <id>osshr</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>osshr</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
   </distributionManagement>
   <modules>
