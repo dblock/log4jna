@@ -5,7 +5,7 @@
 	<name>Log4JNA Api</name>
 	<description>Logger appender implementation to Write to windows event logger.</description>
 	<parent>
-		<groupId>org.log4jna</groupId>
+		<groupId>org.dblock.log4jna</groupId>
 		<version>2.0-SNAPSHOT</version>
 		<artifactId>log4jna</artifactId>
 		<relativePath>../</relativePath>
@@ -24,10 +24,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
