@@ -22,7 +22,7 @@ environment:
   SECURE_FILE_DIR: C:\secure-file
 
   secret:
-    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
+    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
 
 install:
   
