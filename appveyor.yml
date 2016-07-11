@@ -22,8 +22,6 @@ environment:
   SECURE_FILE_DIR: C:\secure-file
 
   secure:
-    #secret: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
-    # This is for claudiow's appveyor builds while testing
     secret: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
 
 install:
