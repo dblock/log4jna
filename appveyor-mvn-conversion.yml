@@ -61,9 +61,9 @@ install:
         }
   
         if (!(Test-Path $env:M2_SETTINGS_SEC)) {
-          Copy-Item $env:SETTINGS $M2_SETTINGS_SEC -Verbose
+          Copy-Item $env:SETTINGS_SEC $M2_SETTINGS_SEC -Verbose
         } elseif((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS_SEC -Force -Verbose
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Force -Verbose
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
@@ -88,7 +88,7 @@ skip_commits:
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - mvn clean install -B -Djna.nosys=true
+  - mvn clean deploy -B -Djna.nosys=true
 
 test_script:
 # Maven run the tests as part of the build we do not need to run them again
