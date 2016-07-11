@@ -21,10 +21,10 @@ environment:
   SEC_KEY_FILE_GPG: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc
   SECURE_FILE_DIR: C:\secure-file
 
-  secret:
-    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
+  secure:
+    secret: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
     # This is for claudiow's appveyor builds while testing
-    # secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
+    # secret: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
 
 install:
   
@@ -73,8 +73,8 @@ install:
       }
 
   # Decript and install gpg keys
-  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secure%
-  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secure%
+  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret%
+  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret%
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
    
