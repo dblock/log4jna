@@ -22,7 +22,10 @@ environment:
   SECURE_FILE_DIR: C:\secure-file
 
   secret:
-    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
+    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
+    
+  #secret:
+  #  secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY= 
 
 install:
   
@@ -61,9 +64,9 @@ install:
         }
   
         if (!(Test-Path $env:M2_SETTINGS_SEC)) {
-          Copy-Item $env:SETTINGS $M2_SETTINGS_SEC -Verbose
+          Copy-Item $env:SETTINGS_SEC $M2_SETTINGS_SEC -Verbose
         } elseif((Get-FileHash $env:M2_SETTINGS_SEC).hash -ne (Get-FileHash $env:SETTINGS_SEC).hash) {
-          Copy-Item $env:SETTINGS $env:M2_SETTINGS_SEC -Force -Verbose
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Force -Verbose
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
