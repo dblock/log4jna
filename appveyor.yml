@@ -21,8 +21,12 @@ environment:
   SEC_KEY_FILE_GPG: $(APPVEYOR_BUILD_FOLDER)\build\Maven\secring.gpg.asc
   SECURE_FILE_DIR: C:\secure-file
 
-  secure:
-    secret: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
+  # For use in Claudio's development environment testing 
+  #secret:
+  #  secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
+  # For use in Daniel's CI project 
+  secret:
+    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY= 
 
 install:
   
