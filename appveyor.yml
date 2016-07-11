@@ -22,7 +22,8 @@ environment:
   SECURE_FILE_DIR: C:\secure-file
 
   secret:
-    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
+    # secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= # This is for claudiow's appveyor builds while testing
+    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=   # This is dblock defenitive for when we are done testing the buuilds
 
 install:
   
