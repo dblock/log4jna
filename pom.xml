@@ -137,6 +137,9 @@
             <goals>
               <goal>sign</goal>
             </goals>
+            <configuration>
+              <passphraseServerId>${gpg.passphrase}</passphraseServerId>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -162,6 +165,8 @@
     <mavencompilerplugin.version>3.5.1</mavencompilerplugin.version>
     <mavenjavadocplugin.version>2.10.4</mavenjavadocplugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <dependencyManagement>
     <dependencies>

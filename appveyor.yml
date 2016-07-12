@@ -22,10 +22,7 @@ environment:
   SECURE_FILE_DIR: C:\secure-file
 
   secret:
-    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY= 
-
-  #secret:
-  #  secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
+    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
     
   #secret:
   #  secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY= 
@@ -89,7 +86,8 @@ skip_commits:
     - '**/*.txt'  
     - '**/.gitignore'  
     - '**/.project'  
-    - '**/.classpath'  
+    - '**/.classpath'
+    - 'appveyor-mvn-conversion.yml'  
 
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
