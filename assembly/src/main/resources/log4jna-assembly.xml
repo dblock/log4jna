@@ -32,28 +32,19 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>..\assembly\target\site</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site\assembly</outputDirectory>
-      <includes>
-        <include>**\*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
       <directory>..\demo\target\site</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site\demo</outputDirectory>
+      <outputDirectory>doc\demo</outputDirectory>
       <includes>
         <include>**\*.*</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>..\log4jna-api\target\site</directory>
+      <directory>..\log4jna\target\site</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site\log4jna-api</outputDirectory>
+      <outputDirectory>doc\log4jna-api</outputDirectory>
       <includes>
         <include>**/*.*</include>
       </includes>
@@ -62,7 +53,7 @@
       <directory>..\target\site</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site</outputDirectory>
+      <outputDirectory>doc\</outputDirectory>
       <includes>
         <include>**\*.*</include>
       </includes>

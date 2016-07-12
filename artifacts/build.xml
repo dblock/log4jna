@@ -2,7 +2,7 @@
 	<property name="artifacts.root" value="${basedir}" />
 	<property name="dist.dir" location="${basedir}/../target/Release" />
 	<property name="root.dir" location="${basedir}/.." />
-	<property file="${root.dir}/build/svn.properties" />	
+	<property file="${root.dir}/build/date.properties" />	
 	<property file="${root.dir}/build/version.properties" />
 	<property name="artifacts.dir" location="${dist.dir}/log4jna-${version.major.minor}" />
 	<target name="build">

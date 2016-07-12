@@ -5,7 +5,7 @@
 	<name>Log4JNA Api</name>
 	<description>Logger appender implementation to Write to windows event logger.</description>
 	<parent>
-		<groupId>org.dblock.log4jna</groupId>
+		<groupId>org.dblock</groupId>
 		<version>2.0-SNAPSHOT</version>
 		<artifactId>log4jna</artifactId>
 		<relativePath>../</relativePath>

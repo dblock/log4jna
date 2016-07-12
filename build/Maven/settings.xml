@@ -14,9 +14,9 @@
     </server>
     <!-- Sonatype deployment -->
     <server>
-      <id>osshr</id>
+      <id>ossh</id>
       <username>claudiow</username>
-      <password>{H879k2Nwhr8Hd1UkT8jcmy5lboFLhKkVx2l2BAvZA/0=}</password>
+      <password>{7LQhdQy5LeQHMBP60Acv7Oa2GV0O0Yf3s6Nyk9T9YZQ=}</password>
     </server>
     <!-- GPG Configuration -->
     <server>
