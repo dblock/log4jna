@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <property name="basedir" location="C:\Users\claudiow\git\log4jna\win32dll\src"/>
+  <ant antfile="C:\Users\claudiow\git\log4jna\win32dll/src/build.xml" target="build"/>
+</target>
+</project>

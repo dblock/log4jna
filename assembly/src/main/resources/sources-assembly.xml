@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+  <id>src</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <baseDirectory>log4jna</baseDirectory>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  
+  <fileSets>
+    <fileSet>
+      <directory>..</directory>
+      <includes>
+        <include>**\src\**\*.*</include>
+        <include>**\pom.xml</include>
+        <include>**\build\*.*</include>
+        <include>LICENSE.txt</include>
+        <include>*.md</include>
+      </includes>
+      <excludes>
+        <exclude>**\target\**\*.*</exclude>
+        <exclude>**\build\.project</exclude>
+      </excludes>
+      <outputDirectory>/</outputDirectory>
+    </fileSet>
+  </fileSets>
+</assembly>
