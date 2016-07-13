@@ -43,7 +43,7 @@
 		</Console>
 
 		<Win32EventLog name="Win32EventLog" source="WinLogger"
-			log="Win32LogApplication"
+			application="Win32LogApplication"
 			eventMessageFile="${dllfile}"
 			categoryMessageFile="${dllfile}"
 			class="org.apache.log4jna.nt.Win32EventLogAppender">

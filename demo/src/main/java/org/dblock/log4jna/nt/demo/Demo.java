@@ -6,12 +6,11 @@ import org.apache.logging.log4j.Logger;
 public class Demo {
 	public static void main(String[] args) {
 		try {
-//			PropertyConfigurator.configureAndWatch("log4j.properties");
 			Logger logger = LogManager.getLogger(Demo.class);
 			String message = "";
 			for(String arg : args) {
 				message += arg;
-				message += "\r\n";
+				message += " ";
 			}
 			logger.debug("debug: " + message);
 			logger.info("info: " + message);
