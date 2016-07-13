@@ -1,0 +1,29 @@
+status=trace
+
+appender.console.type = Console
+appender.console.name = STDOUT
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = %d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n
+
+appender.winlogger.type = Win32EventLog
+appender.winlogger.name = Win32EventLog
+appender.winlogger.source=WinLogger
+appender.winlogger.application=Win32LogApplication 
+appender.winlogger.eventMessageFile=src\\main\\resources\\Win32EventLogAppender.dll
+appender.winlogger.categoryMessageFile=src\\main\\resources\\Win32EventLogAppender.dll
+appender.winlogger.layout.type = PatternLayout
+appender.winlogger.layout.pattern = %d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n
+
+
+logger.winlogger.name = org.dblock
+logger.winlogger.level = debug
+logger.winlogger.appenderRef.winlogger.ref = Win32EventLog
+
+
+logger.rolling.name = org.dblock
+logger.rolling.level = debug
+logger.rolling.additivity = false
+logger.rolling.appenderRef.rolling.ref = RollingFile
+
+rootLogger.level = debug
+rootLogger.appenderRef.stdout.ref = STDOUT
