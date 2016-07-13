@@ -54,50 +54,66 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
  * @author <a href="mailto:claudio.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
  */
-@Plugin(name = "Win32EventLog", category = "Core",
-		elementType = "appender", printObject=true)
+@Plugin(name = "Win32EventLog", category = "Core", elementType = "appender", printObject = true)
 public class Win32EventLogAppender extends AbstractAppender {
+
+	private static final String EVENT_LOG_PATH = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\";
+	private static final String CATEGORY_MESSAGE_FILE = "CategoryMessageFile";
+	private static final String EVENT_MESSAGE_FILE = "EventMessageFile";
+	private static final int CATEGORY_COUNT = 6;
+	private static final int TYPES_SUPPORTED = 7;
+	private static final String DEFAULT_SOURCE = "Log4jna";
+	private static final String DEFAULT_APPLICATION = "Application";
 	/**
 	 * 
 	 */
 	private String _source = null;
 	private String _server = null;
-	private String _application = "Application";
+	private String _application = DEFAULT_APPLICATION;
 	private String _eventMessageFile = "";
 	private String _categoryMessageFile = "";
 
 	private HANDLE _handle = null;
-	
+
+	/**
+	 * @param name
+	 * @param server
+	 * @param source
+	 * @param application
+	 * @param eventMessageFile
+	 * @param categoryMessageFile
+	 * @param layout
+	 * @param filter
+	 * @return
+	 */
 	@PluginFactory
-	public static Win32EventLogAppender createAppender(
-			@PluginAttribute("name") String name,
-			@PluginAttribute("server") String server,
-			@PluginAttribute("source") String source,
-			@PluginAttribute("log") String log,
+	public static Win32EventLogAppender createAppender(@PluginAttribute("name") String name,
+			@PluginAttribute("server") String server, @PluginAttribute("source") String source,
+			@PluginAttribute("application") String application,
 			@PluginAttribute("eventMessageFile") String eventMessageFile,
 			@PluginAttribute("categoryMessageFile") String categoryMessageFile,
-			@PluginElement("Layout") Layout<? extends Serializable> layout,
-			@PluginElement("Filters") Filter filter) {
-		// Check that we can see the dll.
-		return new Win32EventLogAppender(name, server, source, log, eventMessageFile, categoryMessageFile, layout, filter);
+			@PluginElement("Layout") Layout<? extends Serializable> layout, @PluginElement("Filters") Filter filter) {
+		return new Win32EventLogAppender(name, server, source, application, eventMessageFile, categoryMessageFile,
+				layout, filter);
 	}
-	public Win32EventLogAppender(String name,
-			String server,
-			String source,
-			String log,
-			String eventMessageFile, 
-			String categoryMessageFile,
-			Layout<? extends Serializable> layout,
-			Filter filter) {
+
+	/**
+	 * @param name
+	 * @param server
+	 * @param source
+	 * @param application
+	 * @param eventMessageFile
+	 * @param categoryMessageFile
+	 * @param layout
+	 * @param filter
+	 */
+	public Win32EventLogAppender(String name, String server, String source, String application, String eventMessageFile,
+			String categoryMessageFile, Layout<? extends Serializable> layout, Filter filter) {
 		super(name, filter, layout);
 		if (source == null || source.length() == 0) {
-			source = "Log4jna";
+			source = DEFAULT_SOURCE;
 		}
 
-		if (log == null || log.length() == 0) {
-			log = "Application";
-		}
-		
 		if (eventMessageFile != null) {
 			Path p = Paths.get(eventMessageFile);
 			if (Files.exists(p)) {
@@ -114,7 +130,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 
 		this._server = server;
 		setSource(source);
-		setApplication(log);
+		setApplication(application);
 	}
 
 	/**
@@ -124,12 +140,15 @@ public class Win32EventLogAppender extends AbstractAppender {
 	public void setSource(String source) {
 
 		if (source == null || source.length() == 0) {
-			source = "Log4jna";
+			source = DEFAULT_SOURCE;
 		}
 
 		_source = source.trim();
 	}
 
+	/**
+	 * @return
+	 */
 	public String getSource() {
 		return _source;
 	}
@@ -138,20 +157,28 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * The <b>Application</b> option which names the subsection of the
 	 * 'Applications and Services Log'. The default value of this constant is
 	 * <b>Application</b>.
+	 * 
+	 * @param application
 	 */
 	public void setApplication(String application) {
 
 		if (application == null || application.length() == 0) {
-			application = "Application";
+			application = DEFAULT_APPLICATION;
 		}
 
 		_application = application.trim();
 	}
 
+	/**
+	 * @return
+	 */
 	public String getApplication() {
 		return _application;
 	}
 
+	/**
+	 * 
+	 */
 	public void close() {
 		if (_handle != null) {
 			if (!Advapi32.INSTANCE.DeregisterEventSource(_handle)) {
@@ -164,11 +191,16 @@ public class Win32EventLogAppender extends AbstractAppender {
 	/**
 	 * The <b>EventMessageFile</b> option which sets file location of the Event
 	 * Messages
+	 * 
+	 * @param eventMessageFile
 	 */
 	public void setEventMessageFile(String eventMessageFile) {
 		_eventMessageFile = eventMessageFile.trim();
 	}
 
+	/**
+	 * @return
+	 */
 	public String getEventMessageFile() {
 		return _eventMessageFile;
 	}
@@ -176,61 +208,66 @@ public class Win32EventLogAppender extends AbstractAppender {
 	/**
 	 * The <b>CategoryMessageFile</b> option which sets file location of the
 	 * Catagory Messages
+	 * 
+	 * @param categoryMessageFile
 	 */
 	public void setCategoryMessageFile(String categoryMessageFile) {
 		_categoryMessageFile = categoryMessageFile.trim();
 	}
 
+	/**
+	 * @return
+	 */
 	public String getCategoryMessageFile() {
 		return _categoryMessageFile;
 	}
 
+	/**
+	 * 
+	 */
 	private void registerEventSource() {
 		close();
 
 		try {
-			_handle = registerEventSource(_server, _source, _application,
-					_eventMessageFile, _categoryMessageFile);
+			_handle = registerEventSource(_server, _source, _application, _eventMessageFile, _categoryMessageFile);
 		} catch (Exception e) {
 			close();
 			throw new RuntimeException("Could not register event source.", e);
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void activateOptions() {
 		registerEventSource();
 	}
+
 	
-	//@Override
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void append(LogEvent event) {
 
 		if (_handle == null) {
 			registerEventSource();
 		}
 
-		
 		String s = new String(getLayout().toByteArray(event));
-		// Normalize the log message level into the supported categories
-		// Anything above FATAL or below DEBUG is labeled as INFO.
-		// if (nt_category > FATAL || nt_category < DEBUG) {
-		// 	nt_category = INFO;
-		// }
-		// This is the only message supported by the package. It is backed by
-		// a message resource which consists of just '%1' which is replaced
-		// by the string we just created.
 		final int messageID = 0x1000;
-		
+
 		String[] buffer = { s };
-		
+
 		if (Advapi32.INSTANCE.ReportEvent(_handle, getEventLogType(event.getLevel()),
-				getEventLogCategory(event.getLevel()), messageID, null, buffer.length, 0, buffer,
-				null) == false) {
+				getEventLogCategory(event.getLevel()), messageID, null, buffer.length, 0, buffer, null) == false) {
 			Exception e = new Win32Exception(Kernel32.INSTANCE.GetLastError());
-			getHandler().error(
-					"Failed to report event [" + s + "].", event, e);
+			getHandler().error("Failed to report event [" + s + "].", event, e);
 		}
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void finalize() {
 		close();
 	}
@@ -243,22 +280,26 @@ public class Win32EventLogAppender extends AbstractAppender {
 		return true;
 	}
 
-	private static HANDLE registerEventSource(String server, String source,
-			String application, String eventMessageFile,
+	/**
+	 * @param server
+	 * @param source
+	 * @param application
+	 * @param eventMessageFile
+	 * @param categoryMessageFile
+	 * @return
+	 */
+	private HANDLE registerEventSource(String server, String source, String application, String eventMessageFile,
 			String categoryMessageFile) {
-		String eventSourceKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"
-				+ application + "\\" + source;
-		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE,
-				eventSourceKeyPath)) {
-			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE,
-					eventSourceKeyPath, "TypesSupported", 7);
-			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE,
-					eventSourceKeyPath, "CategoryCount", 6);
-			Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE,
-					eventSourceKeyPath, "EventMessageFile", eventMessageFile);
-			Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE,
-					eventSourceKeyPath, "CategoryMessageFile",
-					categoryMessageFile);
+		String applicationKeyPath = EVENT_LOG_PATH + application;
+		String eventSourceKeyPath = applicationKeyPath + "\\" + source;
+		if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, applicationKeyPath)) {
+			if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, applicationKeyPath)) {
+				setVariableKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
+			} else {
+				createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
+			}
+		} else {
+			createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
 		}
 
 		HANDLE h = Advapi32.INSTANCE.RegisterEventSource(server, source);
@@ -267,6 +308,46 @@ public class Win32EventLogAppender extends AbstractAppender {
 		}
 
 		return h;
+	}
+
+	/**
+	 * 
+	 * @param eventMessageFile
+	 * @param categoryMessageFile
+	 * @param eventSourceKeyPath
+	 */
+	private void createAndSetAllKeys(String eventMessageFile, String categoryMessageFile, String eventSourceKeyPath) {
+		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath)) {
+			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, "TypesSupported",
+					TYPES_SUPPORTED);
+			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, "CategoryCount",
+					CATEGORY_COUNT);
+			setVariableKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
+		}
+	}
+
+	/**
+	 * Set the file location onlyif it does not exist or has changed.
+	 * 
+	 * @param eventMessageFile
+	 * @param categoryMessageFile
+	 * @param eventSourceKeyPath
+	 */
+	private void setVariableKeys(String eventMessageFile, String categoryMessageFile, String eventSourceKeyPath) {
+		if (!Advapi32Util.registryValueExists(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, EVENT_MESSAGE_FILE)
+				|| !Advapi32Util
+						.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, EVENT_MESSAGE_FILE)
+						.equalsIgnoreCase(eventMessageFile)) {
+			Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, EVENT_MESSAGE_FILE,
+					eventMessageFile);
+		}
+		if (!Advapi32Util.registryValueExists(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, CATEGORY_MESSAGE_FILE)
+				|| !Advapi32Util
+						.registryGetStringValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, CATEGORY_MESSAGE_FILE)
+						.equalsIgnoreCase(categoryMessageFile)) {
+			Advapi32Util.registrySetStringValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, CATEGORY_MESSAGE_FILE,
+					categoryMessageFile);
+		}
 	}
 
 	/**
@@ -280,12 +361,12 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 */
 	private static int getEventLogType(Level level) {
 		int type = WinNT.EVENTLOG_SUCCESS;
-		
+
 		if (level.intLevel() <= Level.INFO.intLevel()) {
 			type = WinNT.EVENTLOG_INFORMATION_TYPE;
 			if (level.intLevel() <= Level.WARN.intLevel()) {
 				type = WinNT.EVENTLOG_WARNING_TYPE;
-				if (level.intLevel() <=  Level.ERROR.intLevel()) {
+				if (level.intLevel() <= Level.ERROR.intLevel()) {
 					type = WinNT.EVENTLOG_ERROR_TYPE;
 				}
 			}

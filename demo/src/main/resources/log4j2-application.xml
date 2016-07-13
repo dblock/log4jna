@@ -43,7 +43,7 @@
       <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %l - %msg%n" />
     </Console>
 
-    <Win32EventLog name="Win32EventLog" source="Log4jnaTest" log="Application" eventMessageFile="${dllfile}"
+    <Win32EventLog name="Win32EventLog" source="Log4jnaTest" application="Application" eventMessageFile="${dllfile}"
       categoryMessageFile="${dllfile}">
       <PatternLayout pattern="%-5p [%t] %m%n" />
     </Win32EventLog>

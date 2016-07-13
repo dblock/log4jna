@@ -19,7 +19,7 @@
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-fluido-skin</artifactId>
-		<version>1.4</version>
+		<version>1.5</version>
 	</skin>
 	<custom>
 		<fluidoSkin>
@@ -49,7 +49,8 @@
 			<item name="About" href="./index.html" />
 
 		</menu>
-		<menu name="Guides and Documentation">
+		<menu name="Guides and Documentation" img="icon-info-sign">
+            <item name="Readme" />
 			<item name="How to use Log4jna" href="/guide/usage.html" />
 			<item name="How to run the Demo" href="/guide/develop.html" />
 		</menu>

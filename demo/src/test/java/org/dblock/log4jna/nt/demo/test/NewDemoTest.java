@@ -155,6 +155,10 @@ public class NewDemoTest {
 		expectEventException(Level.FATAL, EventLogType.Error);
 	}
 
+	/**
+	 * @param level
+	 * @param eventLogType
+	 */
 	private void expectEventNoException(Level level, EventLogType eventLogType) {
 		EventLogIterator iter = new EventLogIterator(null, EVENT_SOURCE, WinNT.EVENTLOG_BACKWARDS_READ);
 		try {
@@ -210,6 +214,10 @@ public class NewDemoTest {
 		}
 	}
 
+	/**
+	 * @param level
+	 * @param eventLogType
+	 */
 	private void expectEventException(Level level, EventLogType eventLogType) {
 		EventLogIterator iter = new EventLogIterator(null, EVENT_SOURCE, WinNT.EVENTLOG_BACKWARDS_READ);
 		try {

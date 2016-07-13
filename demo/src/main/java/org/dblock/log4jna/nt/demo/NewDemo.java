@@ -19,6 +19,11 @@ import org.apache.logging.log4j.Logger;
 /**
  * A new more extended demo application based on Demo.java by Ceri Storey.
  * 
+ * <p>
+ * <b>Note:</b> To run for the first time you must be Administrator in Windows.
+ * This application needs to write the registry when run for the first time
+ * </p>
+ * 
  * @author <a href="claudiow.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
  *
  */
