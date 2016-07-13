@@ -22,6 +22,7 @@
       </includes>
     </fileSet>
     <!-- Documentation -->
+    <!-- Doc contains  -->
     <fileSet>
       <directory>..\doc</directory>
       <filtered>false</filtered>

@@ -18,11 +18,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
     <properties>
-        <title>Log4jJNA 2 Guide</title>
+        <title>Log4jJNA 2</title>
             <author email="claudio.trajtenberg@cgtca.ca">Claudio Trajtenberg</author>
     </properties>
     <body>
         <section name="Log4JNA 2">
+        <a href="https://ci.appveyor.com/project/claudiow/log4jna-7o8kf" ><img src="https://ci.appveyor.com/api/projects/status/us5l9wag7co041u4/branch/master?svg=true" alt="build status"/></a> 
+         
+
+        
             <p>
                 Log4jna is a library of native appenders for <a href="http://logging.apache.org/log4j" target="_blank">log4j 2 <sup>TM</sup></a>.
             </p>
