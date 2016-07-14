@@ -48,27 +48,30 @@ install:
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
         
       }
+
       # Test if .m2 exists and create or update maven settings
+      $CMD = "C:\secure-file\tools\secure-file.exe"
+      $decrip = '-decrypt'
+      $secret = '-secret'
       if(!(Test-Path -Path $env:M2)) {
           New-Item $env:M2 -type directory -Verbose
           # Install maven settings
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
           Copy-Item $env:SETTINGS_SEC_ENC $env:M2_SETTINGS_SEC_ENC -Verbose
+          & $CMD $decript $env:SETTINGS_ENC $secret $env:secret
+          & $CMD $decript $env:SETTINGS_SEC_ENC $secret $env:secret
       } else {
       # The directory exists test Meven settings
-        if (!(Test-Path $env:M2_SETTINGS_ENC)) {
+        if (!(Test-Path $env:M2_SETTINGS_ENC) -or ((Get-FileHash $env:M2_SETTINGS_ENC).hash -ne (Get-FileHash $env:SETTINGS_ENC).hash)) {
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
-        } elseif ((Get-FileHash $env:M2_SETTINGS_ENC).hash -ne (Get-FileHash $env:SETTINGS_ENC).hash) {
-          # Test if maven settings are up todate
-          Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Force -Verbose
+          & $CMD $decript $env:SETTINGS_ENC $secret $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_ENC up to date"
         }
   
-        if (!(Test-Path $env:M2_SETTINGS_SEC_ENC)) {
+        if (!(Test-Path $env:M2_SETTINGS_SEC_ENC) -or ((Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash -ne (Get-FileHash $env:SETTINGS_SEC_ENC).hash)) {
           Copy-Item $env:SETTINGS_SEC $M2_SETTINGS_SEC -Verbose
-        } elseif((Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash -ne (Get-FileHash $env:SETTINGS_SEC_ENC).hash) {
-          Copy-Item $env:SETTINGS_SEC_ENC $env:M2_SETTINGS_SEC_ENC -Force -Verbose
+          & $CMD $decript $env:SETTINGS_SEC_ENC $secret $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
@@ -80,10 +83,6 @@ install:
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
   
-  # Maven settings
-  - C:\secure-file\tools\secure-file -decrypt %M2_SETTINGS_SEC_ENC% -secret %secret%
-  - C:\secure-file\tools\secure-file -decrypt %M2_SETTINGS_ENC% -secret %secret%
-   
 # Ignore changes that not affect the build      
 skip_commits:
   files:
