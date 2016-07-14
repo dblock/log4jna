@@ -29,7 +29,7 @@ target platform and specify msbuild as the target on the ant command line.
 -->
 
 
-<project name="ntdll" default="build">
+<project name="ntdll" default="msbuild" basedir="../">
 	<property name="target.dir" value="${basedir}/target" />
 	<property name="object.dir" value="${target.dir}/obj" />
 	<property name="src.dir" location="${basedir}/src" />
