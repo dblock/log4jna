@@ -72,10 +72,6 @@ install:
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
-        
-        # This is just debuging delete after test
-        Write-Host (Get-FileHash $env:SETTINGS_SEC_ENC).hash
-        Write-Host (Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash
       }
 
   # Decript and install gpg keys
@@ -100,7 +96,7 @@ skip_commits:
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - mvn clean verify -B -Djna.nosys=true
+  - mvn clean deploy -B -Djna.nosys=true
 
 test_script:
 # Maven run the tests as part of the build we do not need to run them again
