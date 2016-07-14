@@ -19,32 +19,41 @@
 <!--
 Usage notes:
 
-To build Win32EventLogAppender.dll using MinGW, place mingw\bin on path for Windows or install mingw
-package on other platforms.  Build will execute gcc and windres on Windows and
-i586-mingw32msvc-gcc and i586-mingw32msvc-windres on other platforms.
+This file is modified to use maven-ant-run-plugin
+
+To build Win32EventLogAppender.dll using MinGW: 
+Place mingw\bin on path for Windows or install mingw package on other platforms.  
+Build will execute gcc and windres on Windows or i586-mingw32msvc-gcc and i586-mingw32msvc-windres on other platforms.
+POM Configuration: set maven-antrun-plugin <target name="build" />
 
 To build Win32EventLogAppender.dll using Microsoft tools, run the appropriate vcvars for the
 target platform and specify msbuild as the target on the ant command line.
+POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 
 -->
 
 
-<project name="ntdll" default="msbuild" basedir="../">
+<project name="ntdll">
+	<tstamp>
+		<format property="build.time" pattern="hh:mm:ss" />
+		<format property="build.date" pattern="MM/dd/yyyy" />
+		<format property="build.ts" pattern="MMdd" />
+        <format property="build.year" pattern="yyyy" />
+	</tstamp>
+
 	<property name="target.dir" value="${basedir}/target" />
 	<property name="object.dir" value="${target.dir}/obj" />
-	<property name="src.dir" location="${basedir}/src" />
+    <property name="src.dir" value="${basedir}/src" />
+    <property name="res.dir" value="${basedir}/resources" />
 	<property name="failonerror" value="false" />
 	<property name="failifexecutionfails" value="${failonerror}" />
 	<property environment="env" />
-	<property name="root.dir" location="${basedir}/../.." />
-	<property file="${root.dir}/build/date.properties" />
-	<property file="${root.dir}/build/version.properties" />
+    <property file="${res.dir}/version.properties" />
 
 	<target name="clean" description="Deletes generated files">
-		<echo message="Building ${version}" />
 		<delete dir="${target.dir}" />
 		<delete file="${src.dir}/version.rc" />
-		<!--delete file="${src.dir}/MSG00001.bin" /-->
+		<delete file="${src.dir}/MSG00001.bin" />
 		<delete file="${src.dir}/EventLogCategories.h" />
 		<delete file="${src.dir}/EventLogCategories.rc" />
 		<delete file="${src.dir}/Win32EventLogAppender.res" />
@@ -55,18 +64,17 @@ target platform and specify msbuild as the target on the ant command line.
         need for Microsoft Platform SDK unless you are modifying EventLogCategories.mc
     -->
 	<target name="mc" description="Update EventLogCategories.rc from .mc">
+		<echo message="Building ${version}" />
 		<exec executable="mc">
 			<arg value="-h" />
-			<arg file="${basedir}" />
+			<arg file="${src.dir}" />
 			<arg value="-r" />
-			<arg file="${basedir}" />
-			<arg file="EventLogCategories.mc" />
+			<arg file="${src.dir}" />
+			<arg file="${src.dir}\EventLogCategories.mc" />
 		</exec>
 	</target>
 
-
-
-	<target name="windres">
+	<target name="windres" depends="ver">
 		<condition property="mingw-prefix" value="">
 			<os family="windows" />
 		</condition>
@@ -106,18 +114,15 @@ target platform and specify msbuild as the target on the ant command line.
 		<echo>${mingw-prefix}windres could not be found or failed, Win32EventLogAppender.dll build skipped.</echo>
 	</target>
 
-	<target name="build" depends="compile, windres-echo" description="Build with MinGW gcc">
-		<echo>${basedir}</echo>
-		<echo>${src.dir}</echo>
-		<echo>${target.dir}</echo>
+	<target name="ver">
+        <copy file="${src.dir}/version.rc.template" tofile="${src.dir}/version.rc">
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
 	</target>
 
-	<target name="rc">
-		<copy file="${src.dir}/version.rc.template" tofile="${src.dir}/version.rc">
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
+	<target name="rc" depends="ver">
 		<exec executable="rc" dir="${src.dir}" resultproperty="rc_status" failonerror="${failonerror}" failifexecutionfails="${failifexecutionfails}">
 			<arg file="${src.dir}/Win32EventLogAppender.rc" />
 		</exec>
@@ -151,7 +156,11 @@ target platform and specify msbuild as the target on the ant command line.
 		<echo>rc could not be found or failed, Win32EventLogAppender.dll build skipped.</echo>
 	</target>
 
-	<target name="msbuild" depends="mc, cl, rc-echo" description="Build using Microsoft tools">
+	<!-- Main Builds  -->
+    <target name="build" depends="clean, compile, windres-echo" description="Build with MinGW gcc">
+    </target>
+
+	<target name="msbuild" depends="clean, mc, cl, rc-echo" description="Build using Microsoft tools">
 	</target>
 
 </project>

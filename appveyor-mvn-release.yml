@@ -1,12 +1,13 @@
 version: 2.0.{build}
-os: Windows Server 2012
+os: Visual Studio 2015
+
 branches:
   only:
   - maven-settings
 
 environment:
   MAVEN_HOME: C:\maven\apache-maven-3.3.9
-  PATH: C:\maven\apache-maven-3.3.9\bin;$(JAVA_HOME)\bin;$(PATH)
+  PATH: C:\maven\apache-maven-3.3.9\bin;$(JAVA_HOME)\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;$(PATH)
   MAVEN_OPTS: -Xmx4g
   JAVA_OPTS: -Xmx4g
   M2: $(USERPROFILE)\.m2
@@ -35,6 +36,10 @@ environment:
   #  secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY= 
 
 install:
+
+  # Prepare VC environment
+  - |
+   "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
   
   # Install secure-file if not present
   - ps: |
@@ -55,6 +60,9 @@ install:
       }
 
       # Test if .m2 exists and create or update maven settings
+      $CMD = "C:\secure-file\tools\secure-file.exe"
+      $decrip = '-decrypt'
+      $secret = '-secret'
       if(!(Test-Path -Path $env:M2)) {
           New-Item $env:M2 -type directory -Verbose
           # Install maven settings
