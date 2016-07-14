@@ -12,8 +12,37 @@
   </parent>
   <build>
     <sourceDirectory>src</sourceDirectory>
-    <outputDirectory>target</outputDirectory>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src</directory>
+              <includes>
+                <include>EventLogCategories.h</include>
+                <include>EventLogCategories.rc</include>
+                <include>MSG00001.bin</include>
+                <include>version.rc</include>
+                <include>Win32EventLogAppender.res</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -28,20 +57,43 @@
             <inherited>false</inherited>
             <configuration>
               <target>
-                <property name="basedir" location="${project.build.sourceDirectory}" />
-                <ant antfile="${basedir}/src/build.xml" target="build" />
+                <property name="basedir" location="${project.build.directory}" />
+                <property name="version" value="${project.version}" />
+                <ant antfile="${basedir}/src/build.xml">
+                  <target name="${ant-target}" />
+                </ant>
               </target>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <!-- MS Visual C build -->
+    <profile>
+      <id>msbuild</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <ant-target>msbuild</ant-target>
+        <ant-mingw-prefix>""</ant-mingw-prefix>
+      </properties>
+    </profile>
+    <!-- MinGW gcc build -->
+    <profile>
+      <id>mwbuild</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
+      <properties>
+        <ant-target>mwbuild</ant-target>
+      </properties>
+    </profile>
+  </profiles>
 </project>
