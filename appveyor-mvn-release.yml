@@ -74,14 +74,12 @@ install:
         }
         
         # This is just debuging delete after test
-        $hash1 = (Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash
-        $hash2 =  (Get-FileHash $env:SETTINGS_SEC_ENC).hash
-        Write-Hostt "$hash1 == $hash2"
+        Write-Hostt (Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash & "==" & (Get-FileHash $env:SETTINGS_SEC_ENC).hash
       }
 
   # Decript and install gpg keys
-  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret%
-  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret%
+  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret% -out %PUB_KEY_FILE_GPG% 
+  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret% -out %SEC_KEY_FILE_GPG%
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
   
