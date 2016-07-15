@@ -12,7 +12,11 @@
   </parent>
   <build>
     <sourceDirectory>src</sourceDirectory>
-    <outputDirectory>target</outputDirectory>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -28,8 +32,14 @@
             <inherited>false</inherited>
             <configuration>
               <target>
-                <property name="basedir" location="${project.build.sourceDirectory}" />
-                <ant antfile="${basedir}/src/build.xml" target="build" />
+                <property name="basedir" location="${project.build.directory}" />
+                <property name="version">${project.version}</property>
+                <ant antfile="${basedir}/src/build.xml">
+                  <!-- Microsoft VC build -->
+                  <target name="msbuild" />
+                  <!-- MinGW WinRes build -->
+                  <!-- <target name="build" /> -->
+                </ant>
               </target>
             </configuration>
           </execution>
@@ -40,6 +50,24 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src</directory>
+              <includes>
+                <include>EventLogCategories.h</include>
+                <include>EventLogCategories.rc</include>
+                <include>MSG00001.bin</include>
+                <include>version.rc</include>
+                <include>Win32EventLogAppender.res</include>
+              </includes>
+            </fileset>
+          </filesets>
         </configuration>
       </plugin>
     </plugins>
