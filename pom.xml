@@ -99,6 +99,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.6</version>
         </plugin>
@@ -137,9 +142,6 @@
             <goals>
               <goal>sign</goal>
             </goals>
-            <configuration>
-              <passphraseServerId>${gpg.passphrase}</passphraseServerId>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -217,9 +219,9 @@
     </repository>
   </distributionManagement>
   <modules>
-    <module>win32dll</module>
+    <module>log4jna-win32dll</module>
     <module>log4jna-api</module>
-    <module>demo</module>
-    <module>assembly</module>
+    <module>log4jna-demo</module>
+    <module>log4jna-assembly</module>
   </modules>
 </project>

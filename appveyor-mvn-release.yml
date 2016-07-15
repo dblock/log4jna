@@ -1,8 +1,8 @@
 version: 2.0.{build}
-os: Windows Server 2012
+os: Visual Studio 2015
+
 branches:
   only:
-  - master
   - rename-subprojects
 
 environment:
@@ -88,6 +88,7 @@ install:
       }
 
   # Decrypt and install gpg keys
+  - gpg-agent --version
   - gpg --version
   - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret% -out %PUB_KEY_FILE_GPG% 
   - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret% -out %SEC_KEY_FILE_GPG%
@@ -101,15 +102,14 @@ skip_commits:
     - '**/*.txt'  
     - '**/.gitignore'  
     - '**/.project'  
-    - '**/.classpath'
-    - 'appveyor-mvn-release.yml'  
+    - '**/.classpath'  
 
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - mvn clean install -B -Djna.nosys=true
+  - mvn clean deploy -B -Djna.nosys=true
 
-test_script: off
+test_script:
 # Maven run the tests as part of the build we do not need to run them again
 
 cache:
