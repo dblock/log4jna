@@ -1,6 +1,6 @@
 # Win32EventLogAppender.dll 
 
-The Win32EventLogAppender.dll can build either with Microsoft Visual C or GCC using MinGW on UN*X or Windows.
+The Win32EventLogAppender.dll can be built either with Microsoft Visual C or GCC using MinGW on UN*X or Windows.
 
 To build on Windows with GCC download [MinGW](http://www.mingw.org/).
 
@@ -18,7 +18,7 @@ Execute the appropriate `vcvars[32 | 64 | all]` or launch a developer command li
 To build use your IDE or run `mvn clean compile` or any goal that will include compile like `deploy` or `package`.
 
 ### Building with MinGW and gcc
-Install MinGW and add `<min-gw-home>\bin' to your `PATH` variable. 
+Install MinGW and add `<min-gw-home>\bin` to your `PATH` variable. 
 
 To build configure your IDE to launch Maven with the 'mwbuild' profile, or run `mvn clean compile -P mwbuild` or any goal that will include 
 compile like `deploy` or `package`.
