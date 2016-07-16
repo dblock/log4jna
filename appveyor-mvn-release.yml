@@ -3,7 +3,7 @@ os: Visual Studio 2015
 
 branches:
   only:
-  - maven-settings
+  - mingw-fix
 
 environment:
   MAVEN_HOME: C:\maven\apache-maven-3.3.9
