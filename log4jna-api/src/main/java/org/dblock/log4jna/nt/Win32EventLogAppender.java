@@ -293,7 +293,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 		String applicationKeyPath = EVENT_LOG_PATH + application;
 		String eventSourceKeyPath = applicationKeyPath + "\\" + source;
 		if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, applicationKeyPath)) {
-			if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, applicationKeyPath)) {
+			if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath)) {
 				setVariableKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
 			} else {
 				createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
