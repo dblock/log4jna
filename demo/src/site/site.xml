@@ -33,7 +33,7 @@
 	<bannerLeft>
 		<name>${project.name}</name>
 		<title></title>
-		<src>../parent/img/log4jna.jpg</src>
+		<src>../img/log4jna.jpg</src>
 		<alt>log4jna</alt>
 	</bannerLeft>
 	<bannerRight>
@@ -45,6 +45,6 @@
 		<links>
 			<item name="${project.name}" href="https://github.com/dblock/log4jna/" />
 		</links>
-		<menu ref="reports"></menu>
+		<menu ref="reports" inherit="bottom"/>
 	</body>
 </project>

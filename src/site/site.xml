@@ -19,34 +19,30 @@
       <sideBarEnabled>true</sideBarEnabled>
       <leftColumnClass>span2</leftColumnClass>
       <bodyColumnClass>span10</bodyColumnClass>
+      <!-- 
       <gitHub>
-        <projectId>dblcok/log4jna</projectId>
+        <projectId>dblock/log4jna</projectId>
         <ribbonOrientation>right</ribbonOrientation>
         <ribbonColor>black</ribbonColor>
       </gitHub>
+       -->
     </fluidoSkin>
   </custom>
   <bannerLeft>
     <name>${project.name}</name>
-    <src>img/log4jna.jpg</src>
     <alt>log4jna</alt>
   </bannerLeft>
-  <bannerRight>
-    <name>${project.name}</name>
-    <alt>${project.name}</alt>
-    <href>/index.html</href>
-  </bannerRight>
   <body>
     <links>
       <item name="${project.name}" href="https://github.com/dblock/log4jna/" />
     </links>
     <breadcrumbs>
-    <item name="Log4JNA" href="/index.html"/>
+        <item name="${project.name}" href="/index.html"/>
     </breadcrumbs>
     <menu name="${project.name}">
       <item name="About" href="./index.html" />
     </menu>
-    <menu name="Guides and Documentation" img="icon-info-sign">
+    <menu name="Guides and Documentation" img="/images/icon-info-sign">
       <item name="Readme" href="README.html" />
       <item name="How to use Log4jna" href="/guide/usage.html" />
       <item name="How to run the Demo" href="/guide/develop.html" />
@@ -57,7 +53,7 @@
     <menu name="Downloads">
       <item name="Dounloads" href="download.html" />
     </menu>
-    <menu name="Project Information" img="icon-info-sign">
+    <menu name="Project Information" inherit="bottom">
       <item name="Dependencies" href="/dependencies.html" />
       <item name="Dependency Convergence" href="/dependency-convergence.html" />
       <item name="Dependency Management" href="/dependency-management.html" />
