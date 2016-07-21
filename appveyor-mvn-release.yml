@@ -68,28 +68,26 @@ install:
           # Install maven settings
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
           Copy-Item $env:SETTINGS_SEC_ENC $env:M2_SETTINGS_SEC_ENC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
       } else {
       # The directory exists test Meven settings
         if (!(Test-Path $env:M2_SETTINGS_ENC) -or ((Get-FileHash $env:M2_SETTINGS_ENC).hash -ne (Get-FileHash $env:SETTINGS_ENC).hash)) {
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_ENC up to date"
         }
   
         if (!(Test-Path $env:M2_SETTINGS_SEC_ENC) -or ((Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash -ne (Get-FileHash $env:SETTINGS_SEC_ENC).hash)) {
-          Copy-Item $env:SETTINGS_SEC $M2_SETTINGS_SEC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Verbose
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
       }
 
   # Decrypt and install gpg keys
-  - gpg-agent --version
-  - gpg --version
   - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret% -out %PUB_KEY_FILE_GPG% 
   - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret% -out %SEC_KEY_FILE_GPG%
   - gpg --import %PUB_KEY_FILE_GPG%
@@ -109,7 +107,7 @@ skip_commits:
 build_script:
   - mvn clean deploy -B -Djna.nosys=true
 
-test_script:
+test: off
 # Maven run the tests as part of the build we do not need to run them again
 
 cache:
