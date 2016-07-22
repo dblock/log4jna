@@ -1,5 +1,8 @@
 version: 2.0.{build}
-os: Visual Studio 2015
+os: Windows Server 2012
+branches:
+  only:
+  - master
 
 environment:
   MAVEN_HOME: C:\maven\apache-maven-3.3.9
@@ -98,12 +101,12 @@ skip_commits:
     - '**/.project'
     - '**/.classpath'
     - 'appveyor.yml'
-    - 'appveyor-deploy.yml'
+    - 'appveyor-mvn-release.yml'
 
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - mvn clean install -B -Djna.nosys=true -P deploy
+  - mvn clean deploy -B -Djna.nosys=true -P deploy
 
 test: off
 # Maven run the tests as part of the build we do not need to run them again
