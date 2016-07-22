@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>win32dll</artifactId>
+  <packaging>pom</packaging>
+  <name>Log4JNA Win32dll</name>
+  <parent>
+    <groupId>org.dblock.log4jna</groupId>
+    <artifactId>log4jna</artifactId>
+    <version>2.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src</directory>
+              <includes>
+                <include>EventLogCategories.h</include>
+                <include>EventLogCategories.rc</include>
+                <include>MSG00001.bin</include>
+                <include>version.rc</include>
+                <include>Win32EventLogAppender.res</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>add-dll</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <target>
+                <property name="basedir" location="${project.build.directory}" />
+                <property name="version" value="${project.version}" />
+                <ant antfile="${basedir}/src/build.xml">
+                  <target name="${ant-target}" />
+                </ant>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <!-- MS Visual C build -->
+    <profile>
+      <id>msbuild</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <ant-target>msbuild</ant-target>
+        <ant-mingw-prefix>""</ant-mingw-prefix>
+      </properties>
+    </profile>
+    <!-- MinGW gcc build -->
+    <profile>
+      <id>mwbuild</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
+      <properties>
+        <ant-target>mwbuild</ant-target>
+      </properties>
+    </profile>
+  </profiles>
+</project>
