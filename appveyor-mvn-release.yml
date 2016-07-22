@@ -80,7 +80,7 @@ install:
         }
   
         if (!(Test-Path $env:M2_SETTINGS_SEC_ENC) -or ((Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash -ne (Get-FileHash $env:SETTINGS_SEC_ENC).hash)) {
-          Copy-Item $env:SETTINGS_SEC $M2_SETTINGS_SEC -Verbose
+          Copy-Item $env:SETTINGS_SEC_ENC $M2_SETTINGS_SEC_ENC -Verbose
           & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
