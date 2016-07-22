@@ -10,15 +10,15 @@ environment:
   MAVEN_OPTS: -Xmx4g
   JAVA_OPTS: -Xmx4g
   M2: $(USERPROFILE)\.m2
-  SETTINGS_ENC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\settings.xml.enc
-  SETTINGS_SEC_ENC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\settings-security.xml.enc
+  SETTINGS_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\settings.xml.enc
+  SETTINGS_SEC_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\settings-security.xml.enc
   M2_SETTINGS: $(USERPROFILE)\.m2\settings.xml
   M2_SETTINGS_SEC: $(USERPROFILE)\.m2\settings-security.xml
   M2_SETTINGS_ENC: $(USERPROFILE)\.m2\settings.xml.enc
   M2_SETTINGS_SEC_ENC: $(USERPROFILE)\.m2\settings-security.xml.enc
   GNUPG_HOME: $(USERPROFILE)\.gnupg
-  PUB_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\log4jnapublic.gpg.asc.enc
-  SEC_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\build\Maven\log4jnasecret.gpg.asc.enc
+  PUB_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\log4jnapublic.gpg.asc.enc
+  SEC_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\log4jnasecret.gpg.asc.enc
   PUB_KEY_FILE_ENC_DEST: $(USERPROFILE)log4jnapublic.gpg.asc.enc
   SEC_KEY_FILE_ENC_DEST: $(USERPROFILE)\log4jnasecret.gpg.asc.enc
   PUB_KEY_FILE_GPG: $(USERPROFILE)\log4jnapublic.gpg.asc
@@ -29,17 +29,17 @@ environment:
   SECURE_FILE_SEC: '-secret'
 
   secret:
-    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY= 
-    
+    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
+
   #secret:
-  #  secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY= 
+  #  secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
 
 install:
 
   # Prepare VC environment
   - |
    "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
-  
+
   # Install secure-file if not present
   - ps: |
      if (!(Test-Path -Path $env:SECURE_FILE_DIR )) {
@@ -55,7 +55,7 @@ install:
           'C:\maven-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
-        
+
       }
 
       # Test if .m2 exists and create or update maven settings
@@ -67,47 +67,47 @@ install:
           # Install maven settings
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
           Copy-Item $env:SETTINGS_SEC_ENC $env:M2_SETTINGS_SEC_ENC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
       } else {
       # The directory exists test Meven settings
         if (!(Test-Path $env:M2_SETTINGS_ENC) -or ((Get-FileHash $env:M2_SETTINGS_ENC).hash -ne (Get-FileHash $env:SETTINGS_ENC).hash)) {
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_ENC up to date"
         }
-  
+
         if (!(Test-Path $env:M2_SETTINGS_SEC_ENC) -or ((Get-FileHash $env:M2_SETTINGS_SEC_ENC).hash -ne (Get-FileHash $env:SETTINGS_SEC_ENC).hash)) {
-          Copy-Item $env:SETTINGS_SEC $M2_SETTINGS_SEC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
+          Copy-Item $env:SETTINGS_SEC $env:M2_SETTINGS_SEC -Verbose
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_SEC up to date"
         }
       }
 
   # Decrypt and install gpg keys
-  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret% -out %PUB_KEY_FILE_GPG% 
+  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret% -out %PUB_KEY_FILE_GPG%
   - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret% -out %SEC_KEY_FILE_GPG%
   - gpg --import %PUB_KEY_FILE_GPG%
   - gpg --import %SEC_KEY_FILE_GPG%
-  
-# Ignore changes that not affect the build      
+
+# Ignore changes that not affect the build
 skip_commits:
   files:
-    - '**/*.md'  
-    - '**/*.txt'  
-    - '**/.gitignore'  
-    - '**/.project'  
+    - '**/*.md'
+    - '**/*.txt'
+    - '**/.gitignore'
+    - '**/.project'
     - '**/.classpath'
-    - 'appveyor-mvn-release.yml'  
+    - 'appveyor-mvn-release.yml'
 
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
   - mvn clean install -B -Djna.nosys=true
 
-test_script:
+test: off
 # Maven run the tests as part of the build we do not need to run them again
 
 cache:

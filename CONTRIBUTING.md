@@ -1,8 +1,7 @@
 Contributing to Log4JNA
 =====================
 
-Log4JNA is work of [many contributors](https://github.com/dblock/log4jna/graphs/contributors). You're encouraged to submit 
-[pull requests](https://github.com/dblock/log4jna/pulls), [propose features and discuss issues](https://github.com/dblock/log4jna/issues).
+Log4JNA is work of [many contributors](https://github.com/dblock/log4jna/graphs/contributors). You're encouraged to submit [pull requests](https://github.com/dblock/log4jna/pulls), [propose features and discuss issues](https://github.com/dblock/log4jna/issues).
 
 #### Fork the Project
 
@@ -36,7 +35,7 @@ mvn test
 
 See [Win32EventLogAppender README](win32dll/README.md) for requirements on building the the message file.
 
-The build does not complain and skips the message file if it can't be build. 
+The build does not complain and skips the message file if it can't be build.
 
 #### Write Tests
 
