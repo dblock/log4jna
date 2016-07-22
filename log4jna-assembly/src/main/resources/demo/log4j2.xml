@@ -33,7 +33,7 @@
 			<workspace>\src\test\resources\Win32EventLogAppender.dll
 		</Property -->
 		
-		<Property name="dllfile">src\test\resources\Win32EventLogAppender.dll</Property>
+		<Property name="dllfile">Win32EventLogAppender.dll</Property>
 
 	</Properties>
 	<Appenders>
@@ -42,7 +42,7 @@
 				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %l - %msg%n" />
 		</Console>
 
-		<Win32EventLog name="Win32EventLog" source="DemoLogger1"
+		<Win32EventLog name="Win32EventLog" source="WinLogger"
 			application="Win32LogApplication"
 			eventMessageFile="${dllfile}"
 			categoryMessageFile="${dllfile}">

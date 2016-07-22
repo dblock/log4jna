@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
@@ -76,14 +76,14 @@ public class Win32EventLogAppender extends AbstractAppender {
 	private HANDLE _handle = null;
 
 	/**
-	 * @param name
-	 * @param server
-	 * @param source
-	 * @param application
-	 * @param eventMessageFile
-	 * @param categoryMessageFile
-	 * @param layout
-	 * @param filter
+	 * @param name The appender name Win32EventLog
+	 * @param server The server for remote logging
+	 * @param source The Event View Source
+	 * @param application The Event View application (location)
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
+	 * @param layout A Log4j Layout
+	 * @param filter A Log4j Filter
 	 * @return
 	 */
 	@PluginFactory
@@ -98,14 +98,14 @@ public class Win32EventLogAppender extends AbstractAppender {
 	}
 
 	/**
-	 * @param name
-	 * @param server
-	 * @param source
-	 * @param application
-	 * @param eventMessageFile
-	 * @param categoryMessageFile
-	 * @param layout
-	 * @param filter
+	 * @param name The appender name Win32EventLog
+	 * @param server The server for remote logging
+	 * @param source The Event View Source
+	 * @param application The Event View application (location)
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
+	 * @param layout A Log4j Layout
+	 * @param filter A Log4j Filter
 	 */
 	public Win32EventLogAppender(String name, String server, String source, String application, String eventMessageFile,
 			String categoryMessageFile, Layout<? extends Serializable> layout, Filter filter) {
@@ -158,7 +158,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * 'Applications and Services Log'. The default value of this constant is
 	 * <b>Application</b>.
 	 * 
-	 * @param application
+	 * @param application The Event View application (location)
 	 */
 	public void setApplication(String application) {
 
@@ -192,7 +192,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * The <b>EventMessageFile</b> option which sets file location of the Event
 	 * Messages
 	 * 
-	 * @param eventMessageFile
+	 * @param eventMessageFile The message file location in the file system
 	 */
 	public void setEventMessageFile(String eventMessageFile) {
 		_eventMessageFile = eventMessageFile.trim();
@@ -209,7 +209,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * The <b>CategoryMessageFile</b> option which sets file location of the
 	 * Catagory Messages
 	 * 
-	 * @param categoryMessageFile
+	 * @param categoryMessageFile The message file location in the file system
 	 */
 	public void setCategoryMessageFile(String categoryMessageFile) {
 		_categoryMessageFile = categoryMessageFile.trim();
@@ -281,11 +281,11 @@ public class Win32EventLogAppender extends AbstractAppender {
 	}
 
 	/**
-	 * @param server
-	 * @param source
-	 * @param application
-	 * @param eventMessageFile
-	 * @param categoryMessageFile
+	 * @param server The server for remote logging
+	 * @param source The Event View Source
+	 * @param application The Event View application (location)
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
 	 * @return
 	 */
 	private HANDLE registerEventSource(String server, String source, String application, String eventMessageFile,
@@ -312,9 +312,9 @@ public class Win32EventLogAppender extends AbstractAppender {
 
 	/**
 	 * 
-	 * @param eventMessageFile
-	 * @param categoryMessageFile
-	 * @param eventSourceKeyPath
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
+	 * @param eventSourceKeyPath The registry path
 	 */
 	private void createAndSetAllKeys(String eventMessageFile, String categoryMessageFile, String eventSourceKeyPath) {
 		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath)) {
@@ -327,11 +327,11 @@ public class Win32EventLogAppender extends AbstractAppender {
 	}
 
 	/**
-	 * Set the file location onlyif it does not exist or has changed.
+	 * Set the file location only if it does not exist or has changed.
 	 * 
-	 * @param eventMessageFile
-	 * @param categoryMessageFile
-	 * @param eventSourceKeyPath
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
+	 * @param eventSourceKeyPath The registry path
 	 */
 	private void setVariableKeys(String eventMessageFile, String categoryMessageFile, String eventSourceKeyPath) {
 		if (!Advapi32Util.registryValueExists(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, EVENT_MESSAGE_FILE)
@@ -380,8 +380,7 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * by a message resource so that proper category names will be displayed in
 	 * the NT Event Viewer.
 	 * 
-	 * @param level.intLevel()
-	 *            Log4J priority.
+	 * @param level  Log4J priority.
 	 * @return EventLog category.
 	 */
 	private static int getEventLogCategory(Level level) {

@@ -58,13 +58,13 @@ public class Win32EventLogAppenderTest {
 	 * <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Application\Log4jnaTest</code>
 	 * </p>
 	 * <p>
-	 * With entries:<br/>
+	 * With entries:
 	 * </p>
 	 * 
 	 * <pre>
 	 * Name: <code>TypesSupported</code> 
 	 * Type: <code>REG_DWORD</code> 
-	 * Data: <code>0x7</code><br/>
+	 * Data: <code>0x7</code>
 	 * 
 	 * Name: <code>CategoryCount</code> 
 	 * Type: <code>REG_DWORD</code> 

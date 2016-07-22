@@ -134,7 +134,7 @@ public class NewDemoTest {
 	}
 
 	/**
-	 * Test case for {@link NewDemo#errorWithException()()}.
+	 * Test case for {@link NewDemo#errorWithException()}.
 	 */
 	@Test
 	public void testErrorWithException() {
@@ -182,11 +182,11 @@ public class NewDemoTest {
 					StringBuilder message = new StringBuilder();
 					switch (recordCount) {
 					case 1:
-						message.append("Exit ");
+						message.append("NewDemo: Exit ");
 						break;
 
 					case 2:
-						message.append("Enter ");
+						message.append("NewDemo: Enter ");
 						break;
 
 					default:
@@ -234,7 +234,7 @@ public class NewDemoTest {
 				assertNull(record.getData());
 
 				// Build the message
-				String messageStart = String.format("%-5s [main] In %s with exception", level,
+				String messageStart = String.format("%-5s [main] NewDemo: In %s with exception", level,
 						level.name().toLowerCase());
 
 				// The event message has the location tacked on the front

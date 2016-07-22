@@ -14,7 +14,7 @@ Unlike the native implementation(s) in Log4j<sup>TM</sup>, this project uses [JN
 
 See the [Downloads](#dw) section bellow to get Log4JNA.
 
-See [Maven, Ivy, and Gradle Artifacts](MAVENIVYGRADLE.md) to include Log4JNA from Maven Central
+See [Maven, Ivy, and Gradle Artifacts](MAVNEIVYGRADLE.md) to include Log4JNA from Maven Central
 
 #### Using Log4JNA
 

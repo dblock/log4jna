@@ -25,11 +25,14 @@ import org.apache.logging.log4j.Logger;
  * </p>
  * 
  * @author <a href="claudiow.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
- *
+ * @author <a href="mailto:db@dblock.org">Daniel Doubrovkine</a>
+ * @author Ceri Storey
  */
 public class NewDemo {
 
 	private static Logger LOGGER = LogManager.getLogger();
+
+	private static final String MSG = "NewDemo: %s";
 
 	/**
 	 * @param args
@@ -52,48 +55,48 @@ public class NewDemo {
 	 * 
 	 */
 	public void trace() {
-		LOGGER.trace("Enter trace");
-		LOGGER.trace("Exit trace");
+		LOGGER.trace(String.format(MSG, "Enter trace"));
+		LOGGER.trace(String.format(MSG, "Exit trace"));
 	}
 
 	/**
 	 * 
 	 */
 	public void debug() {
-		LOGGER.debug("Enter debug");
-		LOGGER.debug("Exit debug");
+		LOGGER.debug(String.format(MSG, "Enter debug"));
+		LOGGER.debug(String.format(MSG, "Exit debug"));
 	}
 
 	/**
 	 * 
 	 */
 	public void info() {
-		LOGGER.info("Enter info");
-		LOGGER.info("Exit info");
+		LOGGER.info(String.format(MSG, "Enter info"));
+		LOGGER.info(String.format(MSG, "Exit info"));
 	}
 
 	/**
 	 * 
 	 */
 	public void warn() {
-		LOGGER.warn("Enter warn");
-		LOGGER.warn("Exit warn");
+		LOGGER.warn(String.format(MSG, "Enter warn"));
+		LOGGER.warn(String.format(MSG, "Exit warn"));
 	}
 
 	/**
 	 * 
 	 */
 	public void error() {
-		LOGGER.error("Enter error");
-		LOGGER.error("Exit error");
+		LOGGER.error(String.format(MSG, "Enter error"));
+		LOGGER.error(String.format(MSG, "Exit error"));
 	}
 
 	/**
 	 * 
 	 */
 	public void fatal() {
-		LOGGER.fatal("Enter fatal");
-		LOGGER.fatal("Exit fatal");
+		LOGGER.fatal(String.format(MSG, "Enter fatal"));
+		LOGGER.fatal(String.format(MSG, "Exit fatal"));
 	}
 
 	/**
@@ -103,7 +106,7 @@ public class NewDemo {
 		try {
 			throwException();
 		} catch (Exception e) {
-			LOGGER.warn("In warn with exception", e);
+			LOGGER.warn(String.format(MSG, "In warn with exception"), e);
 		}
 	}
 
@@ -122,7 +125,7 @@ public class NewDemo {
 		try {
 			throwException();
 		} catch (Throwable e) {
-			LOGGER.error("In error with exception", e);
+			LOGGER.error(String.format(MSG, "In error with exception"), e);
 		}
 	}
 
@@ -133,7 +136,7 @@ public class NewDemo {
 		try {
 			throwException();
 		} catch (Throwable e) {
-			LOGGER.fatal("In fatal with exception", e);
+			LOGGER.fatal(String.format(MSG, "In fatal with exception"), e);
 		}
 	}
 }

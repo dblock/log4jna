@@ -42,8 +42,8 @@
 				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %l - %msg%n" />
 		</Console>
 
-		<Win32EventLog name="Win32EventLog" source="DemoLogger1"
-			application="Win32LogApplication"
+		<Win32EventLog name="Win32EventLog" source="WinLogger"
+			application="Application"
 			eventMessageFile="${dllfile}"
 			categoryMessageFile="${dllfile}">
 			<PatternLayout pattern="%-5p [%t] %m%n" />
