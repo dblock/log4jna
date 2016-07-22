@@ -1,6 +1,4 @@
 <!--
-       Copiright (c) The Log4JNA Team
-       
  Licensed to the Apache Software Foundation (ASF) under one or more
  contributor license agreements.  See the NOTICE file distributed with
  this work for additional information regarding copyright ownership.
@@ -23,10 +21,10 @@ Usage notes:
 
 This file is modified to use maven-ant-run-plugin
 
-To build Win32EventLogAppender.dll using MinGW: 
-Place mingw\bin on path for Windows or install mingw package on other platforms.  
+To build Win32EventLogAppender.dll using MinGW:
+Place mingw\bin on path for Windows or install mingw package on other platforms.
 Build will execute gcc and windres on Windows or i586-mingw32msvc-gcc and i586-mingw32msvc-windres on other platforms.
-POM Configuration: set maven-antrun-plugin <target name="mwbuild" />
+POM Configuration: set maven-antrun-plugin <target name="build" />
 
 To build Win32EventLogAppender.dll using Microsoft tools, run the appropriate vcvars for the
 target platform and specify msbuild as the target on the ant command line.
@@ -35,12 +33,12 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 -->
 
 
-<project name="ntdll" default="msbuild">
+<project name="ntdll">
 	<tstamp>
 		<format property="build.time" pattern="hh:mm:ss" />
 		<format property="build.date" pattern="MM/dd/yyyy" />
 		<format property="build.ts" pattern="MMdd" />
-		<format property="build.year" pattern="yyyy" />
+    <format property="build.year" pattern="yyyy" />
 	</tstamp>
 
 	<property name="target.dir" value="${basedir}/target" />
@@ -52,7 +50,6 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 	<property environment="env" />
 	<property file="${res.dir}/version.properties" />
 
-	<!-- Common Tasks -->
 	<target name="clean" description="Deletes generated files">
 		<delete dir="${target.dir}" />
 		<delete file="${src.dir}/version.rc" />
@@ -62,22 +59,13 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 		<delete file="${src.dir}/Win32EventLogAppender.res" />
 	</target>
 
-	<target name="ver">
-		<copy file="${src.dir}/version.rc.template" tofile="${src.dir}/version.rc">
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
-	</target>
-
-	<!-- GCC Compilation -->
-	<target name="windmc" description="Update EventLogCategories.rc from .mc">
+	<!--
+        Regenerates resource files from EventLogCategories.mc.  Avoids
+        need for Microsoft Platform SDK unless you are modifying EventLogCategories.mc
+    -->
+	<target name="mc" description="Update EventLogCategories.rc from .mc">
 		<echo message="Building ${version}" />
-		<condition property="mingw-prefix" value="">
-			<os family="windows" />
-		</condition>
-		<property name="mingw-prefix" value="i586-mingw32msvc-" />
-		<exec executable="windmc">
+		<exec executable="mc">
 			<arg value="-h" />
 			<arg file="${src.dir}" />
 			<arg value="-r" />
@@ -86,7 +74,11 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 		</exec>
 	</target>
 
-	<target name="windres" depends="ver, windmc">
+	<target name="windres" depends="ver">
+		<condition property="mingw-prefix" value="">
+			<os family="windows" />
+		</condition>
+		<property name="mingw-prefix" value="i586-mingw32msvc-" />
 		<mkdir dir="${object.dir}" />
 		<exec executable="${mingw-prefix}windres" dir="${src.dir}" resultproperty="windres_status" failonerror="${failonerror}" failifexecutionfails="${failifexecutionfails}">
 			<arg value="-o" />
@@ -122,20 +114,12 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 		<echo>${mingw-prefix}windres could not be found or failed, Win32EventLogAppender.dll build skipped.</echo>
 	</target>
 
-	<!-- Vicual C Compilation -->
-	<!--
-        Regenerates resource files from EventLogCategories.mc.  Avoids
-        need for Microsoft Platform SDK unless you are modifying EventLogCategories.mc
-    -->
-	<target name="mc" description="Update EventLogCategories.rc from .mc">
-		<echo message="Building ${version}" />
-		<exec executable="mc">
-			<arg value="-h" />
-			<arg file="${src.dir}" />
-			<arg value="-r" />
-			<arg file="${src.dir}" />
-			<arg file="${src.dir}\EventLogCategories.mc" />
-		</exec>
+	<target name="ver">
+        <copy file="${src.dir}/version.rc.template" tofile="${src.dir}/version.rc">
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
 	</target>
 
 	<target name="rc" depends="ver">
@@ -173,8 +157,8 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 	</target>
 
 	<!-- Main Builds  -->
-	<target name="mwbuild" depends="clean, compile, windres-echo" description="Build with MinGW gcc">
-	</target>
+  <target name="build" depends="clean, compile, windres-echo" description="Build with MinGW gcc">
+  </target>
 
 	<target name="msbuild" depends="clean, mc, cl, rc-echo" description="Build using Microsoft tools">
 	</target>

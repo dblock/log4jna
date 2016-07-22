@@ -11,7 +11,7 @@ Log4jna is a library of native appenders for [log4j](http://logging.apache.org/l
 
 
 | Current Release | Latest Develpment |
-| ------------- |:-------------:|
+| ------------- |------------- |
 | [Log4jna Api 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-api&amp;v=2.0&amp;e=jar) | [Log4JNA Api 2.0-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=LATEST&amp;e=jar) |
 | [Log4jna Demo 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=demo&amp;v=2.0&amp;e=jar) | [Log4JNA Demo 2.0-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=demo&amp;v=LATEST&amp;e=jar) |
 | [Log4jna Demo with dependencies 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=demo&amp;v=2.0&amp;e=jar) | [Log4jna Demo with dependencies 2.0-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=demo&amp;v=LATEST&amp;c=jar-with-dependencies&amp;e=jar) |

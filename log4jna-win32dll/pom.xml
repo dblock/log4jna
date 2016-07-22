@@ -20,6 +20,33 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>add-dll</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <target>
+                <property name="basedir" location="${project.build.directory}" />
+                <property name="version">${project.version}</property>
+                <ant antfile="${basedir}/src/build.xml">
+                  <!-- Microsoft VC build -->
+                  <target name="msbuild" />
+                  <!-- MinGW WinRes build -->
+                  <!-- <target name="build" /> -->
+                </ant>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <skip>true</skip>
@@ -43,57 +70,6 @@
           </filesets>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <id>add-dll</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <inherited>false</inherited>
-            <configuration>
-              <target>
-                <property name="basedir" location="${project.build.directory}" />
-                <property name="version" value="${project.version}" />
-                <ant antfile="${basedir}/src/build.xml">
-                  <target name="${ant-target}" />
-                </ant>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
-  <profiles>
-    <!-- MS Visual C build -->
-    <profile>
-      <id>msbuild</id>
-      <activation>
-        <os>
-          <family>windows</family>
-        </os>
-      </activation>
-      <properties>
-        <ant-target>msbuild</ant-target>
-        <ant-mingw-prefix>""</ant-mingw-prefix>
-      </properties>
-    </profile>
-    <!-- MinGW gcc build -->
-    <profile>
-      <id>mwbuild</id>
-      <activation>
-        <os>
-          <family>unix</family>
-        </os>
-      </activation>
-      <properties>
-        <ant-target>mwbuild</ant-target>
-      </properties>
-    </profile>
-  </profiles>
 </project>
