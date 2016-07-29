@@ -4,9 +4,9 @@
 
 This are instruction for the Log4JNA developers that manage the Continuous Integration server and delivery to the SNAPSHOT and Maven Central repositories.
 
-We do all our deployments and releases from the Continuous Integration Server on the [master](https://github.com/dblock/) branch.
+We do all our deployments and releases from the Continuous Integration Server on the `master` branch.
 
-There are GPG key signatures and repositories user id and password requirement that are encrypted in the `log4jna-build` subproject that can be managed by authorized developers only.
+There are GPG key signatures and repositories user id and password requirement that are encrypted in the `log4jna-build` subproject that can be managed by authorised developers only.
 
 There are 3 projects and configurations in AppVeyor and Maven profiles to perform these tasks.
 
@@ -17,13 +17,31 @@ There are 3 projects and configurations in AppVeyor and Maven profiles to perfor
      Uses `maven-relese-plugin' to build and deploy to Maven Central. 
      **NOTE**: This build has to be completed before 2 AM or a conflict with the snapshot build may occur.
 
-## Configuring AppVeyor projects
+## Requirements
+
+## Configuring Projects
 
 ### Project Log4JNA Default
+
+There is very little to do for this default build.
+
+#### AppVeyor
+
+This project runs mvn install locally to trigger all tests and generate the jars and zip files for distribution.
+
 1. On the AppVeyor server click on New Project name it **Log4JNA Default**.
 2. Just save the project.
 
+#### Maven
+
+1. Open a command window as administrator.
+2. Run `vcvars<all | 32 | 64>` to create the VC invironment.
+3. Run `mvn clean install` and see all files copied to `%USERPROFILE%\.m2\repository\org\dblock\log4jna` tree.
+
 ### Project Log4JNA Deploy
+
+This project is launched nightly by the CI server and requires configur.
+
 1. On the AppVeyor server click on New Project name it **Log4JNA Deploy**
 2. Scroll down to `Default Branch` and enter `master`
 3. On `Branches To Build drop down` select `Only branches specified below` and click on `Add branch`
