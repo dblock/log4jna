@@ -33,5 +33,46 @@ We download and install maven
 
 ```yaml
 
+...
 
+install:
+
+  # Install Maven if not present
+  - ps: |
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      if (!(Test-Path -Path "C:\maven" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'http://www.us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip',
+          'C:\maven-bin.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
+
+      }
+
+...
+
+```
+
+And we save Maven and the local .m2 directory for next build.
+
+```yaml
+...
+
+cache:
+  # Cache Maven and m.2
+  - '%MAVEN_HOME%'
+  - '%M2%'
+
+...
+``` 
+
+ ## <a name="b1"></a>Log4JNA Default Build
+
+ This is a very straight forward build, we build whenever te code or other files changes in the `master` branch.
+ 
+ This is the project that we monitor to see that nothing is broken on a Pull Request or branch merge.
+  
+ Create a new AppVeyor project and name it Log4JNA Default.
+ 
+ 
  

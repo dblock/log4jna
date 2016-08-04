@@ -219,7 +219,7 @@ The registry should look like this:
 
 The registry should look like this:
 
-![Registry Img](scr/site/resources/img/registry1.png)
+![Registry Img](scr/site/resources/img/registry2.png)
 
 #### Using your own application entries in Event Viwer
 Here we use the Log4J Demo values as an example.
