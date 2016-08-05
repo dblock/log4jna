@@ -1,16 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.dblock.log4jna</groupId>
-    <version>2.0-SNAPSHOT</version>
     <artifactId>log4jna</artifactId>
+    <version>2.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
-  <artifactId>demo</artifactId>
+  <artifactId>log4jna-demo</artifactId>
   <name>Log4JNA Demo</name>
   <url>https://github.com/dblock/log4jna/tree/master/demo</url>
   <description>Demonstrates the usage of Log4JNA</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.dblock.log4jna</groupId>
+      <artifactId>log4jna-api</artifactId>
+      <version>2.0-SNAPSHOT</version>
+    </dependency>
+    <!-- Keep this commented until distributed into Maven central -->
+    <!-- <dependency> <groupId>org.apache.log4jna</groupId> <artifactId>Win32EventLogAppender</artifactId> <version>2.0</version> 
+      <type>dll</type> </dependency> -->
+  </dependencies>
   <build>
     <plugins>
       <plugin>
@@ -58,14 +67,28 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>org.dblock.log4jna</groupId>
-      <artifactId>log4jna-api</artifactId>
-      <version>2.0-SNAPSHOT</version>
-    </dependency>
-    <!-- Keep this commented until distributed into Maven central -->
-    <!-- <dependency> <groupId>org.apache.log4jna</groupId> <artifactId>Win32EventLogAppender</artifactId> <version>2.0</version> 
-      <type>dll</type> </dependency> -->
-  </dependencies>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <skipEmptyReport>true</skipEmptyReport>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>dependencies</report>
+              <report>dependency-management</report>
+              <report>dependency-info</report>
+              <report>plugin-management</report>
+              <report>plugins</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

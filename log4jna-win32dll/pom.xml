@@ -1,7 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>win32dll</artifactId>
+  <artifactId>log4jna-win32dll</artifactId>
   <packaging>pom</packaging>
   <name>Log4JNA Win32dll</name>
   <parent>
@@ -18,33 +17,6 @@
       </resource>
     </resources>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <id>add-dll</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <inherited>false</inherited>
-            <configuration>
-              <target>
-                <property name="basedir" location="${project.build.directory}" />
-                <property name="version">${project.version}</property>
-                <ant antfile="${basedir}/src/build.xml">
-                  <!-- Microsoft VC build -->
-                  <target name="msbuild" />
-                  <!-- MinGW WinRes build -->
-                  <!-- <target name="build" /> -->
-                </ant>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -70,6 +42,105 @@
           </filesets>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>add-dll</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <target>
+                <property name="basedir" location="${project.build.directory}" />
+                <property name="version" value="${project.version}" />
+                <ant antfile="${basedir}/src/build.xml">
+                  <target name="${ant-target}" />
+                </ant>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-src-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/resources/sources-assembly.xml</descriptor>
+              </descriptors>
+              <finalName>${project.artifactId}-sources-${project.version}</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-dll-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/resources/dll-assembly.xml</descriptor>
+              </descriptors>
+              <finalName>${project.artifactId}-dll-${project.version}</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  <profiles>
+    <!-- MS Visual C build -->
+    <profile>
+      <id>msbuild</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <ant-target>msbuild</ant-target>
+        <ant-mingw-prefix>""</ant-mingw-prefix>
+      </properties>
+    </profile>
+    <!-- MinGW gcc build -->
+    <profile>
+      <id>mwbuild</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
+      <properties>
+        <ant-target>mwbuild</ant-target>
+      </properties>
+    </profile>
+  </profiles>
 </project>

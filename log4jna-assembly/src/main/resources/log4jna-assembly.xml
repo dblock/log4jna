@@ -9,7 +9,7 @@
   <!-- Sources -->
   <fileSets>
     <fileSet>
-      <directory>..\assembly\target</directory>
+      <directory>..\log4jna-assembly\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>\</outputDirectory>
@@ -19,57 +19,35 @@
       </excludes>
       <includes>
         <include>sources.zip</include>
+        <include>run-demo.zip</include>
       </includes>
     </fileSet>
     <!-- Documentation -->
+    <!-- Doc content  -->
     <fileSet>
-      <directory>..\doc</directory>
+      <directory>..\log4jna-doc</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>\doc</outputDirectory>
       <includes>
         <include>**\*.*</include>
       </includes>
+      <excludes>
+        <exclude>.project</exclude>
+      </excludes>
     </fileSet>
     <fileSet>
-      <directory>..\assembly\target\site</directory>
+      <directory>..\target\staging</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site\assembly</outputDirectory>
-      <includes>
-        <include>**\*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>..\demo\target\site</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site\demo</outputDirectory>
-      <includes>
-        <include>**\*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>..\log4jna-api\target\site</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site\log4jna-api</outputDirectory>
-      <includes>
-        <include>**/*.*</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <directory>..\target\site</directory>
-      <filtered>false</filtered>
-      <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>doc\maven-site</outputDirectory>
+      <outputDirectory>doc\maven-site\</outputDirectory>
       <includes>
         <include>**\*.*</include>
       </includes>
     </fileSet>
     <!-- Libraries (Jars and DLL) -->
     <fileSet>
-      <directory>..\win32dll\target</directory>
+      <directory>..\log4jna-win32dll\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
       <outputDirectory>\</outputDirectory>
@@ -88,10 +66,10 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>..\demo\target</directory>
+      <directory>..\log4jna-demo\target</directory>
       <filtered>false</filtered>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <outputDirectory>\demo</outputDirectory>
+      <outputDirectory>\log4jna-demo</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>

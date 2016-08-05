@@ -1,0 +1,1 @@
+java -cp .;"./*";"./lib/*" org.dblock.log4jna.nt.demo.NewDemo

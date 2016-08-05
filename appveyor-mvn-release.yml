@@ -100,10 +100,16 @@ skip_commits:
     - 'appveyor.yml'
     - 'appveyor-deploy.yml'
 
+# This script is launched manually
+build: off
+
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
-  - mvn clean install -B -Djna.nosys=true -P deploy
+#  - mvn release:prepare -B -Djna.nosys=true -P release
+#  - mvn release:perform -B -Djna.nosys=true -P release
+
+  - mvn clean install -P release -Djna.nosys=true
 
 test: off
 # Maven run the tests as part of the build we do not need to run them again

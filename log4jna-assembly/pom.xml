@@ -1,7 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>assembly</artifactId>
+  <artifactId>log4jna-assembly</artifactId>
   <name>Log4JNA Assembly</name>
   <packaging>pom</packaging>
   <parent>
@@ -24,7 +23,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
         <configuration>
           <descriptors>
             <descriptor>src/main/resources/log4jna-assembly.xml</descriptor>
@@ -48,6 +46,20 @@
             </configuration>
           </execution>
           <execution>
+            <id>make-demo-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/resources/run-demo-assembly.xml</descriptor>
+              </descriptors>
+              <finalName>run-demo</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+          <execution>
             <id>make-assembly</id> <!-- this is used for inheritance merges -->
             <phase>package</phase> <!-- bind to the packaging phase -->
             <goals>
@@ -58,5 +70,5 @@
       </plugin>
     </plugins>
   </build>
-  <description>A ziped file withh all what you need to run or build log4jna</description>
+  <description>A ziped file with all what you need to run or build log4jna</description>
 </project>

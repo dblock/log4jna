@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.dblock.log4jna</groupId>
   <artifactId>log4jna</artifactId>
@@ -20,9 +19,9 @@
     <system>github</system>
   </issueManagement>
   <scm>
-    <connection>scm:git:https://github.com/claudiow/log4jna.git</connection>
-    <developerConnection>scm:git:https://github.com/claudiow/log4jna.git</developerConnection>
-    <url>https://github.com/claudiow/log4jna.git</url>
+    <connection>scm:git:https://github.com/dblock/log4jna.git</connection>
+    <developerConnection>scm:git:git://github.com/dblock/log4jna.git</developerConnection>
+    <url>https://github.com/claudiow/dblock.git</url>
   </scm>
   <ciManagement>
     <system>AppVeyor</system>
@@ -63,6 +62,33 @@
       </properties>
     </developer>
   </developers>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna-platform</artifactId>
+        <version>${jna.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
   <build>
     <extensions>
       <extension>
@@ -73,6 +99,7 @@
     </extensions>
     <pluginManagement>
       <plugins>
+        <!-- Jav build -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -81,6 +108,11 @@
             <source>${java.version}</source>
             <target>${java.version}</target>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -97,19 +129,60 @@
           <artifactId>maven-source-plugin</artifactId>
           <version>3.0.1</version>
         </plugin>
+        <!-- Assembly -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.0.0</version>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <!-- Install Deploy and Relesae -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <version>1.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.6</version>
         </plugin>
+        <!-- By default we skip site:deploy -->
+        <!-- We generate the site for the assembly in the prepare-package phase -->
+        <!-- We deploy to GitHub using the maven-scm-publish-plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.5.1</version>
+          <configuration>
+            <skipDeploy>true</skipDeploy>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.doxia</groupId>
+              <artifactId>doxia-module-markdown</artifactId>
+              <version>1.7</version>
+            </dependency>
+          </dependencies>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
+      <!-- Java -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -132,9 +205,33 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Site general configuration -->
+      <!-- We prepare the Site before hand to add it to the assembly docs directory -->
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>site</goal>
+              <goal>stage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy scm-publish:publish-scm</goals>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
+    <!-- Build and deploy SNAPSHOTS -->
+    <!-- We do not create or publish the site for snapshots -->
     <profile>
       <id>deploy</id>
       <build>
@@ -166,6 +263,53 @@
         </plugins>
       </build>
     </profile>
+    <!-- Build and Release to Maven Central -->
+    <!-- Publish Site to GitHub -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- During site deploy we publish to GitHub -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-publish-plugin</artifactId>
+            <version>1.1</version>
+            <inherited>false</inherited>
+            <configuration>
+              <serverId>github.com</serverId>
+              <scmBranch>gh-pages</scmBranch>
+              <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
+            </configuration>
+          </plugin>
+          <!-- 
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>osshr</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          -->
+        </plugins>
+      </build>
+    </profile>
   </profiles>
   <reporting>
     <plugins>
@@ -174,10 +318,49 @@
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.9</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+        <inherited>false</inherited>
+        <configuration>
+          <show>private</show>
+          <links>
+            <link>http://logging.apache.org/log4j/2.x/log4j-core/apidocs/index.html</link>
+            <link>http://logging.apache.org/log4j/2.x/log4j-api/apidocs/index.html</link>
+            <link>http://docs.oracle.com/javase/8/docs/api/index.html</link>
+            <link>http://java-native-access.github.io/jna/4.2.1/</link>
+          </links>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <configuration>
+              <show>private</show>
+              <links>
+                <link>http://logging.apache.org/log4j/2.x/log4j-core/apidocs/</link>
+                <link>http://logging.apache.org/log4j/2.x/log4j-api/apidocs/</link>
+                <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                <link>http://java-native-access.github.io/jna/4.2.1/</link>
+              </links>
+            </configuration>
+            <reports>
+              <report>aggregate</report>
+              <report>test-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
     </plugins>
   </reporting>
   <properties>
-    <log4j.version>2.6.1</log4j.version>
+    <log4j.version>2.6.2</log4j.version>
     <jna.version>4.2.2</jna.version>
     <junit.version>4.9</junit.version>
     <java.version>1.8</java.version>
@@ -188,44 +371,34 @@
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>${log4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.java.dev.jna</groupId>
-        <artifactId>jna-platform</artifactId>
-        <version>${jna.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <distributionManagement>
-    <!-- We have to find a location for the site -->
-    <!-- <site> <id>sites</id> <name>CGTCA Project Sites</name> <url>scp://httpd.cgtca.ca/var/www/sites/log4jna/</url> </site> -->
+    <repository>
+      <id>CGTCANexus</id>
+      <layout>default</layout>
+      <name>CGTCA Repo - Nexus Server Releases</name>
+      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/releases/</url>
+    </repository>
     <snapshotRepository>
-      <id>osshr</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>CGTCANexus</id>
+      <layout>default</layout>
+      <name>CGTCA Repo - Nexus Server Snapshots</name>
+      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/snapshots/</url>
     </snapshotRepository>
+    <!--
     <repository>
       <id>osshr</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
+    <snapshotRepository>
+      <id>osshr</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    -->
+    <site>
+      <id>sites</id>
+      <name>CGTCA Project Sites</name>
+      <url>http://dblock.github.io/log4jna/</url>
+    </site>
   </distributionManagement>
   <modules>
     <module>log4jna-win32dll</module>
@@ -233,4 +406,8 @@
     <module>log4jna-demo</module>
     <module>log4jna-assembly</module>
   </modules>
+  <organization>
+    <name>The Log4JNA Team</name>
+    <url>https://github.com/dblock/log4jna</url>
+  </organization>
 </project>
