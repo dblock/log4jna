@@ -33,7 +33,7 @@ mvn test
 
 ##### Notes on building
 
-See [Win32EventLogAppender README](win32dll/README.md) for requirements on building the the message file.
+See [Win32EventLogAppender README](log4jna-win32dll/README.md) for requirements on building the the message file.
 
 The build does not complain and skips the message file if it can't be build.
 

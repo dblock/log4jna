@@ -14,15 +14,19 @@
       <includes>
         <include>**\src\**\*.*</include>
         <include>**\pom.xml</include>
-        <include>**\build\*.*</include>
+        <include>**\log4jna-build\Maven\*.enc</include>
+        <include>**\log4jna-win32dll\resources\*.*</include>
         <include>LICENSE.txt</include>
-        <include>*.md</include>
+        <include>**\*.md</include>
       </includes>
+      <!-- Exclude eclipse artifacts -->
       <excludes>
         <exclude>**\target\**\*.*</exclude>
-        <exclude>**\build\.project</exclude>
+        <exclude>**\.project</exclude>
+        <exclude>**\.settings</exclude>
+        <exclude>**\.classpath</exclude>
       </excludes>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>\</outputDirectory>
     </fileSet>
   </fileSets>
 </assembly>

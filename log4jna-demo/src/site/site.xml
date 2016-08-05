@@ -12,39 +12,36 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project name="Log4JNA" xmlns="http://maven.apache.org/DECORATION/1.6.0"
+<project name="${project.name}" xmlns="http://maven.apache.org/DECORATION/1.7.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
 	<version position="right" />
-	<skin>
-		<groupId>org.apache.maven.skins</groupId>
-		<artifactId>maven-fluido-skin</artifactId>
-		<version>1.4</version>
-	</skin>
-	<custom>
-		<fluidoSkin>
-			<topBarEnabled>false</topBarEnabled>
-			<sideBarEnabled>true</sideBarEnabled>
-			<googleSearch>false</googleSearch>
-			<leftColumnClass>span2</leftColumnClass>
-			<bodyColumnClass>span10</bodyColumnClass>
-		</fluidoSkin>
-	</custom>
-	<bannerLeft>
-		<name>${project.name}</name>
-		<title></title>
-		<src>../parent/img/log4jna.jpg</src>
-		<alt>log4jna</alt>
-	</bannerLeft>
-	<bannerRight>
-		<name>${project.name}</name>
-		<alt>${project.name}</alt>
-		<href>/index.html</href>
-	</bannerRight>
-	<body>
-		<links>
-			<item name="${project.name}" href="https://github.com/dblock/log4jna/" />
-		</links>
-		<menu ref="reports"></menu>
-	</body>
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.5</version>
+  </skin>
+  <custom>
+    <fluidoSkin>
+      <topBarEnabled>true</topBarEnabled>
+      <navBarStyle>navbar-inverse</navBarStyle>
+      <sideBarEnabled>true</sideBarEnabled>
+      <leftColumnClass>span2</leftColumnClass>
+      <bodyColumnClass>span10</bodyColumnClass>
+    </fluidoSkin>
+  </custom>
+  <bannerRight>
+    <name>${project.name}</name>
+    <alt>${project.name}</alt>
+	<href>../index.html</href>
+  </bannerRight>
+  <body>
+    <links>
+      <item name="${project.name}" href="https://github.com/dblock/log4jna/" />
+    </links>
+    <menu name="${project.name}">
+      <item name="About" href="./index.html" />
+    </menu>
+    <menu ref="reports" name="Module Documentation"/>
+  </body>
 </project>
