@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.dblock.log4jna</groupId>
   <artifactId>log4jna</artifactId>
-  <version>2.1-SNAPSHOT</version>
+  <version>2.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Log4JNA Parent</name>
   <url>https://github.com/dblock/log4jna</url>
@@ -372,19 +372,6 @@
   </properties>
   <distributionManagement>
     <repository>
-      <id>CGTCANexus</id>
-      <layout>default</layout>
-      <name>CGTCA Repo - Nexus Server Releases</name>
-      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>CGTCANexus</id>
-      <layout>default</layout>
-      <name>CGTCA Repo - Nexus Server Snapshots</name>
-      <url>http://repo.cgtca.ca:8081/nexus/content/repositories/snapshots/</url>
-    </snapshotRepository>
-    <!--
-    <repository>
       <id>osshr</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
@@ -392,10 +379,9 @@
       <id>osshr</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
-    -->
     <site>
       <id>sites</id>
-      <name>CGTCA Project Sites</name>
+      <name>Log4JNA Site</name>
       <url>http://dblock.github.io/log4jna/</url>
     </site>
   </distributionManagement>
