@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20160808" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Log4JNA Parent &#x2013; </title>
+    <title>Log4JNA Parent &#x2013; Project Dependencies</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -195,7 +195,7 @@
         Log4JNA Parent</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active "></li>
+        <li class="active ">Project Dependencies</li>
                 
               
                 <li id="projectVersion" class="pull-right">Version: 2.0</li>
@@ -211,10 +211,12 @@
                 <ul class="nav nav-list">
                     <li class="nav-header">Log4JNA Parent</li>
                               
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>About</a>
-          </li>
+                          <a href="index.html" title="About">
+          <span class="none"></span>
+        About</a>
+            </li>
                                         <li class="nav-header">Guides and Documentation</li>
                               
       <li>
@@ -291,12 +293,10 @@
             </li>
                               <li class="nav-header">Module Information</li>
                               
-      <li>
+      <li class="active">
   
-                          <a href="dependencies.html" title="Dependencies">
-          <span class="none"></span>
-        Dependencies</a>
-            </li>
+            <a href="#"><span class="none"></span>Dependencies</a>
+          </li>
                 
       <li>
   
@@ -434,87 +434,184 @@
                         
         <div id="bodyColumn"  class="span10" >
                                   
-            <p><img src="https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true" alt="Log4JNA" /> <a class="externalLink" href="https://gitter.im/dblock/log4jna?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/dblock/log4jna.svg" alt="Gitter" /></a> <a class="externalLink" href="https://ci.appveyor.com/project/dblock/log4jna/branch/master"><img src="https://ci.appveyor.com/api/projects/status/ske73kq2ilvjbt0v/branch/master?svg=true" alt="Build status" /></a></p>
-<p>Log4JNA is a library of native appenders to write into Windows<sup>TM</sup> Event Viewer for <a class="externalLink" href="http://logging.apache.org/log4j/">Log4j 2<sup>TM</sup></a>. </p>
-<p>Unlike the native implementation(s) in Log4j<sup>TM</sup>, this project uses <a class="externalLink" href="http://github.com/twall/jna">JNA</a> and therefore does not require a native DLL in a system directory or on PATH.</p>
-<p><b>Note:</b> Log4JNA is intended for Window<sup>TM</sup> environments and requires access to Windows<sup>TM</sup> registry and Event Viewer, therefore can only be tested in Windows<sup>TM</sup> environments</p>
+            <a name="Project_Dependencies"></a>
 <div class="section">
-<h2><a name="Using_Log4JNA"></a>Using Log4JNA</h2>
+<h2><a name="Project_Dependencies"></a>Project Dependencies</h2><a name="Project_Dependencies_test"></a>
 <div class="section">
-<div class="section">
-<h4><a name="Getting_Log4JNA"></a>Getting Log4JNA</h4>
-<p>See the <a href="#dw">Downloads</a> section bellow to get Log4JNA.</p>
-<p>See <a href="MAVENIVYGRADLE.md">Maven, Ivy, and Gradle Artifacts</a> to include Log4JNA from Maven Central</p></div>
-<div class="section">
-<h4><a name="Using_Log4JNA"></a>Using Log4JNA</h4>
-<p>See <a href="USAGE.md">Log4JNA configuration</a> for instructions and tips.</p>
-<p>See the <a href="FAQ.md">FAQ</a> for common problems and solutions.</p></div></div></div>
-<div class="section">
-<h2><a name="Developing_Log4JNA"></a>Developing Log4JNA</h2>
-<p>See <a href="CONTRIBUTING.md">Contributing</a> for a primer on how to help on Log4JNA development.</p>
-<p>See <a href="ENVIRONMENT.md">Development Environment Set Up</a> for some tips and requirements before starting.</p></div>
-<div class="section">
-<h2><a name="Downloads"></a><a name="dw"></a>Downloads</h2>
-<div class="section">
-<div class="section">
-<h4><a name="Log4JNA_2_for_Log4j_2.x"></a>Log4JNA 2 for Log4j 2.x</h4>
-
+<h3><a name="test"></a>test</h3>
+<p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p>
 <table border="0" class="table table-striped">
-  <thead>
-    
 <tr class="a">
-      
-<th>Current Release </th>
-      
-<th>Latest Develpment </th>
-    </tr>
-  </thead>
-  <tbody>
-    
+<th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+<th>Licenses</th></tr>
 <tr class="b">
-      
-<td><a class="externalLink" href="https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-api&amp;v=RELEASE&amp;e=jar">Log4jna Api 2.0</a> </td>
-      
-<td><a class="externalLink" href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=LATEST&amp;e=jar">Log4JNA Api 2.0.1-SNAPSHOT</a> </td>
-    </tr>
-    
+<td>junit</td>
+<td><a class="externalLink" href="http://junit.org">junit</a></td>
+<td>4.9</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></td></tr></table></div></div><a name="Project_Transitive_Dependencies"></a>
+<div class="section">
+<h2><a name="Project_Transitive_Dependencies"></a>Project Transitive Dependencies</h2>
+<p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p><a name="Project_Transitive_Dependencies_test"></a>
+<div class="section">
+<h3><a name="test"></a>test</h3>
+<p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p>
+<table border="0" class="table table-striped">
 <tr class="a">
-      
-<td><a class="externalLink" href="https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar">Log4jna Demo 2.0</a> </td>
-      
-<td><a class="externalLink" href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;e=jar">Log4JNA Demo 2.0.1-SNAPSHOT</a> </td>
-    </tr>
-    
+<th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+<th>Licenses</th></tr>
 <tr class="b">
-      
-<td><a class="externalLink" href="https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar">Log4jna Demo with dependencies 2.0</a> </td>
-      
-<td><a class="externalLink" href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;c=jar-with-dependencies&amp;e=jar">Log4jna Demo with dependencies 2.0.1-SNAPSHOT</a> </td>
-    </tr>
-    
+<td>org.hamcrest</td>
+<td>hamcrest-core</td>
+<td>1.1</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></td></tr></table></div></div><a name="Project_Dependency_Graph"></a>
+<div class="section">
+<h2><a name="Project_Dependency_Graph"></a>Project Dependency Graph</h2>
+<script language="javascript" type="text/javascript">
+      function toggleDependencyDetails( divId, imgId )
+      {
+        var div = document.getElementById( divId );
+        var img = document.getElementById( imgId );
+        if( div.style.display == '' )
+        {
+          div.style.display = 'none';
+          img.src='./images/icon_info_sml.gif';
+          img.alt='[Information]';
+        }
+        else
+        {
+          div.style.display = '';
+          img.src='./images/close.gif';
+          img.alt='[Close]';
+        }
+      }
+</script>
+<a name="Dependency_Tree"></a>
+<div class="section">
+<h3><a name="Dependency_Tree"></a>Dependency Tree</h3>
+<ul>
+<li>org.dblock.log4jna:log4jna:pom:2.0 <img id="_img1" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep0', '_img1' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep0" style="display:none">
+<table border="0" class="table table-striped">
 <tr class="a">
-      
-<td><a class="externalLink" href="https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-assembly&amp;v=RELEASE&amp;e=zip">Log4jna Zip 2.0 (Jars, Sources, Dependencies and Documentation)</a> </td>
-      
-<td><a class="externalLink" href="https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=LATEST&amp;e=zip">Log4jna Zip 2.0.1-SNAPSHOT (Jars, Sources, Dependencies and Documentation)</a> </td>
-    </tr>
-  </tbody>
-</table></div>
-<div class="section">
-<h4><a name="Log4JNA_for_Log4j_1.x"></a>Log4JNA for Log4j 1.x</h4>
-
+<th>Log4JNA Parent</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>Log4jna is a library of native appenders for log4j. Unlike the native implementation(s) in Log4j, this project uses JNA and therefore does not require a native DLL in a system directory or on PATH.</p>
+<p><b>URL: </b><a class="externalLink" href="https://github.com/dblock/log4jna">https://github.com/dblock/log4jna</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></p></td></tr></table></div>
 <ul>
-  
-<li><a class="externalLink" href="http://code.dblock.org/downloads/log4jna/log4jna-1.3.zip">log4jna-1.3.zip</a></li>
-</ul>
-
+<li>junit:junit:jar:4.9 (test) <img id="_img3" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep2', '_img3' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep2" style="display:none">
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>JUnit</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck.
+        It is used by the developer who implements unit tests in Java.</p>
+<p><b>URL: </b><a class="externalLink" href="http://junit.org">http://junit.org</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p></td></tr></table></div>
 <ul>
-  
-<li><a href="log4jna-doc/org.apache.log4jna.nt.Win32EventLogAppender.md">org.apache.log4jna.nt.Win32EventLogAppender</a>: a replacement for NTEventLogAppender based on JNA that doesn&#x2019;t require a native DLL in a system directory.</li>
-</ul></div></div></div>
+<li>org.hamcrest:hamcrest-core:jar:1.1 (test) <img id="_img5" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep4', '_img5' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep4" style="display:none">
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Hamcrest Core</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>There is currently no description associated with this project.</p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></p></td></tr></table></div></li></ul></li></ul></li></ul></div></div><a name="Licenses"></a>
 <div class="section">
-<h2><a name="License"></a>License</h2>
-<p>This project is licensed under the <a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software Foundation 2.0 License</a></p></div>
+<h2><a name="Licenses"></a>Licenses</h2>
+<p><b>BSD style: </b>Hamcrest Core</p>
+<p><b>The Apache Software License, Version 2.0: </b>Log4JNA Parent</p>
+<p><b>Common Public License Version 1.0: </b>JUnit</p></div><a name="Dependency_File_Details"></a>
+<div class="section">
+<h2><a name="Dependency_File_Details"></a>Dependency File Details</h2>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Filename</th>
+<th>Size</th>
+<th>Entries</th>
+<th>Classes</th>
+<th>Packages</th>
+<th>Java Version</th>
+<th title="Indicates whether these dependencies have been compiled with debug information.">Debug Information</th></tr>
+<tr class="b">
+<td>junit-4.9.jar</td>
+<td>249 kB</td>
+<td>288</td>
+<td>250</td>
+<td>31</td>
+<td>1.5</td>
+<td>Yes</td></tr>
+<tr class="a">
+<td>hamcrest-core-1.1.jar</td>
+<td>76.6 kB</td>
+<td>54</td>
+<td>21</td>
+<td>3</td>
+<td>1.5</td>
+<td>Yes</td></tr>
+<tr class="b">
+<th>Total</th>
+<th>Size</th>
+<th>Entries</th>
+<th>Classes</th>
+<th>Packages</th>
+<th>Java Version</th>
+<th>Debug Information</th></tr>
+<tr class="a">
+<td>2</td>
+<td>325.6 kB</td>
+<td>342</td>
+<td>271</td>
+<td>34</td>
+<td>1.5</td>
+<td>2</td></tr>
+<tr class="b">
+<td>test: 2</td>
+<td>test: 325.6 kB</td>
+<td>test: 342</td>
+<td>test: 271</td>
+<td>test: 34</td>
+<td>-</td>
+<td>test: 2</td></tr></table></div><a name="Dependency_Repository_Locations"></a>
+<div class="section">
+<h2><a name="Dependency_Repository_Locations"></a>Dependency Repository Locations</h2>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Repo ID</th>
+<th>URL</th>
+<th>Release</th>
+<th>Snapshot</th></tr>
+<tr class="b">
+<td>central</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2">https://repo.maven.apache.org/maven2</a></td>
+<td>Yes</td>
+<td>No</td></tr></table>
+<p>Repository locations for each of the Dependencies.</p>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Artifact</th>
+<th>cgtca-nexus</th></tr>
+<tr class="b">
+<td>junit:junit:jar:4.9</td>
+<td><a class="externalLink" href="http://repo.cgtca.ca:8081/nexus/content/groups/public//junit/junit/4.9/junit-4.9.jar"><img alt="Found at http://repo.cgtca.ca:8081/nexus/content/groups/public/" src="images/icon_success_sml.gif" /></a></td></tr>
+<tr class="a">
+<td>org.hamcrest:hamcrest-core:jar:1.1</td>
+<td><a class="externalLink" href="http://repo.cgtca.ca:8081/nexus/content/groups/public//org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"><img alt="Found at http://repo.cgtca.ca:8081/nexus/content/groups/public/" src="images/icon_success_sml.gif" /></a></td></tr>
+<tr class="b">
+<th>Total</th>
+<th>cgtca-nexus</th></tr>
+<tr class="a">
+<td>2 (test: 2)</td>
+<td>2</td></tr></table></div>
                   </div>
             </div>
           </div>
