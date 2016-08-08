@@ -14,7 +14,7 @@ Unlike the native implementation(s) in Log4j<sup>TM</sup>, this project uses [JN
 
 See the [Downloads](#dw) section bellow to get Log4JNA.
 
-See [Maven, Ivy, and Gradle Artifacts](MAVNEIVYGRADLE.md) to include Log4JNA from Maven Central
+See [Maven, Ivy, and Gradle Artifacts](MAVENIVYGRADLE.md) to include Log4JNA from Maven Central
 
 #### Using Log4JNA
 
@@ -32,10 +32,10 @@ See [Development Environment Set Up](ENVIRONMENT.md) for some tips and requireme
 
 | Current Release | Latest Develpment |
 | ------------- |------------- |
-| [Log4jna Api 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-api&amp;v=2.0&amp;e=jar) | [Log4JNA Api 2.0-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=LATEST&amp;e=jar) |
-| [Log4jna Demo 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-demo&amp;v=2.0&amp;e=jar) | [Log4JNA Demo 2.0-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;e=jar) |
-| [Log4jna Demo with dependencies 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-demo&amp;v=2.0&amp;e=jar) | [Log4jna Demo with dependencies 2.0-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;c=jar-with-dependencies&amp;e=jar) |
-| [Log4jna Zip (Jars, Sources, Dependencies and Documentation)](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-assembly&amp;v=2.0&amp;e=zip) | [Log4jna Zip (Jars, Sources, Dependencies and Documentation)](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=LATEST&amp;e=zip) |
+| [Log4jna Api 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-api&amp;v=RELEASE&amp;e=jar) | [Log4JNA Api 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=LATEST&amp;e=jar) |
+| [Log4jna Demo 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar) | [Log4JNA Demo 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;e=jar) |
+| [Log4jna Demo with dependencies 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar) | [Log4jna Demo with dependencies 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;c=jar-with-dependencies&amp;e=jar) |
+| [Log4jna Zip 2.0 (Jars, Sources, Dependencies and Documentation)](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dbloc.log4jna&amp;a=log4jna-assembly&amp;v=RELEASE&amp;e=zip) | [Log4jna Zip 2.0.1-SNAPSHOT (Jars, Sources, Dependencies and Documentation)](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=LATEST&amp;e=zip) |
 
 #### Log4JNA  for Log4j 1.x
 * [log4jna-1.3.zip](http://code.dblock.org/downloads/log4jna/log4jna-1.3.zip)

@@ -1,6 +1,6 @@
 2.0 (pending)
 --------------
-
+* [#6](https://github.com/dblock/log4jna/issues/6): Distribute to Maven Central
 * [#7](https://github.com/dblock/log4jna/pull/8): Upgrade to log4j2 - [@cstorey](https://github.com/cstorey).
 * [#9](https://github.com/dblock/log4jna/pull/9): Mavenized build - [@claudiow](https://github.com/claudiow).
 * [#8](https://github.com/dblock/log4jna/pull/9): Added Log4j 2 configuration - [@claudiow](https://github.com/claudiow).

@@ -20,8 +20,8 @@
   </issueManagement>
   <scm>
     <connection>scm:git:https://github.com/dblock/log4jna.git</connection>
-    <developerConnection>scm:git:git://github.com/dblock/log4jna.git</developerConnection>
-    <url>https://github.com/claudiow/dblock.git</url>
+    <developerConnection>scm:git:git@github.com:dblock/log4jna.git</developerConnection>
+    <url>https://github.com/dblock/log4jna.git</url>
   </scm>
   <ciManagement>
     <system>AppVeyor</system>
