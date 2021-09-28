@@ -2,7 +2,7 @@
 
 The Win32EventLogAppender.dll can be built either with Microsoft Visual C or GCC using MinGW on UN*X or Windows.
 
-To build on Windows with GCC download [MinGW](http://www.mingw.org/).
+To build on Windows with GCC download [MinGW](https://mingw.osdn.io/).
 
 The ant `build.xml` script is designed to be run via [Maven](http://maven.apache.org/) and the 
 [`maven-ant-run-plugin`](http://maven.apache.org/plugins/maven-antrun-plugin/) associated to the `compile` goal.
@@ -10,7 +10,7 @@ The ant `build.xml` script is designed to be run via [Maven](http://maven.apache
 The default build environment is driven by Maven profiles that are activated by the os family attribute. In windows environments it defaults 
 to Visual C++ and in Linux/Un*x it defaults to GCC MinGW32.
 
-## Building in Winods
+## Building in Windows
 ### Building with MS Visual C
 Execute the appropriate `vcvars[32 | 64 | all]` or launch a developer command line. See 
 [this](https://msdn.microsoft.com/en-us/library/f2ccy3wt.aspx) for more on Visual C command line.
