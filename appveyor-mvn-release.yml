@@ -1,5 +1,5 @@
 version: 2.0.{build}
-os: Visual Studio 2015
+image: Visual Studio 2015
 
 environment:
   MAVEN_HOME: C:\maven\apache-maven-3.3.9
@@ -48,7 +48,7 @@ install:
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if (!(Test-Path -Path "C:\maven" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'http://www.us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip',
+          'https://dlcdn.apache.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip',
           'C:\maven-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
