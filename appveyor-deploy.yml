@@ -29,9 +29,7 @@ environment:
   SECURE_FILE_DEC: '-decrypt'
   SECURE_FILE_SEC: '-secret'
 
-  #secret:
-  #  secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
-
+  # Keyphrase for secure-file.exe
   secret:
     secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
 
@@ -61,8 +59,6 @@ install:
 
       # Test if .m2 exists and create or update maven settings
       $CMD = "C:\secure-file\tools\secure-file.exe"
-      $decrip = '-decrypt'
-      $secret = '-secret'
       if(!(Test-Path -Path $env:M2)) {
           New-Item $env:M2 -type directory -Verbose
           # Install maven settings
