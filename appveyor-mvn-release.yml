@@ -40,6 +40,7 @@ install:
      if (!(Test-Path -Path $env:SECURE_FILE_DIR )) {
         cd C:\
         iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
+        cd $env:APPVEYOR_BUILD_FOLDER
      }
 
    # Install Maven if not present

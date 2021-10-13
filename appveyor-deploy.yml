@@ -35,6 +35,14 @@ environment:
 
 install:
 
+  - ps: |
+      Write-Host `$env:SECURE_FILE_CMD is $env:SECURE_FILE_CMD
+      Write-Host `$env:SECURE_FILE_DEC is $env:SECURE_FILE_DEC
+      Write-Host `$env:M2_SETTINGS_ENC is $env:M2_SETTINGS_ENC
+      Write-Host `$env:SECURE_FILE_SEC is $env:SECURE_FILE_SEC
+      Write-Host `$env:secret is $env:secret
+      Write-Host `$env:M2_SETTINGS_SEC_ENC is $env:M2_SETTINGS_SEC_ENC
+
   # Prepare VC environment
   - |
    "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
@@ -44,6 +52,7 @@ install:
      if (!(Test-Path -Path $env:SECURE_FILE_DIR )) {
         cd C:\
         iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
+        cd $env:APPVEYOR_BUILD_FOLDER
      }
 
    # Install Maven if not present
