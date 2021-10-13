@@ -105,6 +105,7 @@ skip_commits:
 # For build and test we need to pass -Djna.nosys=true  to avoid exception:
 # java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
 build_script:
+  - mvn clean install -B -Djna.nosys=true
   - mvn clean site site:stage deploy -B -Djna.nosys=true -P deploy
 
 test: off
