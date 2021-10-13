@@ -25,11 +25,9 @@ environment:
   SECURE_FILE_DEC: '-decrypt'
   SECURE_FILE_SEC: '-secret'
 
+  # Enrypted value on dblock's account.
   secret:
-    secure: Z851+sNOAoEP/lr/3hGjRjC+SlaO19wPqPAYGZFEgfY=
-
-  #secret:
-  #  secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
+    secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
 
 install:
 
