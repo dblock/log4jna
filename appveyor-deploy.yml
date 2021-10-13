@@ -20,12 +20,12 @@ environment:
   GNUPG_HOME: $(USERPROFILE)\.gnupg
   PUB_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\log4jnapublic.gpg.asc.enc
   SEC_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\log4jnasecret.gpg.asc.enc
-  PUB_KEY_FILE_ENC_DEST: $(USERPROFILE)log4jnapublic.gpg.asc.enc
+  PUB_KEY_FILE_ENC_DEST: $(USERPROFILE)\log4jnapublic.gpg.asc.enc
   SEC_KEY_FILE_ENC_DEST: $(USERPROFILE)\log4jnasecret.gpg.asc.enc
   PUB_KEY_FILE_GPG: $(USERPROFILE)\log4jnapublic.gpg.asc
   SEC_KEY_FILE_GPG: $(USERPROFILE)\log4jnasecret.gpg.asc
-  SECURE_FILE_DIR: C:\secure-file
-  SECURE_FILE_CMD: C:\secure-file\tools\secure-file.exe
+  SECURE_FILE_DIR: C:\appveyor-tools
+  SECURE_FILE_CMD: C:\appveyor-tools\secure-file.exe
   SECURE_FILE_DEC: '-decrypt'
   SECURE_FILE_SEC: '-secret'
 
@@ -44,7 +44,9 @@ install:
   # Install secure-file if not present
   - ps: |
      if (!(Test-Path -Path $env:SECURE_FILE_DIR )) {
-        nuget install secure-file -ExcludeVersion -o C:\
+        cd C:\
+        iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
+        cd $env:APPVEYOR_BUILD_FOLDER
      }
 
    # Install Maven if not present
@@ -60,9 +62,6 @@ install:
       }
 
       # Test if .m2 exists and create or update maven settings
-      $CMD = "C:\secure-file\tools\secure-file.exe"
-      $decrip = '-decrypt'
-      $secret = '-secret'
       if(!(Test-Path -Path $env:M2)) {
           New-Item $env:M2 -type directory -Verbose
           # Install maven settings
@@ -88,10 +87,11 @@ install:
       }
 
   # Decrypt and install gpg keys
-  - C:\secure-file\tools\secure-file -decrypt %PUB_KEY_FILE_ENC% -secret %secret% -out %PUB_KEY_FILE_GPG%
-  - C:\secure-file\tools\secure-file -decrypt %SEC_KEY_FILE_ENC% -secret %secret% -out %SEC_KEY_FILE_GPG%
-  - gpg --import %PUB_KEY_FILE_GPG%
-  - gpg --import %SEC_KEY_FILE_GPG%
+  - | 
+      "%SECURE_FILE_CMD%" %SECURE_FILE_DEC% %PUB_KEY_FILE_ENC% %SECURE_FILE_SEC% %secret% -out %PUB_KEY_FILE_GPG%
+      "%SECURE_FILE_CMD%" %SECURE_FILE_DEC% %SEC_KEY_FILE_ENC% %SECURE_FILE_SEC% %secret% -out %SEC_KEY_FILE_GPG%
+      gpg --import %PUB_KEY_FILE_GPG%
+      gpg --import %SEC_KEY_FILE_GPG%
 
 # Ignore changes that not affect the build
 skip_commits:
