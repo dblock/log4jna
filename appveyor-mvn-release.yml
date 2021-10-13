@@ -107,7 +107,7 @@ build_script:
 #  - mvn release:prepare -B -Djna.nosys=true -P release
 #  - mvn release:perform -B -Djna.nosys=true -P release
 
-  - mvn clean install -P release -Djna.nosys=true
+  - mvn clean install -Dgpg.passphrase=%secret% -P release -Djna.nosys=true 
 
 test: off
 # Maven run the tests as part of the build we do not need to run them again
