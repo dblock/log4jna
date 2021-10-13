@@ -89,7 +89,7 @@ install:
       "%SECURE_FILE_CMD%" %SECURE_FILE_DEC% %PUB_KEY_FILE_ENC% %SECURE_FILE_SEC% %secret% -out %PUB_KEY_FILE_GPG%
       "%SECURE_FILE_CMD%" %SECURE_FILE_DEC% %SEC_KEY_FILE_ENC% %SECURE_FILE_SEC% %secret% -out %SEC_KEY_FILE_GPG%
       gpg --import %PUB_KEY_FILE_GPG%
-      gpg --import %SEC_KEY_FILE_GPG%
+      gpg --batch --passphrase %secret% --import %SEC_KEY_FILE_GPG%
 
 # Ignore changes that not affect the build
 skip_commits:
