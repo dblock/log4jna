@@ -5,6 +5,7 @@
 * [#9](https://github.com/dblock/log4jna/pull/9): Mavenized build - [@claudiow](https://github.com/claudiow).
 * [#8](https://github.com/dblock/log4jna/pull/9): Added Log4j 2 configuration - [@claudiow](https://github.com/claudiow).
 * [#11](https://github.com/dblock/log4jna/pull/19): Changed project to org.dblock.log4jna - [@claudiow](https://github.com/claudiow).
+* [#12](https://github.com/dblock/log4jna/pull/50): Upgrade to JNA 5.9.0 - [@shamus13](https://github.com/shamus13).
 
 1.3 (3/5/2014)
 --------------
