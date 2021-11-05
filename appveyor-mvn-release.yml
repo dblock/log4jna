@@ -28,8 +28,6 @@ environment:
   # Enrypted value on dblock's account.
   secret:
     secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
-  salt:
-    secure: kKhbrFwhB8rsYBwcaDxQLrTXIyjKcWj51nXmn19V/4ab3AL2Dpqu1nLGQwnw3fW57icVYVDoaPmgAjJ8b5QuMA==
 
 install:
 
@@ -63,13 +61,13 @@ install:
           # Install maven settings
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
           Copy-Item $env:SETTINGS_SEC_ENC $env:M2_SETTINGS_SEC_ENC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret -salt $env:salt
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
           & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_SEC_ENC $env:SECURE_FILE_SEC $env:secret
       } else {
       # The directory exists test Meven settings
         if (!(Test-Path $env:M2_SETTINGS_ENC) -or ((Get-FileHash $env:M2_SETTINGS_ENC).hash -ne (Get-FileHash $env:SETTINGS_ENC).hash)) {
           Copy-Item $env:SETTINGS_ENC $env:M2_SETTINGS_ENC -Verbose
-          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret -salt $env:salt
+          & $env:SECURE_FILE_CMD $env:SECURE_FILE_DEC $env:M2_SETTINGS_ENC $env:SECURE_FILE_SEC $env:secret
         } else {
           Write-Host "$env:M2_SETTINGS_ENC up to date"
         }
@@ -109,7 +107,7 @@ build_script:
 #  - mvn release:prepare -B -Djna.nosys=true -P release
 #  - mvn release:perform -B -Djna.nosys=true -P release
 
-  - mvn clean install -P release -Djna.nosys=true 
+  - mvn clean install -P release -Djna.nosys=true
 
 test: off
 # Maven run the tests as part of the build we do not need to run them again
