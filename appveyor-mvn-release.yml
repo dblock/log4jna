@@ -3,7 +3,7 @@ image: Visual Studio 2015
 
 environment:
   MAVEN_HOME: C:\maven\apache-maven-3.3.9
-  PATH: C:\maven\apache-maven-3.3.9\bin;$(JAVA_HOME)\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;$(PATH)
+  PATH: C:\maven\apache-maven-3.3.9\bin;$(JAVA_HOME)\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\msys64\usr\bin;$(PATH)
   MAVEN_OPTS: -Xmx4g
   JAVA_OPTS: -Xmx4g
   M2: $(USERPROFILE)\.m2
@@ -30,6 +30,13 @@ environment:
     secure: 2jB/P5OINYqlYP3vH2SkPolt/GG6eP8WpL2XOXszfwY=
 
 install:
+  # Log versions for debugging
+  - where java
+  - java -version
+  - where mvn
+  - mvn --version
+  - where gpg
+  - gpg --version
 
   # Prepare VC environment
   - |
@@ -106,7 +113,7 @@ build: off
 build_script:
 #  - mvn release:prepare -B -Djna.nosys=true -P release
 #  - mvn release:perform -B -Djna.nosys=true -P release
-  - gpg-agent --daemon
+
   - mvn clean install -P release -Djna.nosys=true
 
 test: off
