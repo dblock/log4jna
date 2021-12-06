@@ -13,7 +13,7 @@ environment:
   M2_SETTINGS_SEC: $(USERPROFILE)\.m2\settings-security.xml
   M2_SETTINGS_ENC: $(USERPROFILE)\.m2\settings.xml.enc
   M2_SETTINGS_SEC_ENC: $(USERPROFILE)\.m2\settings-security.xml.enc
-  GNUPG_HOME: $(USERPROFILE)\.gnupg
+  GNUPG_HOME: /home/appveyor/.gnupg
   PUB_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\log4jnapublic.gpg.asc.enc
   SEC_KEY_FILE_ENC: $(APPVEYOR_BUILD_FOLDER)\log4jna-build\Maven\log4jnasecret.gpg.asc.enc
   PUB_KEY_FILE_ENC_DEST: $(USERPROFILE)\log4jnapublic.gpg.asc.enc

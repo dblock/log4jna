@@ -370,7 +370,6 @@
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <gpg.executable>C:\msys64\usr\bin\gpg.exe</gpg.executable>
-    <gpg.homedir>/home/appveyor/.gnupg/pubring.kbx</gpg.homedir>
   </properties>
   <distributionManagement>
     <repository>
