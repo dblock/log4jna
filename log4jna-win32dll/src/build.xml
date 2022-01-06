@@ -76,7 +76,7 @@ POM Configuration: set maven-antrun-plugin <target name="msbuild" />
 		<condition property="mingw-prefix" value="">
 			<os family="windows" />
 		</condition>
-		<property name="mingw-prefix" value="i586-mingw32msvc-" />
+		<property name="mingw-prefix" value="i686-w64-mingw32-" />
 		<exec executable="${mingw-prefix}windmc">
 			<arg value="-h" />
 			<arg file="${src.dir}" />

@@ -168,7 +168,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.9.1</version>
           <configuration>
             <skipDeploy>true</skipDeploy>
           </configuration>
@@ -176,7 +176,7 @@
             <dependency>
               <groupId>org.apache.maven.doxia</groupId>
               <artifactId>doxia-module-markdown</artifactId>
-              <version>1.7</version>
+              <version>1.9.1</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -325,7 +325,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
+        <version>3.0.1</version>
         <inherited>false</inherited>
         <configuration>
           <show>private</show>
@@ -360,12 +360,12 @@
   </reporting>
   <properties>
     <log4j.version>2.6.2</log4j.version>
-    <jna.version>4.2.2</jna.version>
+    <jna.version>5.9.0</jna.version>
     <junit.version>4.9</junit.version>
     <java.version>1.8</java.version>
     <antrunplugin.version>1.8</antrunplugin.version>
     <mavencompilerplugin.version>3.5.1</mavencompilerplugin.version>
-    <mavenjavadocplugin.version>2.10.4</mavenjavadocplugin.version>
+    <mavenjavadocplugin.version>3.0.1</mavenjavadocplugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
