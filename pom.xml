@@ -247,6 +247,10 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <executable>C:\msys64\usr\bin\gpg.exe</executable>
+                  <homedir>/home/appveyor/.gnupg</homedir>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -280,6 +284,10 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <executable>C:\msys64\usr\bin\gpg.exe</executable>
+                  <homedir>/home/appveyor/.gnupg</homedir>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -369,8 +377,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <gpg.executable>C:\msys64\usr\bin\gpg.exe</gpg.executable>
-    <gpg.homedir>/home/appveyor/.gnupg</gpg.homedir>
   </properties>
   <distributionManagement>
     <repository>
