@@ -1,0 +1,38 @@
+name: Log4JNA Default Build
+
+on:
+  push:
+    branches: [master, dev-ghactions]
+  pull_request:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        java: ["8", "11", "17"]
+        distribution: ["temurin", "microsoft"]
+        exclude:
+          - java: "8"
+            distribution: "microsoft"
+
+    runs-on: "windows-2019"
+
+    name: Java ${{ matrix.java }} ( ${{ matrix.distribution }} )
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # configuring Developer Command Prompt for Microsoft Visual C++
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      # Setup JDK
+      - uses: actions/setup-java@v2
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.java }}
+
+      # Default Build
+      - run: mvn clean install -B
