@@ -30,15 +30,15 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.java }}
-          server-id: osshr
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_CENTRAL_TOKEN
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} 
+          server-id: ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       # Deploy
       - run: mvn clean site site:stage deploy -B -P deploy
         env:
-          MAVEN_USERNAME: Log4JNACI
-          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}

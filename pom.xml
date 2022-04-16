@@ -262,7 +262,7 @@
             <version>1.6.7</version>
             <extensions>true</extensions>
             <configuration>
-              <serverId>osshr</serverId>
+              <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
             </configuration>
@@ -313,7 +313,7 @@
             <version>1.6.7</version>
             <extensions>true</extensions>
             <configuration>
-              <serverId>osshr</serverId>
+              <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
             </configuration>
@@ -384,11 +384,11 @@
   </properties>
   <distributionManagement>
     <repository>
-      <id>osshr</id>
+      <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
     <snapshotRepository>
-      <id>osshr</id>
+      <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <site>
