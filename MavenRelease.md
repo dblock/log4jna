@@ -151,25 +151,6 @@ Set your key in 'settings.xml'
 [TOC](#toc)
 ________  
 
-### <a name="settings"></a>seetings.xml
-
-The `log4jna-build` subproject contains the `setngs.xml` and 'setings-security' files used by the Log4JNA project.
-
-These files are encrypted using the AppVeyor **secure-file** utility.
-
-1. Decrypt the settings.xml file running `<secure-file-install-dir>\tools\secure-file -decrypt <settings.xml.enc> -secret <keyphrase> -out [settings.xml]`
-2. Decrypt the settings-security.xml file running `<secure-file-install-dir>\tools\secure-file -decrypt <settings-security.xml.enc> -secret <keyphrase> -out [settings-security.xml]`
-3. Change the server configuration in the settings.xml file to match your Sonatype OSS and GitHub configuration
-4. Copy or merge the files into `%USERPROFILE%\.m2` folder.
-4. If there is more than one master key in the settings-security.xml. Comment the existing key to use the Log4JNA one. 
-
-Alternatively you can use Maven -settings parameter to point to a different settings file location: 
-
-`mvn --settings YourOwnSettings.xml clean install` or `mvn -s YourOwnSettings.xml clean install`
-
-[TOC](#toc)
-________  
-
 ## <a name="snap"></a>Deploying Snapshots
 
 Snapshot versions allow sharing the under development (not yet released) code.  These versions may change over time (unlike released versions) 
