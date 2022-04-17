@@ -2,7 +2,7 @@ name: Log4JNA Deploy
 
 on:
   push:
-    branches: [master, dev-ghactions]
+    branches: [master]
   pull_request:
     branches: [master]
 
