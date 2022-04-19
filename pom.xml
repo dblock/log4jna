@@ -25,8 +25,8 @@
     <tag>HEAD</tag>
   </scm>
   <ciManagement>
-    <system>AppVeyor</system>
-    <url>https://ci.appveyor.com/project/dblock/log4jna</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/dblock/log4jna/actions</url>
   </ciManagement>
   <developers>
     <developer>
@@ -60,6 +60,15 @@
       <timezone>america/winnipeg</timezone>
       <properties>
         <picUrl>https://avatars2.githubusercontent.com/u/7267903?s=50</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>yokra9</id>
+      <name>yokra</name>
+      <email>yokra9@outlook.com</email>
+      <timezone>asia/tokyo</timezone>
+      <properties>
+        <picUrl>https://avatars2.githubusercontent.com/u/53964890?s=50</picUrl>
       </properties>
     </developer>
   </developers>
@@ -225,7 +234,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <releaseProfiles>release</releaseProfiles>
-          <goals>deploy scm-publish:publish-scm</goals>
+          <goals>deploy</goals>
         </configuration>
       </plugin>
     </plugins>
