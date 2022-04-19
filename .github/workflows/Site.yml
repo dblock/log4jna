@@ -1,4 +1,4 @@
-name: Log4JNA Release
+name: Log4JNA Site Publish
 
 on:
   workflow_dispatch:
@@ -25,31 +25,14 @@ jobs:
         with:
           distribution: ${{ matrix.entry.distribution }}
           java-version: ${{ matrix.entry.java }}
-          server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       # Set git config
       - run: |
           git config --global user.name github-actions[bot]
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
 
-      # Prepare Release
-      - run: mvn clean release:prepare -P release 
+      # Site Publish
+      - run: mvn clean site site:stage scm-publish:publish-scm -P site
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-          GITHUB_USERNAME: ${{ secrets.GIT_USERNAME }}
-          GITHUB_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
-
-      # Perform Release
-      - run: mvn clean release:perform -P release 
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           GITHUB_USERNAME: ${{ secrets.GIT_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}

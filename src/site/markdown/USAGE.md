@@ -206,7 +206,7 @@ This configuration will result in the creation of Registry entries in `HKEY_LOCA
 
 The registry should look like this:
 
-![Registry Img](scr/site/resources/img/registry1.png)
+![Registry Img](img/registry1.png)
 
 #### Espefiying the *Source* in the Default logger (Recommended)
 1. Open `regedit` and browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Application\`
@@ -215,7 +215,7 @@ The registry should look like this:
 
 The registry should look like this:
 
-![Registry Img](scr/site/resources/img/registry1.png)
+![Registry Img](img/registry2.png)
 
 #### Using your own application entries in Event Viwer
 Here we use the Log4J Demo values as an example.

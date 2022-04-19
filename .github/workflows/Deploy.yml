@@ -12,24 +12,24 @@ jobs:
   build:
     strategy:
       matrix:
-        java: ["8"]
-        distribution: ["temurin"]
+        entry:
+          - { java: "8", distribution: "temurin" }
 
     runs-on: "windows-2019"
 
-    name: Java ${{ matrix.java }} ( ${{ matrix.distribution }} )
+    name: Java ${{ matrix.entry.java }} ( ${{ matrix.entry.distribution }} )
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # configuring Developer Command Prompt for Microsoft Visual C++
+      # Configuring Developer Command Prompt for Microsoft Visual C++
       - uses: ilammy/msvc-dev-cmd@v1
 
       # Setup JDK
       - uses: actions/setup-java@v3
         with:
-          distribution: ${{ matrix.distribution }}
-          java-version: ${{ matrix.java }}
+          distribution: ${{ matrix.entry.distribution }}
+          java-version: ${{ matrix.entry.java }}
           server-id: ossrh
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD

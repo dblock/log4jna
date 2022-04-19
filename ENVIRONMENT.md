@@ -62,7 +62,7 @@ The default Log4J configuration is `log4j2.xml` and writes into `Event Viewer-->
 
 1. Open `regedit` and browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\`
 2. Right click and select `New Key`, name it `Win32LogApplication`
-  1. Add another key to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Win32LogApplication`, name it `WinLogger`
+    1. Add another key to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Win32LogApplication`, name it `WinLogger`
 3. Add the following entries to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Win32LogApplication\WinLogger`
 
 | Entry name          | Entry Type | Value                                    |

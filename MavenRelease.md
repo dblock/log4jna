@@ -94,8 +94,7 @@ ________
 
 ### <a name="oss"></a>Sonatype OSS Repositories
 
-Log4JNA has a deployment account in Sonatype OSS called Lo4JNACI, there are default configurations for that account in the encrypted settings.xml
-files in the `log4jna-build` sub project.
+Log4JNA has a deployment account in Sonatype OSS called Lo4JNACI.
 
 If you don't have access to the encryption password follow this instructions:
  
@@ -127,30 +126,6 @@ like this (pulled from [Sonatype OSS Maven Repository Usage Guide][OSSGuide] sec
 [TOC](#toc)
 ________  
 
-### <a name="github"></a>GitHub
-
-First, follow this link and get yourself setup with ssh on github first [github-ssh-keys].  If ssh-add does not work and fails 
-with error 'Could not open a connection to your authentication agent' but the agent looks right, enter 'eval $(ssh-agent)', then try the ssh-add again.
-
-Set your key in 'settings.xml'
-
-```xml
-<settings>
-  ...
-  <servers>
-    <server>
-      <id>github.com</id>
-      <privateKey>${user.home}\.ssh\id_rsa</privateKey>
-      <passphrase>{LG8m3fLb8fIHD6p43zAj98QB2luBf+3Xci7p12DvUDs=}</passphrase>
-    </server>
-  </servers>
-  ...
-</settings>
-```
-
-[TOC](#toc)
-________  
-
 ## <a name="snap"></a>Deploying Snapshots
 
 Snapshot versions allow sharing the under development (not yet released) code.  These versions may change over time (unlike released versions) 
@@ -166,6 +141,10 @@ To publish a snapshot:
 
 See the Eclipse section [bellow](#eclipse) to run from your Eclipse IDE.
 
+[Log4JNA Deploy](https://github.com/dblock/log4jna/actions/workflows/Deploy.yml) action deploys snapshots automatically.
+
+[![Log4JNA Deploy](https://github.com/dblock/log4jna/actions/workflows/Deploy.yml/badge.svg?branch=master)](https://github.com/dblock/log4jna/actions/workflows/Deploy.yml)
+
 [TOC](#toc)
 ________  
 
@@ -180,7 +159,7 @@ proceeding with the actual release.
 
 We have configured our `pom.xml` file to simplify the process and avoid all prompts which is accomplish by running Maven in batch mode.
 
-Performing a release is a 2 step process accomplishes by 2 different goals in the plugin `releas:prepare` and `release:perform`. You must run
+Performing a release is a 2 step process accomplishes by 2 different goals in the plugin `release:prepare` and `release:perform`. You must run
 Maven on the top directory of the project, normally **log4jna** unless you indicated it different when cloning from GitHub.
 
 [TOC](#toc)
@@ -223,30 +202,29 @@ Executing `mvn -B release:prepare` will perform the following tasks:
 
 1. Verify that there are no local modifications to commit to GitHub. 
 2. Update the `pom.xml` files in all projects by eliminating the `-SNAPSHOT` on the versions.
-  1. Create a backup copy of all `pom.xml` files and some temporal release files (We have them included in .gitignore). 
-  2. In the parent project the **project version** is changed from `<version>2.0-SNAPSHOT</version>` to: `<version>2.0</version>`
-  3. In the sub projects: 
-    1. The **parent version** is changed from `<version>2.0-SNAPSHOT</version>` to: `<version>2.0</version>`
-    2. Dependencies on Log4JNA are updated from `<version>2.0-SNAPSHOT</version>` to: `<version>2.0</version>`
+    1. Create a backup copy of all `pom.xml` files and some temporal release files (We have them included in .gitignore).
+    2. In the parent project the **project version** is changed from `<version>2.0-SNAPSHOT</version>` to: `<version>2.0</version>`
+    3. In the sub projects:
+        1. The **parent version** is changed from `<version>2.0-SNAPSHOT</version>` to: `<version>2.0</version>`
+        2. Dependencies on Log4JNA are updated from `<version>2.0-SNAPSHOT</version>` to: `<version>2.0</version>`
 3. For each project execute the goals `clean verify`.
-  1. Delete the `target` directory.
-  2. Run all tests.
+    1. Delete the `target` directory.
+    2. Run all tests.
 4. Check in all modified `pom.xml` files into yor local Git repository and GitHub.
 5. Create a tag named **log4jna-2.0** (or whatever version you are building).
 6. Update all `pom.xml` to the next SNAPSHOT version.
-  1. In the parent project the **project version** is changed from `<version>2.0</version>` to: `<version>2.1-SNAPSHOT</version>`
-  2. In the sub projects: 
-    1. The **parent version** is changed from `<version>2.0</version>` to: `<version>2.1-SNAPSHOT</version>`
-    2. Dependencies on Log4JNA are updated from `<version>2.0</version>` to: `<version>2.1-SNAPSHOT</version>`
+    1. In the parent project the **project version** is changed from `<version>2.0</version>` to: `<version>2.1-SNAPSHOT</version>`
+    2. In the sub projects:
+        1. The **parent version** is changed from `<version>2.0</version>` to: `<version>2.1-SNAPSHOT</version>`
+        2. Dependencies on Log4JNA are updated from `<version>2.0</version>` to: `<version>2.1-SNAPSHOT</version>`
 7. Check in all modified `pom.xml` files into yor local Git repository and GitHub.
 
 [TOC](#toc)
 ________  
 
-### <a name"reperf"></a>release:perform
+### <a name="reperf"></a>release:perform
 
-By default `release:perform` runs two main goals `deploy` and `site:deploy`, we have modified this in Log4JNA parent pom.xml to deploy
-the site to GitHub gh-pages branch by means of the scm-publish-plugin.
+We have modified this in Log4JNA parent pom.xml to deploy.
 
 ```xml
 <project ...
@@ -260,20 +238,53 @@ the site to GitHub gh-pages branch by means of the scm-publish-plugin.
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <releaseProfiles>release</releaseProfiles>
-          <goals>deploy scm-publish:publish-scm</goals>
+          <goals>deploy</goals>
         </configuration>
       </plugin>
     </plugins>
     ...
   </build>
   ...
+</project>
+```
+
+Executing `mvn -B release:perform` will perform the following tasks:
+
+1. Clone the tag created in prepare from GitHub into `target\checkout`
+2. Execute the goal `deploy` in all projects.
+    1. Compile and test all projects.
+    2. Sign all pom.xml, jar, and zip files with the GPG keys.
+    3. Deploy all pom.xml, jar, and zip files to Sonatype's staging repository.
+
+________  
+
+### <a name="cmd"></a>Command Line Release
+
+1. Open a command window as administrator.
+2. Run `vcvarargs[all | 32 | 64].bat from your Visual C installation folder.
+3. Run `mvn -B release:prepare`.
+4. Run `mvn -B release:perform`.
+
+[TOC](#toc)
+________  
+
+## Publishing Site
+
+The site to GitHub gh-pages branch by means of the scm-publish-plugin.
+
+[Log4JNA Site](https://github.com/dblock/log4jna/actions/workflows/Site.yml) action publish GitHub Pages automatically.
+
+```xml
+<project ...
+  ...
+  <build>
+  ...
   <profiles>
   ...
     <profile>
-      <id>release</id>
+      <id>site</id>
       <build>
         <plugins>
-        ...
           <!-- During site deploy we publish to GitHub -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -284,16 +295,17 @@ the site to GitHub gh-pages branch by means of the scm-publish-plugin.
               <serverId>github.com</serverId>
               <scmBranch>gh-pages</scmBranch>
               <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
+              <username>${env.GITHUB_USERNAME}</username>
+              <password>${env.GITHUB_TOKEN}</password>
             </configuration>
           </plugin>
-          ...
         </plugins>
       </build>
     </profile>
   </profiles>
   ...
 </project>
-``` 
+```
 
 We also force the creation of the `site:stage` before packaging to include the site documentation in the log4jna-assembly subproject.
 
@@ -325,27 +337,12 @@ We also force the creation of the `site:stage` before packaging to include the s
 </project>
 ```
 
-Executing `mvn -B release:perform` will perform the following tasks:
+Executing `mvn site site:stage scm-publish:publish-scm -P site` will perform the following tasks:
 
-1. Clone the tag created in prepare from GitHub into `target\checkout`
-2. Execute the goal `deploy` in all projects.
-  1. Compile and test all projects.
-  2. Sign all pom.xml, jar, and zip files with the GPG keys.
-  3. Deploy all pom.xml, jar, and zip files to Sonatype's staging repository.
-3. Execute the goal `publish-scm` in the parent project.
-  1. Clone the branch gh-pages from GitHub into `target\checkout\target\scmpublish-checkout`
-  2. Update the branch with the content of `target\checkout\target\staging`
-  3. Checkin and Push the modified `target\checkout\target\scmpublish-checkout`
-
-[TOC](#toc)
-________  
-
-### <a name="cmd"></a>Command Line Release
-
-1. Open a command window as administrator.
-2. Run `vcvarargs[all | 32 | 64].bat from your Visual C installation folder.
-3. Run `mvn -B release:prepare`.
-4. Run `mvn -B release:perform`.
+1. Execute the goal `publish-scm` in the parent project.
+    1. Clone the branch gh-pages from GitHub into `target\checkout\target\scmpublish-checkout`
+    2. Update the branch with the content of `target\checkout\target\staging`
+    3. Checkin and Push the modified `target\checkout\target\scmpublish-checkout`
 
 [TOC](#toc)
 ________  
@@ -368,7 +365,7 @@ Assuming that you have installed Maven, Git and GPG the following instructions w
 5. In the New Maven Runtime dialog select the external radio button and click on Directory.
 6. In the Maven Installation dialog navigate to your Maven installation folder and click Ok.
 7. In the New Maven Runtime click on Finish.
- <img align="left" src="src/site/resources/img/maven-eclipse1.png" />
+  <img align="left" src="src/site/resources/img/maven-eclipse1.png" />
 8. In the right panel dialog check the newly added installation to be the one run.
 ![maven-eclipse 2](src/site/resources/img/maven-eclipse2.png)
 
@@ -378,21 +375,21 @@ Assuming that you have installed Maven, Git and GPG the following instructions w
 2. Run `vcvarargs[all | 32 | 64].bat from your Visual C installation folder.
 3. Run Eclipse from the command window `<eclipse-intall-dir>\eclipse.exe`
 4. Right click on the Log4JNA Parent project and Click on Run As --> Maven Build...
-5. On the Run Dialog 
- <img align="right" src="src/site/resources/img/maven-eclipse3.png" width="50%" height="50%"/>
-  1. Enter a meaningful name
-  2. On the Goals field enter `release:prepare`
-  3. Verify that User Setting field points to the desired file.
-  4. Verify that Maven Runtime drop down points to the external maven installation.
-  5. Click Apply.
+5. On the Run Dialog
+    <img align="right" src="src/site/resources/img/maven-eclipse3.png" width="50%" height="50%"/>
+    1. Enter a meaningful name
+    2. On the Goals field enter `release:prepare`
+    3. Verify that User Setting field points to the desired file.
+    4. Verify that Maven Runtime drop down points to the external maven installation.
+    5. Click Apply.
 6. Right click on the Log4JNA Parent project and Click on Run As --> Maven Build...
 7. On the Run Dialog 
-  1. Enter a meaningful name
-  2. On the Goals field enter `release:perform`
-  3. Verify that User Setting field points to the desired file.
-  4. Verify that Maven Runtime drop down points to the external maven installation.
-  5. Click Apply.
-8. Optionally repeat the previous steps for `release:rollback` and `release:clean` 
+    1. Enter a meaningful name
+    2. On the Goals field enter `release:perform`
+    3. Verify that User Setting field points to the desired file.
+    4. Verify that Maven Runtime drop down points to the external maven installation.
+    5. Click Apply.
+8. Optionally repeat the previous steps for `release:rollback` and `release:clean`
 
 [TOC](#toc)
 ________  
@@ -405,9 +402,9 @@ ________
 2. Run `vcvarargs[all | 32 | 64].bat from your Visual C installation folder.
 3. Run Eclipse from the command window `<eclipse-intall-dir>\eclipse.exe`
 4. Right Click on the Log4JNA Parent project and Click on Run As --> Maven Build
-  1. On the Select Configuration dialog choose Relese Prepare
+    1. On the Select Configuration dialog choose Relese Prepare
 5. Right Click on the Log4JNA Parent project and Click on Run As --> Maven Build
-  1. On the Select Configuration dialog choose Relese Perform
+    1. On the Select Configuration dialog choose Relese Perform
 
 [TOC](#toc)
 ________  
@@ -491,9 +488,9 @@ To roll back, in a command window perform the following:
 1. Run `mvn release:rollback` to recover the previous version of the pom.xml files and update them in the local Git repository and GitHub.
 2. Run `mvn release:clean` to clean up any leftovers from the previous release run.
 3. Delete the tags.
-  1. Run`git tag` and identify the tag created by the latest release run.
-  2. Run `git tag -d <tag-name>`
-  3. Run `git push origin :refs/tags/<tag-name>`
+    1. Run`git tag` and identify the tag created by the latest release run.
+    2. Run `git tag -d <tag-name>`
+    3. Run `git push origin :refs/tags/<tag-name>`
 
 Finding errors in Maven is quite difficult given the amount of INFO lines in Maven output, a solution to that is to run Maven in quiet mode,
  if needed you can run `mvn -B -q release:prepare` or `mvn -B -q release:perform` this will log only WARNING and ERROR messages to the console.

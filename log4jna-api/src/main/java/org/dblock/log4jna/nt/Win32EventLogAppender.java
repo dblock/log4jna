@@ -53,6 +53,7 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
  * @author <a href="mailto:claudio.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
+ * @author <a href="mailto:yokra9@outlook.com">yokra</a>
  */
 @Plugin(name = "Win32EventLog", category = "Core", elementType = "appender", printObject = true)
 public class Win32EventLogAppender extends AbstractAppender {

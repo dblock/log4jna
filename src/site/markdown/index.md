@@ -1,6 +1,6 @@
 ![Log4JNA](https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA")
 [![Gitter](https://badges.gitter.im/dblock/log4jna.svg)](https://gitter.im/dblock/log4jna?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge)
-[![Build status](https://ci.appveyor.com/api/projects/status/ske73kq2ilvjbt0v/branch/master?svg=true)](https://ci.appveyor.com/project/dblock/log4jna/branch/master)
+[![Build status](https://github.com/dblock/log4jna/actions/workflows/Default.yml/badge.svg)](https://github.com/dblock/log4jna/actions/workflows/Default.yml)
 
 Log4JNA is a library of native appenders to write into Windows<sup>TM</sup> Event Viewer for [Log4j 2<sup>TM</sup>](http://logging.apache.org/log4j/). 
 
@@ -32,10 +32,10 @@ See [Development Environment Set Up](ENVIRONMENT.md) for some tips and requireme
 
 | Current Release | Latest Develpment |
 | ------------- |------------- |
-| [Log4jna Api 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=RELEASE&amp;e=jar) | [Log4JNA Api 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=LATEST&amp;e=jar) |
-| [Log4jna Demo 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar) | [Log4JNA Demo 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;e=jar) |
-| [Log4jna Demo with dependencies 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar) | [Log4jna Demo with dependencies 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=LATEST&amp;c=jar-with-dependencies&amp;e=jar) |
-| [Log4jna Zip 2.0 (Jars, Sources, Dependencies and Documentation)](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=RELEASE&amp;e=zip) | [Log4jna Zip 2.0.1-SNAPSHOT (Jars, Sources, Dependencies and Documentation)](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=LATEST&amp;e=zip) |
+| [Log4jna Api 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=RELEASE&amp;e=jar) | [Log4JNA Api 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-api&amp;v=2.1.0-SNAPSHOT&amp;e=jar) |
+| [Log4jna Demo 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar) | [Log4JNA Demo 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=2.1.0-SNAPSHOT&amp;e=jar) |
+| [Log4jna Demo with dependencies 2.0](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=RELEASE&amp;e=jar) | [Log4jna Demo with dependencies 2.0.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-demo&amp;v=2.1.0-SNAPSHOT&amp;c=jar-with-dependencies&amp;e=jar) |
+| [Log4jna Zip 2.0 (Jars, Sources, Dependencies and Documentation)](https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=RELEASE&amp;e=zip) | [Log4jna Zip 2.0.1-SNAPSHOT (Jars, Sources, Dependencies and Documentation)](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.dblock.log4jna&amp;a=log4jna-assembly&amp;v=2.1.0-SNAPSHOT&amp;e=zip) |
 
 #### Log4JNA  for Log4j 1.x
 * [log4jna-1.3.zip](http://code.dblock.org/downloads/log4jna/log4jna-1.3.zip)

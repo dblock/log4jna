@@ -25,8 +25,8 @@
     <tag>HEAD</tag>
   </scm>
   <ciManagement>
-    <system>AppVeyor</system>
-    <url>https://ci.appveyor.com/project/dblock/log4jna</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/dblock/log4jna/actions</url>
   </ciManagement>
   <developers>
     <developer>
@@ -60,6 +60,15 @@
       <timezone>america/winnipeg</timezone>
       <properties>
         <picUrl>https://avatars2.githubusercontent.com/u/7267903?s=50</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>yokra9</id>
+      <name>yokra</name>
+      <email>yokra9@outlook.com</email>
+      <timezone>asia/tokyo</timezone>
+      <properties>
+        <picUrl>https://avatars2.githubusercontent.com/u/53964890?s=50</picUrl>
       </properties>
     </developer>
   </developers>
@@ -225,14 +234,35 @@
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <releaseProfiles>release</releaseProfiles>
-          <goals>deploy scm-publish:publish-scm</goals>
+          <goals>deploy</goals>
         </configuration>
       </plugin>
     </plugins>
   </build>
   <profiles>
+    <!-- Publish Site to GitHub -->
+    <profile>
+      <id>site</id>
+      <build>
+        <plugins>
+          <!-- During site deploy we publish to GitHub -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-publish-plugin</artifactId>
+            <version>1.1</version>
+            <inherited>false</inherited>
+            <configuration>
+              <serverId>github.com</serverId>
+              <scmBranch>gh-pages</scmBranch>
+              <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
+              <username>${env.GITHUB_USERNAME}</username>
+              <password>${env.GITHUB_TOKEN}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <!-- Build and deploy SNAPSHOTS -->
-    <!-- We do not create or publish the site for snapshots -->
     <profile>
       <id>deploy</id>
       <build>
@@ -271,7 +301,6 @@
       </build>
     </profile>
     <!-- Build and Release to Maven Central -->
-    <!-- Publish Site to GitHub -->
     <profile>
       <id>release</id>
       <build>
@@ -293,18 +322,6 @@
                 <arg>--pinentry-mode</arg>
                 <arg>loopback</arg>
               </gpgArguments>
-            </configuration>
-          </plugin>
-          <!-- During site deploy we publish to GitHub -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-publish-plugin</artifactId>
-            <version>1.1</version>
-            <inherited>false</inherited>
-            <configuration>
-              <serverId>github.com</serverId>
-              <scmBranch>gh-pages</scmBranch>
-              <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
             </configuration>
           </plugin>
           <plugin>
