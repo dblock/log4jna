@@ -231,8 +231,29 @@
     </plugins>
   </build>
   <profiles>
+    <!-- Publish Site to GitHub -->
+    <profile>
+      <id>site</id>
+      <build>
+        <plugins>
+          <!-- During site deploy we publish to GitHub -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-publish-plugin</artifactId>
+            <version>1.1</version>
+            <inherited>false</inherited>
+            <configuration>
+              <serverId>github.com</serverId>
+              <scmBranch>gh-pages</scmBranch>
+              <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
+              <username>${env.GITHUB_USERNAME}</username>
+              <password>${env.GITHUB_TOKEN}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <!-- Build and deploy SNAPSHOTS -->
-    <!-- We do not create or publish the site for snapshots -->
     <profile>
       <id>deploy</id>
       <build>
@@ -271,7 +292,6 @@
       </build>
     </profile>
     <!-- Build and Release to Maven Central -->
-    <!-- Publish Site to GitHub -->
     <profile>
       <id>release</id>
       <build>
@@ -293,18 +313,6 @@
                 <arg>--pinentry-mode</arg>
                 <arg>loopback</arg>
               </gpgArguments>
-            </configuration>
-          </plugin>
-          <!-- During site deploy we publish to GitHub -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-publish-plugin</artifactId>
-            <version>1.1</version>
-            <inherited>false</inherited>
-            <configuration>
-              <serverId>github.com</serverId>
-              <scmBranch>gh-pages</scmBranch>
-              <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
             </configuration>
           </plugin>
           <plugin>
