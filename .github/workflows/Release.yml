@@ -32,9 +32,9 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       # Set git config
-      - run: |
-          git config --global user.name github-actions[bot]
-          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - uses: oleksiyrudenko/gha-git-credentials@v2-latest
+        with:
+          global: true
 
       # Prepare Release
       - run: mvn clean release:prepare -P release 

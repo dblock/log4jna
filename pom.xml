@@ -254,7 +254,7 @@
             <configuration>
               <serverId>github.com</serverId>
               <scmBranch>gh-pages</scmBranch>
-              <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
+              <pubScmUrl>scm:git:https://github.com/dblock/log4jna.git</pubScmUrl>
               <username>${env.GITHUB_USERNAME}</username>
               <password>${env.GITHUB_TOKEN}</password>
             </configuration>
