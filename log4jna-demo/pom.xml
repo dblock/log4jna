@@ -51,16 +51,18 @@
             </goals>
             <phase>package</phase>
             <configuration>
-              <formats>
-                <format>jar</format>
-              </formats>
-              <descriptorId>jar-with-dependencies</descriptorId>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
               <archive>
                 <manifest>
                   <addClasspath>true</addClasspath>
                   <mainClass>org.apache.log4jna.nt.demo.NewDemo</mainClass>
                 </manifest>
               </archive>
+              <formats>
+                <format>jar</format>
+              </formats>
             </configuration>
           </execution>
         </executions>
