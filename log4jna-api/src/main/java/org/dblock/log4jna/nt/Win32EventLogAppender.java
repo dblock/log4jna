@@ -28,6 +28,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import org.apache.logging.log4j.spi.StandardLevel;
 
 import com.sun.jna.platform.win32.Advapi32;
 import com.sun.jna.platform.win32.Advapi32Util;
@@ -361,19 +362,19 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * @return EventLog type.
 	 */
 	private static int getEventLogType(Level level) {
-		int type = WinNT.EVENTLOG_SUCCESS;
-
-		if (level.intLevel() <= Level.INFO.intLevel()) {
-			type = WinNT.EVENTLOG_INFORMATION_TYPE;
-			if (level.intLevel() <= Level.WARN.intLevel()) {
-				type = WinNT.EVENTLOG_WARNING_TYPE;
-				if (level.intLevel() <= Level.ERROR.intLevel()) {
-					type = WinNT.EVENTLOG_ERROR_TYPE;
-				}
+		StandardLevel standardLevel = StandardLevel.getStandardLevel(level.intLevel());
+		switch (standardLevel) {
+			case FATAL:
+			case ERROR: {
+				return WinNT.EVENTLOG_ERROR_TYPE;
+			}
+			case WARN: {
+				return WinNT.EVENTLOG_WARNING_TYPE;
+			}
+			default: {
+				return WinNT.EVENTLOG_INFORMATION_TYPE;
 			}
 		}
-
-		return type;
 	}
 
 	/**
@@ -385,23 +386,27 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * @return EventLog category.
 	 */
 	private static int getEventLogCategory(Level level) {
-		int category = 1;
-		if (level.intLevel() >= Level.DEBUG.intLevel()) {
-			category = 2;
-			if (level.intLevel() >= Level.INFO.intLevel()) {
-				category = 3;
-				if (level.intLevel() >= Level.WARN.intLevel()) {
-					category = 4;
-					if (level.intLevel() >= Level.ERROR.intLevel()) {
-						category = 5;
-						if (level.intLevel() >= Level.FATAL.intLevel()) {
-							category = 6;
-						}
-					}
-				}
+		StandardLevel standardLevel = StandardLevel.getStandardLevel(level.intLevel());
+		switch (standardLevel) {
+			case FATAL: {
+				return 6;
+			}
+			case ERROR: {
+				return 5;
+			}
+			case WARN: {
+				return 4;
+			}
+			case INFO: {
+				return 3;
+			}
+			case DEBUG: {
+				return 2;
+			}
+			default: {
+				return 1;
 			}
 		}
-		return category;
 	}
 
 }
