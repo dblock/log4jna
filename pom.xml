@@ -389,7 +389,7 @@
   </reporting>
   <properties>
     <log4j.version>2.17.2</log4j.version>
-    <jna.version>5.11.0</jna.version>
+    <jna.version>5.12.0</jna.version>
     <junit.version>4.13.2</junit.version>
     <java.version>1.8</java.version>
     <antrunplugin.version>1.8</antrunplugin.version>
