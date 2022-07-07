@@ -64,7 +64,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.trace();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventNoException(Level.TRACE, EventLogType.Informational);
+		expectEventNoException(Level.TRACE, EventLogType.Informational, 1);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.debug();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventNoException(Level.DEBUG, EventLogType.Informational);
+		expectEventNoException(Level.DEBUG, EventLogType.Informational, 2);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.info();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventNoException(Level.INFO, EventLogType.Informational);
+		expectEventNoException(Level.INFO, EventLogType.Informational, 3);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.warn();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventNoException(Level.WARN, EventLogType.Warning);
+		expectEventNoException(Level.WARN, EventLogType.Warning, 4);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.error();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventNoException(Level.ERROR, EventLogType.Error);
+		expectEventNoException(Level.ERROR, EventLogType.Error, 5);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.fatal();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventNoException(Level.FATAL, EventLogType.Error);
+		expectEventNoException(Level.FATAL, EventLogType.Error, 6);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.warnWithException();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventException(Level.WARN, EventLogType.Warning);
+		expectEventException(Level.WARN, EventLogType.Warning, 4);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.errorWithException();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventException(Level.ERROR, EventLogType.Error);
+		expectEventException(Level.ERROR, EventLogType.Error, 5);
 	}
 
 	/**
@@ -152,14 +152,15 @@ public class NewDemoTest {
 		this.testStartedTime = System.currentTimeMillis() / 1000;
 		this.classUnderTest.fatalWithException();
 		this.testEndedTime = System.currentTimeMillis() / 1000;
-		expectEventException(Level.FATAL, EventLogType.Error);
+		expectEventException(Level.FATAL, EventLogType.Error, 6);
 	}
 
 	/**
 	 * @param level
 	 * @param eventLogType
+	 * @param eventLogCategory
 	 */
-	private void expectEventNoException(Level level, EventLogType eventLogType) {
+	private void expectEventNoException(Level level, EventLogType eventLogType, int eventLogCategory) {
 		EventLogIterator iter = new EventLogIterator(null, EVENT_SOURCE, WinNT.EVENTLOG_BACKWARDS_READ);
 		try {
 			assertTrue("No event log records to process", iter.hasNext());
@@ -175,6 +176,7 @@ public class NewDemoTest {
 					assertEquals(EVENT_SOURCE, record.getSource());
 
 					assertEquals(eventLogType, record.getType());
+					assertEquals(eventLogCategory, record.getRecord().EventCategory.intValue());
 					assertEquals(1, record.getRecord().NumStrings.intValue());
 					assertNull(record.getData());
 
@@ -217,8 +219,9 @@ public class NewDemoTest {
 	/**
 	 * @param level
 	 * @param eventLogType
+	 * @param eventLogCategory
 	 */
-	private void expectEventException(Level level, EventLogType eventLogType) {
+	private void expectEventException(Level level, EventLogType eventLogType, int eventLogCategory) {
 		EventLogIterator iter = new EventLogIterator(null, EVENT_SOURCE, WinNT.EVENTLOG_BACKWARDS_READ);
 		try {
 			assertTrue(iter.hasNext());
@@ -230,6 +233,7 @@ public class NewDemoTest {
 				assertEquals(EVENT_SOURCE, record.getSource());
 
 				assertEquals(eventLogType, record.getType());
+				assertEquals(eventLogCategory, record.getRecord().EventCategory.intValue());
 				assertEquals(1, record.getRecord().NumStrings.intValue());
 				assertNull(record.getData());
 

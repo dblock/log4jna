@@ -3,6 +3,7 @@
 
 * [#50](https://github.com/dblock/log4jna/pull/50): Upgrade to JNA 5.9.0 - [@shamus13](https://github.com/shamus13).
 * [#51](https://github.com/dblock/log4jna/pull/51): Migrate from AppVeyor to GitHub Actions. - [@yokra9](https://github.com/yokra9).
+* [#84](https://github.com/dblock/log4jna/pull/84): Fix levels mapping - [@MacTrophy](https://github.com/MacTrophy) and [@yokra9](https://github.com/yokra9).
 
 2.0 (8/8/2016)
 --------------
