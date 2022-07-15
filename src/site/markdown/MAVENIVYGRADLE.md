@@ -22,7 +22,7 @@ Add the following to your `ivy.xml` file.
 
 ```xml
 <dependencies>
-  <dependency org="org.dblock.log4jna" name="log4jna-api"  rev="2.0" />
+  <dependency org="org.dblock.log4jna" name="log4jna-api"  rev="2.1.0" />
 </dependencies>
 ```
 
@@ -32,6 +32,6 @@ Add the following to your `build.gradle` file
 
 ```gradle
 dependencies {
-  compile group: 'org.dblock.log4jna', name: 'log4jna-api', version: '2.0'
+  compile group: 'org.dblock.log4jna', name: 'log4jna-api', version: '2.1.0'
 }
 ```
