@@ -11,7 +11,7 @@ Add the following to your `pom.xml` file.
   <dependency>
     <groupId>org.dblock.log4jna</groupId>
     <artifactId>log4jna-api</artifactId>
-    <version>2.0</version>
+    <version>2.1.0</version>
   </dependency>
 </dependencies>
 ```
