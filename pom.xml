@@ -388,7 +388,7 @@
     </plugins>
   </reporting>
   <properties>
-    <log4j.version>2.18.0</log4j.version>
+    <log4j.version>2.19.0</log4j.version>
     <jna.version>5.12.1</jna.version>
     <junit.version>4.13.2</junit.version>
     <java.version>1.8</java.version>
