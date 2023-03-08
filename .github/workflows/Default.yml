@@ -26,7 +26,7 @@ jobs:
     name: Java ${{ matrix.entry.java }} ( ${{ matrix.entry.distribution }} )
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Configuring Developer Command Prompt for Microsoft Visual C++
       - uses: ilammy/msvc-dev-cmd@v1
