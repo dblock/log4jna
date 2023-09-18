@@ -354,7 +354,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.5.0</version>
+        <version>3.6.0</version>
         <inherited>false</inherited>
         <configuration>
           <show>private</show>
@@ -394,7 +394,7 @@
     <java.version>1.8</java.version>
     <antrunplugin.version>1.8</antrunplugin.version>
     <mavencompilerplugin.version>3.11.0</mavencompilerplugin.version>
-    <mavenjavadocplugin.version>3.5.0</mavenjavadocplugin.version>
+    <mavenjavadocplugin.version>3.6.0</mavenjavadocplugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
