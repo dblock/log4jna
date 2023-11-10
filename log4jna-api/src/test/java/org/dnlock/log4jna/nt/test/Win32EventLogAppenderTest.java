@@ -187,7 +187,7 @@ public class Win32EventLogAppenderTest {
 			assertNull(record.getData());
 
 			// The full message includes a level and the full class name
-			String fullMessage = level + " " + TEST_LOGGER_NAME + " " + "[]" + " - " + message;
+			String fullMessage = level + " " + TEST_LOGGER_NAME + " - " + message;
 
 			// The event message has the location tacked on the front
 			StringBuilder eventMessage = new StringBuilder();
