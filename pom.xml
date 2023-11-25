@@ -359,10 +359,10 @@
         <configuration>
           <show>private</show>
           <links>
-            <link>http://logging.apache.org/log4j/2.x/log4j-core/apidocs/index.html</link>
-            <link>http://logging.apache.org/log4j/2.x/log4j-api/apidocs/index.html</link>
-            <link>http://docs.oracle.com/javase/8/docs/api/index.html</link>
-            <link>http://java-native-access.github.io/jna/4.2.1/</link>
+            <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-core/</link>
+            <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-api/</link>
+            <link>https://docs.oracle.com/javase/8/docs/api/</link>
+            <link>https://java-native-access.github.io/jna/5.13.0/javadoc/</link>
           </links>
         </configuration>
         <reportSets>
@@ -372,10 +372,10 @@
             <configuration>
               <show>private</show>
               <links>
-                <link>http://logging.apache.org/log4j/2.x/log4j-core/apidocs/</link>
-                <link>http://logging.apache.org/log4j/2.x/log4j-api/apidocs/</link>
-                <link>http://docs.oracle.com/javase/8/docs/api/</link>
-                <link>http://java-native-access.github.io/jna/4.2.1/</link>
+                <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-core/</link>
+                <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-api/</link>
+                <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                <link>https://java-native-access.github.io/jna/5.13.0/javadoc/</link>
               </links>
             </configuration>
             <reports>
