@@ -393,7 +393,7 @@
     <junit.version>4.13.2</junit.version>
     <java.version>1.8</java.version>
     <antrunplugin.version>1.8</antrunplugin.version>
-    <mavencompilerplugin.version>3.11.0</mavencompilerplugin.version>
+    <mavencompilerplugin.version>3.12.0</mavencompilerplugin.version>
     <mavenjavadocplugin.version>3.6.3</mavenjavadocplugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
