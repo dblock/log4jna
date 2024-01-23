@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         entry:
-          - { java: "8", distribution: "temurin" }
+          - { java: "11", distribution: "temurin" }
 
     runs-on: "windows-2019"
 
@@ -25,9 +25,9 @@ jobs:
         with:
           distribution: ${{ matrix.entry.distribution }}
           java-version: ${{ matrix.entry.java }}
-          server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
@@ -39,8 +39,8 @@ jobs:
       # Prepare Release
       - run: mvn clean release:prepare -P release 
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           GITHUB_USERNAME: ${{ secrets.GIT_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
@@ -48,8 +48,8 @@ jobs:
       # Perform Release
       - run: mvn clean release:perform -P release 
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           GITHUB_USERNAME: ${{ secrets.GIT_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
