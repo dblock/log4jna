@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Properties>
+<!--
+    <Property name="dllfile">%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll</Property>
+-->
+    <Property name="dllfile">C:\windows\Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll</Property>
+  </Properties>
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout>
+        <pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{2} - %message%n</pattern>
+      </PatternLayout>
+    </Console>
+    <Win32EventLog name="EventLog43" messageId="43" eventMessageFile="${dllfile}" categoryMessageFile="${dllfile}" source="example.log4jna_sample" application="log4jna_sample">
+      <PatternLayout>
+        <pattern>[%level]%nLogger: %logger{2}%nMessage: %message</pattern>
+      </PatternLayout>
+    </Win32EventLog>
+     <Win32EventLog name="EventLog42" messageId="42" eventMessageFile="${dllfile}" categoryMessageFile="${dllfile}" source="example.log4jna_sample" application="log4jna_sample">
+      <PatternLayout>
+        <pattern>[%level]%nLogger: %logger{2}%nMessage: %message</pattern>
+      </PatternLayout>
+    </Win32EventLog></Appenders>
+  <Loggers>
+    <Root level="trace">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="EventLog42"/>
+      <AppenderRef ref="EventLog43"/>
+    </Root>
+  </Loggers>
+</Configuration>
