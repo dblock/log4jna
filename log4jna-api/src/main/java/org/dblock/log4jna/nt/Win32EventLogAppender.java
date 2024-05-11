@@ -14,25 +14,10 @@
 
 package org.dblock.log4jna.nt;
 
-/*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
- * use this file except in compliance with the License.  You may obtain a copy 
- * of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Filter;
@@ -43,6 +28,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import org.apache.logging.log4j.spi.StandardLevel;
 
 import com.sun.jna.platform.win32.Advapi32;
 import com.sun.jna.platform.win32.Advapi32Util;
@@ -51,6 +37,9 @@ import com.sun.jna.platform.win32.Win32Exception;
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.platform.win32.WinReg;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Append to the NT event log system.
@@ -68,6 +57,7 @@ import com.sun.jna.platform.win32.WinReg;
  * @author <a href="mailto:dblock@dblock.org">Daniel Doubrovkine</a>
  * @author <a href="mailto:tony@niemira.com">Tony Niemira</a>
  * @author <a href="mailto:claudio.trajtenberg@cgtca.ca">Claudio Trajtenberg</a>
+ * @author <a href="mailto:yokra9@outlook.com">yokra</a>
  */
 @Plugin(name = "Win32EventLog", category = "Core", elementType = "appender", printObject = true)
 public class Win32EventLogAppender extends AbstractAppender {
@@ -92,23 +82,17 @@ public class Win32EventLogAppender extends AbstractAppender {
 
 	private HANDLE _handle = null;
 
+	
 	/**
-	 * @param name
-	 *            The appender name Win32EventLog
-	 * @param server
-	 *            The server for remote logging
-	 * @param source
-	 *            The Event View Source
-	 * @param application
-	 *            The Event View application (location)
-	 * @param eventMessageFile
-	 *            The message file location in the file system
-	 * @param categoryMessageFile
-	 *            The message file location in the file system
-	 * @param layout
-	 *            A Log4j Layout
-	 * @param filter
-	 *            A Log4j Filter
+	 * @param name The appender name Win32EventLog
+	 * @param server The server for remote logging
+	 * @param source The Event View Source
+	 * @param application The Event View application (location)
+	 * @param messageId The Event View message Id
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
+	 * @param layout A Log4j Layout
+	 * @param filter A Log4j Filter
 	 * @return
 	 */
 	@PluginFactory
@@ -127,22 +111,15 @@ public class Win32EventLogAppender extends AbstractAppender {
 	}
 
 	/**
-	 * @param name
-	 *            The appender name Win32EventLog
-	 * @param server
-	 *            The server for remote logging
-	 * @param source
-	 *            The Event View Source
-	 * @param application
-	 *            The Event View application (location)
-	 * @param eventMessageFile
-	 *            The message file location in the file system
-	 * @param categoryMessageFile
-	 *            The message file location in the file system
-	 * @param layout
-	 *            A Log4j Layout
-	 * @param filter
-	 *            A Log4j Filter
+	 * @param name The appender name Win32EventLog
+	 * @param server The server for remote logging
+	 * @param source The Event View Source
+	 * @param application The Event View application (location)
+	 * @param messageId The Event Id (string)
+	 * @param eventMessageFile The message file location in the file system
+	 * @param categoryMessageFile The message file location in the file system
+	 * @param layout A Log4j Layout
+	 * @param filter A Log4j Filter
 	 */
 	public Win32EventLogAppender(String name, String server, String source,
 			String application, String messageIdString, String eventMessageFile,
