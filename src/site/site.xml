@@ -4,8 +4,8 @@
   law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
   OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and 
   limitations under the License. -->
-<project name="${project.name}" xmlns="http://maven.apache.org/DECORATION/1.7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
+<site name="${project.name}" xmlns="http://maven.apache.org/SITE/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd">
   <version position="right" />
   <skin>
     <groupId>org.apache.maven.skins</groupId>
@@ -22,11 +22,7 @@
       <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
     </fluidoSkin>
   </custom>
-  <bannerRight>
-    <name>${project.name}</name>
-    <alt>${project.name}</alt>
-    <href>../index.html</href>
-  </bannerRight>
+  <bannerRight name="${project.name}" href="../index.html" />
   <body>
     <links>
       <item name="${project.name}" href="https://github.com/dblock/log4jna/" />
@@ -75,4 +71,4 @@
 	  </item>
     </menu>
   </body>
-</project>
+</site>

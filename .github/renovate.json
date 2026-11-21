@@ -1,4 +1,17 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "packageRules": []
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "description": "Update Maven plugins together in a single pull request.",
+      "matchDatasources": ["maven"],
+      "matchPackageNames": ["org.apache.maven.plugins:**", "org.apache.maven.doxia:**", "org.apache.maven.skins:**"],
+      "groupName": "Maven plugins"
+    },
+    {
+      "description": "Update GitHub Actions together in a single pull request.",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    }
+  ]
 }

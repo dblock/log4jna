@@ -117,12 +117,23 @@
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
+            <!-- JDK 23+ no longer runs annotation processors found on the classpath; generate the Log4j plugin index explicitly. -->
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+              </path>
+            </annotationProcessorPaths>
+            <annotationProcessors>
+              <annotationProcessor>org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor</annotationProcessor>
+            </annotationProcessors>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -132,44 +143,44 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.2</version>
+          <version>3.5.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.4.0</version>
         </plugin>
         <!-- Assembly -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>3.8.0</version>
         </plugin>
         <!-- Install Deploy and Relesae -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.2.4</version>
+          <version>3.2.8</version>
         </plugin>
         <!-- By default we skip site:deploy -->
         <!-- We generate the site for the assembly in the prepare-package phase -->
@@ -177,7 +188,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>3.22.0</version>
           <configuration>
             <skipDeploy>true</skipDeploy>
           </configuration>
@@ -185,7 +196,7 @@
             <dependency>
               <groupId>org.apache.maven.doxia</groupId>
               <artifactId>doxia-module-markdown</artifactId>
-              <version>1.12.0</version>
+              <version>2.2.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -249,7 +260,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-scm-publish-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.3.0</version>
             <inherited>false</inherited>
             <configuration>
               <serverId>github.com</serverId>
@@ -342,25 +353,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.5.0</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.12.1</version>
-      </plugin>
+        <version>3.9.0</version>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.3</version>
+        <version>${mavenjavadocplugin.version}</version>
         <inherited>false</inherited>
         <configuration>
           <show>private</show>
           <links>
             <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-core/</link>
             <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-api/</link>
-            <link>https://docs.oracle.com/javase/8/docs/api/</link>
-            <link>https://java-native-access.github.io/jna/5.13.0/javadoc/</link>
+            <link>https://java-native-access.github.io/jna/${jna.version}/javadoc/</link>
           </links>
         </configuration>
         <reportSets>
@@ -372,8 +377,7 @@
               <links>
                 <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-core/</link>
                 <link>https://logging.apache.org/log4j/2.x/javadoc/log4j-api/</link>
-                <link>https://docs.oracle.com/javase/8/docs/api/</link>
-                <link>https://java-native-access.github.io/jna/5.13.0/javadoc/</link>
+                <link>https://java-native-access.github.io/jna/${jna.version}/javadoc/</link>
               </links>
             </configuration>
             <reports>
@@ -386,13 +390,13 @@
     </plugins>
   </reporting>
   <properties>
-    <log4j.version>2.23.1</log4j.version>
-    <jna.version>5.14.0</jna.version>
+    <log4j.version>2.26.1</log4j.version>
+    <jna.version>5.19.1</jna.version>
     <junit.version>4.13.2</junit.version>
     <java.version>1.8</java.version>
     <antrunplugin.version>1.8</antrunplugin.version>
-    <mavencompilerplugin.version>3.12.1</mavencompilerplugin.version>
-    <mavenjavadocplugin.version>3.7.0</mavenjavadocplugin.version>
+    <mavencompilerplugin.version>3.16.0</mavencompilerplugin.version>
+    <mavenjavadocplugin.version>3.12.0</mavenjavadocplugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
