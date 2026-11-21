@@ -6,6 +6,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     strategy:
@@ -13,21 +16,22 @@ jobs:
         entry:
           - { java: "11", distribution: "temurin" }
 
-    runs-on: "windows-2019"
+    runs-on: "windows-2025"
 
-    name: Java ${{ matrix.entry.java }} ( ${{ matrix.entry.distribution }} )
+    name: Java ${{ matrix.entry.java }} (${{ matrix.entry.distribution }})
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
       # Configuring Developer Command Prompt for Microsoft Visual C++
-      - uses: ilammy/msvc-dev-cmd@v1
+      - uses: ilammy/msvc-dev-cmd@v1.13.0
 
       # Setup JDK
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v6
         with:
           distribution: ${{ matrix.entry.distribution }}
           java-version: ${{ matrix.entry.java }}
+          cache: maven
           server-id: central
           server-username: MAVEN_CENTRAL_USERNAME
           server-password: MAVEN_CENTRAL_PASSWORD

@@ -176,32 +176,56 @@ public class Win32EventLogAppenderTest {
 	 */
 
 	private void expectEvent(String message, Level level, EventLogType eventLogType) {
-		EventLogIterator iter = new EventLogIterator(null, TEST_LOGGER_NAME, WinNT.EVENTLOG_BACKWARDS_READ);
-		try {
-			assertTrue(iter.hasNext());
-			EventLogRecord record = iter.next();
-			assertEquals(TEST_LOGGER_NAME, record.getSource());
+		EventLogRecord record = waitForEvent(message);
+		assertEquals(TEST_LOGGER_NAME, record.getSource());
 
-			assertEquals(eventLogType, record.getType());
-			assertEquals(1, record.getRecord().NumStrings.intValue());
-			assertNull(record.getData());
+		assertEquals(eventLogType, record.getType());
+		assertEquals(1, record.getRecord().NumStrings.intValue());
+		assertNull(record.getData());
 
-			// The full message includes a level and the full class name
-			String fullMessage = level + " " + TEST_LOGGER_NAME + " - " + message;
+		// The full message includes a level and the full class name
+		String fullMessage = level + " " + TEST_LOGGER_NAME + " - " + message;
 
-			// The event message has the location tacked on the front
-			StringBuilder eventMessage = new StringBuilder();
-			for (int i = 0; i < record.getStrings().length; i++) {
-				eventMessage.append(record.getStrings()[i].trim());
+		// The event message has the location tacked on the front
+		StringBuilder eventMessage = new StringBuilder();
+		for (int i = 0; i < record.getStrings().length; i++) {
+			eventMessage.append(record.getStrings()[i].trim());
+		}
+
+		int levelMarker = eventMessage.indexOf(level.toString());
+		assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
+		String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
+
+		assertEquals(fullMessage, eventMessageWithoutLocation);
+	}
+
+	/**
+	 * Returns the newest event log record, waiting for the Event Log service to make
+	 * the record containing the given message visible, which can take a moment after
+	 * it is reported. Returns the newest record after the timeout so that the
+	 * assertions report what was found.
+	 */
+	private EventLogRecord waitForEvent(String message) {
+		long deadline = System.currentTimeMillis() + 5000;
+		while (true) {
+			EventLogIterator iter = new EventLogIterator(null, TEST_LOGGER_NAME, WinNT.EVENTLOG_BACKWARDS_READ);
+			try {
+				assertTrue(iter.hasNext());
+				EventLogRecord record = iter.next();
+				String[] strings = record.getStrings();
+				boolean found = strings != null && String.join("", strings).contains(message);
+				if (found || System.currentTimeMillis() > deadline) {
+					return record;
+				}
+			} finally {
+				iter.close();
 			}
-
-			int levelMarker = eventMessage.indexOf(level.toString());
-			assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
-			String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
-
-			assertEquals(fullMessage, eventMessageWithoutLocation);
-		} finally {
-			iter.close();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new AssertionError(e);
+			}
 		}
 	}
 }
