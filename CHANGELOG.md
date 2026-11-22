@@ -1,5 +1,11 @@
-2.1.1 (Next)
+2.1.2 (Next)
 ------------
+
+* [#278](https://github.com/dblock/log4jna/pull/278): Update documentation for the 2.1.1 release and list all version references in the release steps - [@dblock](https://github.com/dblock).
+* Your contribution here.
+
+2.1.1 (2026/11/22)
+------------------
 
 * [#263](https://github.com/dblock/log4jna/pull/263): Modernize CI: run on `windows-2025` with Java 8 to 27, upgrade GitHub Actions, Maven plugins, Log4j 2.26.1 and JNA 5.19.1, migrate the site descriptors to the 2.0.0 model, and group Renovate updates - [@dblock](https://github.com/dblock).
 * [#264](https://github.com/dblock/log4jna/pull/264): Replace Renovate with Dependabot for grouped Maven and GitHub Actions updates - [@dblock](https://github.com/dblock).
@@ -12,7 +18,6 @@
 * [#275](https://github.com/dblock/log4jna/pull/275): Remove the Gitter badge - [@dblock](https://github.com/dblock).
 * [#276](https://github.com/dblock/log4jna/pull/276): Fix typos, broken links, stale instructions and heading levels in the documentation, fill in the FAQ, and sync the Maven site pages - [@dblock](https://github.com/dblock).
 * [#277](https://github.com/dblock/log4jna/pull/277): Retry registering a newly created event source while the Event Log service denies access to it, so that the first event is not lost - [@dblock](https://github.com/dblock).
-* Your contribution here. 
 
 2.1.0 (2022/07/15)
 ------------------

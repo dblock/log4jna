@@ -11,7 +11,7 @@ Add the following to your `pom.xml` file.
   <dependency>
     <groupId>org.dblock.log4jna</groupId>
     <artifactId>log4jna-api</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
   </dependency>
 </dependencies>
 ```
@@ -22,7 +22,7 @@ Add the following to your `ivy.xml` file.
 
 ```xml
 <dependencies>
-  <dependency org="org.dblock.log4jna" name="log4jna-api" rev="2.1.0" />
+  <dependency org="org.dblock.log4jna" name="log4jna-api" rev="2.1.1" />
 </dependencies>
 ```
 
@@ -32,6 +32,6 @@ Add the following to your `build.gradle` file.
 
 ```gradle
 dependencies {
-  implementation 'org.dblock.log4jna:log4jna-api:2.1.0'
+  implementation 'org.dblock.log4jna:log4jna-api:2.1.1'
 }
 ```

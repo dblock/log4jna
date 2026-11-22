@@ -16,11 +16,11 @@ Add `log4jna-api` to your `pom.xml`. See [Maven, Ivy, and Gradle Artifacts](MAVE
 <dependency>
   <groupId>org.dblock.log4jna</groupId>
   <artifactId>log4jna-api</artifactId>
-  <version>2.1.0</version>
+  <version>2.1.1</version>
 </dependency>
 ```
 
-Download the message file `Win32EventLogAppender.dll` from [log4jna-win32dll-2.1.0.zip](https://repo1.maven.org/maven2/org/dblock/log4jna/log4jna-win32dll/2.1.0/log4jna-win32dll-2.1.0.zip) and place it next to your application.
+Download the message file `Win32EventLogAppender.dll` from [log4jna-win32dll-2.1.1.zip](https://repo1.maven.org/maven2/org/dblock/log4jna/log4jna-win32dll/2.1.1/log4jna-win32dll-2.1.1.zip) and place it next to your application.
 
 ## Usage
 
