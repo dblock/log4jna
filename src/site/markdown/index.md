@@ -13,7 +13,7 @@ Unlike the native implementation(s) in Log4j<sup>TM</sup>, this project uses [JN
 
 #### Getting Log4JNA
 
-See the [Downloads](#dw) section bellow to get Log4JNA.
+See the [Downloads](#dw) section below to get Log4JNA.
 
 See [Maven, Ivy, and Gradle Artifacts](MAVENIVYGRADLE.md) to include Log4JNA from Maven Central
 
@@ -31,15 +31,12 @@ See [Development Environment Set Up](ENVIRONMENT.md) for some tips and requireme
 ## <a name="dw"></a>Downloads
 #### Log4JNA 2 for Log4j 2.x
 
-| Current Release | Latest Development |
-| ------------- |------------- |
-| [Log4jna Api 2.1.0](https://oss.sonatype.org/service/local/repositories/releases/content/org/dblock/log4jna/log4jna-api/2.1.0/log4jna-api-2.1.0.jar) | [Log4JNA Api 2.1.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.dblock.log4jna&a=log4jna-api&v=2.1.1-SNAPSHOT&e=jar) |
-| [Log4jna Demo 2.1.0](https://oss.sonatype.org/service/local/repositories/releases/content/org/dblock/log4jna/log4jna-demo/2.1.0/log4jna-demo-2.1.0.jar) | [Log4JNA Demo 2.1.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.dblock.log4jna&a=log4jna-demo&v=2.1.1-SNAPSHOT&e=jar) |
-| [Log4jna Demo with dependencies 2.1.0](https://oss.sonatype.org/service/local/repositories/releases/content/org/dblock/log4jna/log4jna-demo/2.1.0/log4jna-demo-2.1.0-jar-with-dependencies.jar) | [Log4jna Demo with dependencies 2.1.1-SNAPSHOT](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.dblock.log4jna&a=log4jna-demo&v=2.1.1-SNAPSHOT&c=jar-with-dependencies&e=jar) |
-| [Log4jna Zip 2.1.0 (Jars, Sources, Dependencies and Documentation)](https://oss.sonatype.org/service/local/repositories/releases/content/org/dblock/log4jna/log4jna-assembly/2.1.0/log4jna-assembly-2.1.0.zip) | [Log4jna Zip 2.1.1-SNAPSHOT (Jars, Sources, Dependencies and Documentation)](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.dblock.log4jna&a=log4jna-assembly&v=2.1.1-SNAPSHOT&e=zip) |
+Releases are published to Maven Central. See [org.dblock.log4jna on Maven Central](https://central.sonatype.com/namespace/org.dblock.log4jna) for all versions and their downloads, including the demo with dependencies and a zip with jars, sources, dependencies and documentation.
 
-#### Log4JNA  for Log4j 1.x
-* [log4jna-1.3.zip](http://code.dblock.org/downloads/log4jna/log4jna-1.3.zip)
+Development snapshots are published to the [Maven Central snapshots repository](https://central.sonatype.com/repository/maven-snapshots/org/dblock/log4jna/).
+
+#### Log4JNA for Log4j 1.x
+* [log4jna-1.3.zip](https://github.com/dblock/log4jna/releases/tag/1.3)
 
 
 * [org.apache.log4jna.nt.Win32EventLogAppender](log4jna-doc/org.apache.log4jna.nt.Win32EventLogAppender.md): a replacement for NTEventLogAppender based on JNA that doesn't require a native DLL in a system directory.
