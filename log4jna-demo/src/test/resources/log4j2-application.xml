@@ -39,7 +39,7 @@
 
 	</Properties>
   <Appenders>
-    <Console name="console-log" target="SYSTEM_OUT" level="debug">
+    <Console name="console-log" target="SYSTEM_OUT">
       <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %l - %msg%n" />
     </Console>
 
