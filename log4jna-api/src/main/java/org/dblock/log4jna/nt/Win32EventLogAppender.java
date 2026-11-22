@@ -34,6 +34,7 @@ import com.sun.jna.platform.win32.Advapi32;
 import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.Win32Exception;
+import com.sun.jna.platform.win32.WinError;
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.platform.win32.WinReg;
@@ -66,6 +67,12 @@ public class Win32EventLogAppender extends AbstractAppender {
 	private static final int TYPES_SUPPORTED = 7;
 	private static final String DEFAULT_SOURCE = "Log4jna";
 	private static final String DEFAULT_APPLICATION = "Application";
+	/**
+	 * How long to keep retrying to register a newly created event source while
+	 * the Event Log service denies access to it.
+	 */
+	private static final long NEW_EVENT_SOURCE_TIMEOUT_MILLIS = 10000;
+	private static final long NEW_EVENT_SOURCE_MAX_DELAY_MILLIS = 1000;
 	/**
 	 * 
 	 */
@@ -294,22 +301,38 @@ public class Win32EventLogAppender extends AbstractAppender {
 			String categoryMessageFile) {
 		String applicationKeyPath = EVENT_LOG_PATH + application;
 		String eventSourceKeyPath = applicationKeyPath + "\\" + source;
+		boolean created = false;
 		if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, applicationKeyPath)) {
 			if (Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath)) {
 				setVariableKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
 			} else {
-				createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
+				created = createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
 			}
 		} else {
-			createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
+			created = createAndSetAllKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
 		}
 
-		HANDLE h = Advapi32.INSTANCE.RegisterEventSource(server, source);
-		if (h == null) {
-			throw new Win32Exception(Kernel32.INSTANCE.GetLastError());
+		// The Event Log service can briefly deny access to a newly created event
+		// source while it picks up its registry key, so retry for a while.
+		long deadline = System.currentTimeMillis() + NEW_EVENT_SOURCE_TIMEOUT_MILLIS;
+		long delay = 50;
+		while (true) {
+			HANDLE h = Advapi32.INSTANCE.RegisterEventSource(server, source);
+			if (h != null) {
+				return h;
+			}
+			int error = Kernel32.INSTANCE.GetLastError();
+			if (!created || error != WinError.ERROR_ACCESS_DENIED || System.currentTimeMillis() >= deadline) {
+				throw new Win32Exception(error);
+			}
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new Win32Exception(error);
+			}
+			delay = Math.min(delay * 2, NEW_EVENT_SOURCE_MAX_DELAY_MILLIS);
 		}
-
-		return h;
 	}
 
 	/**
@@ -317,15 +340,18 @@ public class Win32EventLogAppender extends AbstractAppender {
 	 * @param eventMessageFile The message file location in the file system
 	 * @param categoryMessageFile The message file location in the file system
 	 * @param eventSourceKeyPath The registry path
+	 * @return Whether the event source key was created
 	 */
-	private void createAndSetAllKeys(String eventMessageFile, String categoryMessageFile, String eventSourceKeyPath) {
+	private boolean createAndSetAllKeys(String eventMessageFile, String categoryMessageFile, String eventSourceKeyPath) {
 		if (Advapi32Util.registryCreateKey(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath)) {
 			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, "TypesSupported",
 					TYPES_SUPPORTED);
 			Advapi32Util.registrySetIntValue(WinReg.HKEY_LOCAL_MACHINE, eventSourceKeyPath, "CategoryCount",
 					CATEGORY_COUNT);
 			setVariableKeys(eventMessageFile, categoryMessageFile, eventSourceKeyPath);
+			return true;
 		}
+		return false;
 	}
 
 	/**
