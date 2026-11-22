@@ -7,6 +7,7 @@
 * [#269](https://github.com/dblock/log4jna/pull/269): Replace download links with Maven Central and the snapshots repository, and update release steps for the Central Portal - [@dblock](https://github.com/dblock).
 * [#270](https://github.com/dblock/log4jna/pull/270): Fix [#51](https://github.com/dblock/log4jna/issues/51): Win32EventLog CLASS_NOT_FOUND when running the demo, include log4jna-api in the run-demo assembly, merge Log4j plugin caches in the demo jar with dependencies, and fix its main class - [@dblock](https://github.com/dblock).
 * [#271](https://github.com/dblock/log4jna/pull/271): Fix [#41](https://github.com/dblock/log4jna/issues/41): Document packaging Log4JNA in a single jar without losing the `Win32EventLog` plugin - [@dblock](https://github.com/dblock).
+* [#272](https://github.com/dblock/log4jna/pull/272): Add minimal installation and usage instructions to README, and tidy its sections - [@dblock](https://github.com/dblock).
 * Your contribution here. 
 
 2.1.0 (2022/07/15)
