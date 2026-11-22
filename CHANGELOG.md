@@ -2,6 +2,7 @@
 ------------
 
 * [#263](https://github.com/dblock/log4jna/pull/263): Modernize CI: run on `windows-2025` with Java 8 to 27, upgrade GitHub Actions, Maven plugins, Log4j 2.26.1 and JNA 5.19.1, migrate the site descriptors to the 2.0.0 model, and group Renovate updates - [@dblock](https://github.com/dblock).
+* [#264](https://github.com/dblock/log4jna/pull/264): Replace Renovate with Dependabot for grouped Maven and GitHub Actions updates - [@dblock](https://github.com/dblock).
 * Your contribution here. 
 
 2.1.0 (2022/07/15)
