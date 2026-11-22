@@ -20,14 +20,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.impl.Log4jLogEvent;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.apache.logging.log4j.message.SimpleMessage;
 import org.dblock.log4jna.nt.Win32EventLogAppender;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.sun.jna.platform.win32.Advapi32Util;
@@ -84,23 +85,62 @@ public class Win32EventLogAppenderTest {
 	 */
 	private Win32EventLogAppender _eventLogAppender = null;
 
-	/**
-	 * 
-	 */
-	@Before
-	public void setUp() {
-		String source = null;
-		String log = getClass().getName();
-		Layout<? extends Serializable> layout = PatternLayout.newBuilder()
-				.withPattern(PatternLayout.TTCC_CONVERSION_PATTERN).build();
-
-		Filter filter = null;
-		_eventLogAppender = Win32EventLogAppender.createAppender("appenderName", null, source, log, _eventLogAppenderDLL, _eventLogAppenderDLL, layout, filter);
-		_eventLogAppender.setSource(TEST_LOGGER_NAME);
-		_eventLogAppender.setApplication("Application");
-//		_eventLogAppender.setCategoryMessageFile(_eventLogAppenderDLL);
-//		_eventLogAppender.setEventMessageFile(_eventLogAppenderDLL);
+/**
+ * Waits for the test event source to be usable. On a fresh machine, the first
+ * use of a newly registered source can briefly fail with "Access is denied"
+ * while the Event Log service picks up its registry key.
+ */
+@BeforeClass
+public static void waitForEventSource() throws InterruptedException {
+	long deadline = System.currentTimeMillis() + 30000;
+	while (true) {
+		String message = "log4jna warm-up message @ " + Kernel32.INSTANCE.GetTickCount();
+		Win32EventLogAppender appender = newAppender();
+		try {
+			appender.append(asLogEvent(appender, message, Level.INFO));
+			EventLogIterator iter = new EventLogIterator(null, TEST_LOGGER_NAME, WinNT.EVENTLOG_BACKWARDS_READ);
+			try {
+				if (iter.hasNext() && String.join("", iter.next().getStrings()).contains(message)) {
+					return;
+				}
+			} finally {
+				iter.close();
+			}
+		} catch (RuntimeException e) {
+			if (System.currentTimeMillis() > deadline) {
+				throw e;
+			}
+		} finally {
+			appender.close();
+		}
+		if (System.currentTimeMillis() > deadline) {
+			fail("The " + TEST_LOGGER_NAME + " event source did not become usable");
+		}
+		Thread.sleep(500);
 	}
+}
+
+@Before
+public void setUp() {
+	_eventLogAppender = newAppender();
+}
+
+@After
+public void tearDown() {
+	if (_eventLogAppender != null) {
+		_eventLogAppender.close();
+	}
+}
+
+private static Win32EventLogAppender newAppender() {
+	Layout<? extends Serializable> layout = PatternLayout.newBuilder()
+			.withPattern(PatternLayout.TTCC_CONVERSION_PATTERN).build();
+	Win32EventLogAppender appender = Win32EventLogAppender.createAppender("appenderName", null, null,
+			Win32EventLogAppenderTest.class.getName(), _eventLogAppenderDLL, _eventLogAppenderDLL, layout, null);
+	appender.setSource(TEST_LOGGER_NAME);
+	appender.setApplication("Application");
+	return appender;
+}
 
 	/**
 	 * Test case for {@link Win32EventLogAppender#append(LogEvent)} with debug
@@ -109,7 +149,7 @@ public class Win32EventLogAppenderTest {
 	@Test
 	public void testDebugEvent() {
 		String message = "log4jna debug message @ " + Kernel32.INSTANCE.GetTickCount();
-		_eventLogAppender.append(asLogEvent(message, Level.DEBUG));
+		_eventLogAppender.append(asLogEvent(_eventLogAppender, message, Level.DEBUG));
 		expectEvent(message, Level.DEBUG, EventLogType.Informational);
 	}
 
@@ -120,7 +160,7 @@ public class Win32EventLogAppenderTest {
 	@Test
 	public void testInfoEvent() {
 		String message = "log4jna info message @ " + Kernel32.INSTANCE.GetTickCount();
-		_eventLogAppender.append(asLogEvent(message, Level.INFO));
+		_eventLogAppender.append(asLogEvent(_eventLogAppender, message, Level.INFO));
 		expectEvent(message, Level.INFO, EventLogType.Informational);
 	}
 
@@ -131,7 +171,7 @@ public class Win32EventLogAppenderTest {
 	@Test
 	public void testWarnEvent() {
 		String message = "log4jna warn message @ " + Kernel32.INSTANCE.GetTickCount();
-		_eventLogAppender.append(asLogEvent(message, Level.WARN));
+		_eventLogAppender.append(asLogEvent(_eventLogAppender, message, Level.WARN));
 		expectEvent(message, Level.WARN, EventLogType.Warning);
 	}
 
@@ -141,7 +181,7 @@ public class Win32EventLogAppenderTest {
 	@Test
 	public void testFatalEvent() {
 		String message = "log4jna fatal message @ " + Kernel32.INSTANCE.GetTickCount();
-		_eventLogAppender.append(asLogEvent(message, Level.FATAL));
+		_eventLogAppender.append(asLogEvent(_eventLogAppender, message, Level.FATAL));
 		expectEvent(message, Level.FATAL, EventLogType.Error);
 	}
 
@@ -162,9 +202,9 @@ public class Win32EventLogAppenderTest {
 		assertEquals(categoryMessageFileInRegistry, categoryMessageFileGiven.toString());
 	}
 
-	private LogEvent asLogEvent(String message, Level level) {
+	private static LogEvent asLogEvent(Win32EventLogAppender appender, String message, Level level) {
 		return new Log4jLogEvent.Builder().setLoggerName(TEST_LOGGER_NAME).setMarker(null)
-				.setLoggerFqcn(_eventLogAppender.getClass().getName()).setLevel(level)
+				.setLoggerFqcn(appender.getClass().getName()).setLevel(level)
 				.setMessage(new SimpleMessage(message)).setTimeMillis(System.currentTimeMillis()).build();
 	}
 
@@ -176,56 +216,32 @@ public class Win32EventLogAppenderTest {
 	 */
 
 	private void expectEvent(String message, Level level, EventLogType eventLogType) {
-		EventLogRecord record = waitForEvent(message);
-		assertEquals(TEST_LOGGER_NAME, record.getSource());
+		EventLogIterator iter = new EventLogIterator(null, TEST_LOGGER_NAME, WinNT.EVENTLOG_BACKWARDS_READ);
+		try {
+			assertTrue(iter.hasNext());
+			EventLogRecord record = iter.next();
+			assertEquals(TEST_LOGGER_NAME, record.getSource());
 
-		assertEquals(eventLogType, record.getType());
-		assertEquals(1, record.getRecord().NumStrings.intValue());
-		assertNull(record.getData());
+			assertEquals(eventLogType, record.getType());
+			assertEquals(1, record.getRecord().NumStrings.intValue());
+			assertNull(record.getData());
 
-		// The full message includes a level and the full class name
-		String fullMessage = level + " " + TEST_LOGGER_NAME + " - " + message;
+			// The full message includes a level and the full class name
+			String fullMessage = level + " " + TEST_LOGGER_NAME + " - " + message;
 
-		// The event message has the location tacked on the front
-		StringBuilder eventMessage = new StringBuilder();
-		for (int i = 0; i < record.getStrings().length; i++) {
-			eventMessage.append(record.getStrings()[i].trim());
-		}
-
-		int levelMarker = eventMessage.indexOf(level.toString());
-		assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
-		String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
-
-		assertEquals(fullMessage, eventMessageWithoutLocation);
-	}
-
-	/**
-	 * Returns the newest event log record, waiting for the Event Log service to make
-	 * the record containing the given message visible, which can take a moment after
-	 * it is reported. Returns the newest record after the timeout so that the
-	 * assertions report what was found.
-	 */
-	private EventLogRecord waitForEvent(String message) {
-		long deadline = System.currentTimeMillis() + 5000;
-		while (true) {
-			EventLogIterator iter = new EventLogIterator(null, TEST_LOGGER_NAME, WinNT.EVENTLOG_BACKWARDS_READ);
-			try {
-				assertTrue(iter.hasNext());
-				EventLogRecord record = iter.next();
-				String[] strings = record.getStrings();
-				boolean found = strings != null && String.join("", strings).contains(message);
-				if (found || System.currentTimeMillis() > deadline) {
-					return record;
-				}
-			} finally {
-				iter.close();
+			// The event message has the location tacked on the front
+			StringBuilder eventMessage = new StringBuilder();
+			for (int i = 0; i < record.getStrings().length; i++) {
+				eventMessage.append(record.getStrings()[i].trim());
 			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				throw new AssertionError(e);
-			}
+
+			int levelMarker = eventMessage.indexOf(level.toString());
+			assertTrue("missing level marker in '" + eventMessage + "'", levelMarker >= 0);
+			String eventMessageWithoutLocation = eventMessage.substring(levelMarker);
+
+			assertEquals(fullMessage, eventMessageWithoutLocation);
+		} finally {
+			iter.close();
 		}
 	}
 }
