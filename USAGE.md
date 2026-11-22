@@ -10,6 +10,7 @@ Log4JNA uses some configuration parameters to set up values in Windows<sup>TM</s
 - [Log4J 2 Configuration](#lj)
 - [Registry Set Up](#registry)
 - [Dependencies](#dep)
+- [Packaging in a Single Jar](#jar)
 
 ## <a name="msg"></a>The message file `Win32EventlogAppender.dll`
 
@@ -301,3 +302,46 @@ The registry should look like this:
    |+ work
 ```
 
+## <a name="jar"></a>Packaging in a Single Jar
+
+Log4j 2<sup>TM</sup> finds the `Win32EventLog` appender through the plugin index `META-INF/org/apache/logging/log4j/core/config/plugins/Log4j2Plugins.dat` that ships in `log4jna-api.jar`. No `packages` attribute is needed in the configuration when `log4jna-api.jar` is on the CLASSPATH.
+
+`log4j-core.jar` ships a file with the same name. Tools that merge dependencies into a single jar, such as the `jar-with-dependencies` descriptor of the `maven-assembly-plugin`, keep only one of them, and Log4j 2<sup>TM</sup> fails with `ERROR Error processing element Win32EventLog ([Appenders: null]): CLASS_NOT_FOUND` followed by `Unable to locate appender "Win32EventLog"`.
+
+Use the `maven-shade-plugin` with the `Log4j2PluginCacheFileTransformer` from Log4j to merge the plugin indexes, and mark the jar as multi-release so that `log4j-api` keeps working.
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-shade-plugin</artifactId>
+  <version>3.6.2</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-transform-maven-shade-plugin-extensions</artifactId>
+      <version>0.2.0</version>
+    </dependency>
+  </dependencies>
+  <executions>
+    <execution>
+      <phase>package</phase>
+      <goals>
+        <goal>shade</goal>
+      </goals>
+      <configuration>
+        <transformers>
+          <transformer implementation="org.apache.logging.log4j.maven.plugins.shade.transformer.Log4j2PluginCacheFileTransformer" />
+          <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+          <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+            <manifestEntries>
+              <Multi-Release>true</Multi-Release>
+            </manifestEntries>
+          </transformer>
+        </transformers>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
+The Log4JNA Demo project builds its jar with dependencies this way. Adding `packages="org.dblock.log4jna.nt"` to the `Configuration` element also works around a missing plugin index, but Log4j 2<sup>TM</sup> deprecates the `packages` attribute, so prefer merging the plugin indexes.
