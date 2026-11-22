@@ -1,7 +1,7 @@
 # Log4JNA Configuration
-Log4JNA uses some configuration parameters to set up values in Windows<sup>TM</sup> Registry that are required in order to write to the Event Viewer, all other Log4j 2<sup>TM</sup> values are used as described in the [Log4j 2<sup>TM</sup> Configuration Guide](http://logging.apache.org/log4j/2.x/manual/configuration.html)
+Log4JNA uses some configuration parameters to set up values in Windows Registry that are required in order to write to the Event Viewer, all other Log4j 2 values are used as described in the [Log4j 2 Configuration Guide](http://logging.apache.org/log4j/2.x/manual/configuration.html)
 
-**Note:** Windows<sup>TM</sup> requires Administrator privileges in order to write into the Registry, therefore you have to run the application as Administrator at least once, or [setup the registry manually](#registry) before using Log4JNA or whenever the location of the message file `Win32EventlogAppender.dll` changes in the configuration file.
+**Note:** Windows requires Administrator privileges in order to write into the Registry, therefore you have to run the application as Administrator at least once, or [setup the registry manually](#registry) before using Log4JNA or whenever the location of the message file `Win32EventlogAppender.dll` changes in the configuration file.
 
 - [The message file `Win32EventlogAppender.dll`](#msg)
 - [Log4JNA Configuration Parameters](#cp)
@@ -11,7 +11,7 @@ Log4JNA uses some configuration parameters to set up values in Windows<sup>TM</s
 - [Dependencies](#dep)
 
 ## <a name="masg"></a>The message file `Win32EventlogAppender.dll`
-Windows<sup>TM</sup> Event Viewer and log depends on message files to find message content, formats, categories and types.
+Windows Event Viewer and log depends on message files to find message content, formats, categories and types.
 
 Log4JNA uses a message file named `Win32EventlogAppender.dll`, we only define the categories and types and a generic message format that 
 acts as pass through for the message format defined by your Log4j messages.
@@ -23,7 +23,7 @@ Log4JNA needs to be able to find the file in order tof
 
 | Name | Required | Default Value | Usage Description |
 | ----: | :--------: | :-------------: | ----- |
-| `name` | true | N/A | This required value **must always be `Win32EventLog`**.<br/>It identifies the appender to Log4j 2<sup>TM</sup> Plugin management implementation  |
+| `name` | true | N/A | This required value **must always be `Win32EventLog`**.<br/>It identifies the appender to Log4j 2 Plugin management implementation  |
 | `application` | false | Application | Indicates the top level location in the Event Viewer<br/><br/>The default is *Windows Logs -> Application* with a *Source* as per the `source` parameter.<br/><br/>If any other value than *Application* is used a Registry key in `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\` is created and Log4JNA will log into *Application and Service Logs -> &lt;application-value&gt;* with a Source column as per the `source` parameter.  |
 | `source` | false | Log4jnaTest | Indicates the text to use in the *Source* column in the Event Viewer.<br/>**We strongly recommend to use a different value**  |
 | `eventMessageFile` | true | N/A | Indicates the file system location of the message file<br/> The value can be relative as far as the program can determinate the absolute location in the file system. |
@@ -49,7 +49,7 @@ The final location is defined by the `application` and `source` configuration pa
 
 Sample configuration files are provide in the Log4JNA Demo project and we use them for this examples.
 
-All Log4j 2<sup>TM</sup> configuration formats are supported, we show here *.xml* and *.properties* configuration examples, for *json*, *yaml*, and *strict xml* configuration follow the [Log4j 2<sup>TM</sup> documentation](http://logging.apache.org/log4j/2.x/manual/configuration.htm).
+All Log4j 2 configuration formats are supported, we show here *.xml* and *.properties* configuration examples, for *json*, *yaml*, and *strict xml* configuration follow the [Log4j 2 documentation](http://logging.apache.org/log4j/2.x/manual/configuration.htm).
 
 ##### Configuring with all default values. 
 `log4j2.xml`

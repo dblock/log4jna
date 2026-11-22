@@ -1,7 +1,7 @@
 # Setting up your development environment
 
 The first time you run the test suite or any application using Log4JNA, Log4JNA attempts to write the necessary entries in 
-Windows<sup>TM</sup> Registry. If you don't have administrator privileges the run fails.
+Windows Registry. If you don't have administrator privileges the run fails.
 
 ### Running the tests
 In order for the tests to pass you must run them as Administrator or set up the registry before your first run.
