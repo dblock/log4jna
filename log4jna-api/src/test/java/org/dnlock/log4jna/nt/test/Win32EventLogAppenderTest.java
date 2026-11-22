@@ -143,6 +143,47 @@ private static Win32EventLogAppender newAppender() {
 }
 
 	/**
+	 * The first event to a newly created event log and source must be logged,
+	 * even while the Event Log service briefly denies access to the new source.
+	 */
+	@Test
+	public void testFirstEventToNewEventSource() {
+		int tick = Kernel32.INSTANCE.GetTickCount();
+		String application = "Log4jnaNewLog" + tick;
+		String source = "Log4jnaNewSource" + tick;
+		String applicationKeyPath = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\" + application;
+		String sourceKeyPath = applicationKeyPath + "\\" + source;
+		Win32EventLogAppender appender = newAppender();
+		appender.setSource(source);
+		appender.setApplication(application);
+		try {
+			appender.append(asLogEvent(appender, "log4jna first message to a new event source", Level.INFO));
+			assertTrue(Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, sourceKeyPath));
+		} finally {
+			appender.close();
+			deleteKeyTree(applicationKeyPath);
+		}
+	}
+
+	/**
+	 * Deletes a registry key and its subkeys, ignoring failures so that cleanup
+	 * does not hide the outcome of a test.
+	 */
+	private static void deleteKeyTree(String keyPath) {
+		try {
+			if (!Advapi32Util.registryKeyExists(WinReg.HKEY_LOCAL_MACHINE, keyPath)) {
+				return;
+			}
+			for (String subKey : Advapi32Util.registryGetKeys(WinReg.HKEY_LOCAL_MACHINE, keyPath)) {
+				deleteKeyTree(keyPath + "\\" + subKey);
+			}
+			Advapi32Util.registryDeleteKey(WinReg.HKEY_LOCAL_MACHINE, keyPath);
+		} catch (RuntimeException e) {
+			System.err.println("Could not delete " + keyPath + ": " + e.getMessage());
+		}
+	}
+
+	/**
 	 * Test case for {@link Win32EventLogAppender#append(LogEvent)} with debug
 	 * level.
 	 */
