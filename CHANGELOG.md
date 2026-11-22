@@ -10,6 +10,7 @@
 * [#272](https://github.com/dblock/log4jna/pull/272): Add minimal installation and usage instructions to README, and tidy its sections - [@dblock](https://github.com/dblock).
 * [#273](https://github.com/dblock/log4jna/pull/273): Remove trademark superscripts from the documentation - [@dblock](https://github.com/dblock).
 * [#275](https://github.com/dblock/log4jna/pull/275): Remove the Gitter badge - [@dblock](https://github.com/dblock).
+* [#276](https://github.com/dblock/log4jna/pull/276): Fix typos, broken links, stale instructions and heading levels in the documentation, fill in the FAQ, and sync the Maven site pages - [@dblock](https://github.com/dblock).
 * Your contribution here. 
 
 2.1.0 (2022/07/15)

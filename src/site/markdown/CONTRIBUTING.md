@@ -1,12 +1,10 @@
-Contributing to Log4JNA
-=====================
+# Contributing to Log4JNA
 
-Log4JNA is work of [many contributors](https://github.com/dblock/log4jna/graphs/contributors). You're encouraged to submit 
-[pull requests](https://github.com/dblock/log4jna/pulls), [propose features and discuss issues](https://github.com/dblock/log4jna/issues).
+Log4JNA is work of [many contributors](https://github.com/dblock/log4jna/graphs/contributors). You're encouraged to submit [pull requests](https://github.com/dblock/log4jna/pulls), [propose features and discuss issues](https://github.com/dblock/log4jna/issues).
 
-#### Fork the Project
+## Fork the Project
 
-Fork the [project on Github](https://github.com/dblock/log4jna) and check out your copy.
+Fork the [project on GitHub](https://github.com/dblock/log4jna) and check out your copy.
 
 ```
 git clone https://github.com/contributor/log4jna.git
@@ -14,7 +12,7 @@ cd log4jna
 git remote add upstream https://github.com/dblock/log4jna.git
 ```
 
-#### Create a Topic Branch
+## Create a Topic Branch
 
 Make sure your fork is up-to-date and create a topic branch for your feature or bug fix.
 
@@ -24,7 +22,7 @@ git pull upstream master
 git checkout -b my-feature-branch
 ```
 
-#### Build and Test
+## Build and Test
 
 Ensure that you can build the project and run tests.
 
@@ -32,33 +30,33 @@ Ensure that you can build the project and run tests.
 mvn test
 ```
 
-##### Notes on building
+### Notes on Building
 
-See [Win32EventLogAppender README](log4jna-win32dll/README.md) for requirements on building the the message file.
+See [Win32EventLogAppender README](log4jna-win32dll/README.md) for requirements on building the message file.
 
-The build does not complain and skips the message file if it can't be build. 
+The build does not complain and skips the message file if it can't be built.
 
-#### Write Tests
+## Write Tests
 
 Try to write a test that reproduces the problem you're trying to fix or describes a feature that you want to build.
 
 We definitely appreciate pull requests that highlight or reproduce a problem, even without a fix.
 
-#### Write Code
+## Write Code
 
 Implement your feature or bug fix.
 
 Make sure that `mvn test` completes without errors.
 
-#### Write Documentation
+## Write Documentation
 
-Document any external behavior in the [README](README.md).
+Document any external behavior in the [README](README.md) or [USAGE](USAGE.md). The Maven site renders copies of the top-level documents from `src/site/markdown`, so copy any changed document there as well, replacing `img/` with `img/` in image links.
 
-#### Update Changelog
+## Update Changelog
 
-Add a line to [CHANGELOG](CHANGELOG.md) under *Next Release*. Make it look like every other line, including your name and link to your Github account.
+Add a line to [CHANGELOG](CHANGELOG.md) under the *Next* release. Make it look like every other line, including your name and link to your GitHub account.
 
-#### Commit Changes
+## Commit Changes
 
 Make sure git knows your name and email address:
 
@@ -74,17 +72,17 @@ git add ...
 git commit
 ```
 
-#### Push
+## Push
 
 ```
 git push origin my-feature-branch
 ```
 
-#### Make a Pull Request
+## Make a Pull Request
 
 Go to https://github.com/contributor/log4jna and select your feature branch. Click the 'Pull Request' button and fill out the form. Pull requests are usually reviewed within a few days.
 
-#### Rebase
+## Rebase
 
 If you've been working on a change for a while, rebase with upstream/master.
 
@@ -94,7 +92,7 @@ git rebase upstream/master
 git push origin my-feature-branch -f
 ```
 
-#### Update CHANGELOG Again
+## Update CHANGELOG Again
 
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
@@ -109,14 +107,14 @@ git commit --amend
 git push origin my-feature-branch -f
 ```
 
-#### Check on Your Pull Request
+## Check on Your Pull Request
 
-Go back to your pull request after a few minutes and see whether it passed muster with Travis-CI. Everything should look green, otherwise fix issues and amend your commit as described above.
+Go back to your pull request after a few minutes and see whether it passed muster with GitHub Actions. Everything should look green, otherwise fix issues and amend your commit as described above.
 
-#### Be Patient
+## Be Patient
 
 It's likely that your change will not be merged and that the nitpicky maintainers will ask you to do more, or fix seemingly benign problems. Hang on there!
 
-#### Thank You
+## Thank You
 
 Please do know that we really appreciate and value your time and work. We love you, really.

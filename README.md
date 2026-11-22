@@ -2,11 +2,11 @@
 [![Build status](https://github.com/dblock/log4jna/actions/workflows/Default.yml/badge.svg)](https://github.com/dblock/log4jna/actions/workflows/Default.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.dblock.log4jna/log4jna)](https://search.maven.org/artifact/org.dblock.log4jna/log4jna)
 
-Log4JNA is a library of native appenders to write into Windows Event Viewer for [Log4j 2](http://logging.apache.org/log4j/). 
+Log4JNA is a library of native appenders to write into Windows Event Viewer for [Log4j 2](https://logging.apache.org/log4j/2.x/).
 
-Unlike the native implementation(s) in Log4j, this project uses [JNA](http://github.com/twall/jna) and therefore does not require a native DLL in a system directory or on PATH.
+Unlike the native implementation(s) in Log4j, this project uses [JNA](https://github.com/java-native-access/jna) and therefore does not require a native DLL in a system directory or on PATH.
 
-**Note:** Log4JNA is intended for Windows environments and requires access to Windows registry and Event Viewer, therefore can only be tested in Windows environments
+**Note:** Log4JNA is intended for Windows environments and requires access to Windows registry and Event Viewer, therefore can only be tested in Windows environments.
 
 ## Installation
 
