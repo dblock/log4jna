@@ -46,3 +46,25 @@ jobs:
 
       # Default Build
       - run: mvn clean install -B
+
+      # Run the packaged demos and fail if the Win32EventLog appender cannot be loaded or used
+      - name: Run Demos
+        shell: pwsh
+        run: |
+          function Invoke-Demo([string] $Name, [string] $Directory, [scriptblock] $Command) {
+            Push-Location $Directory
+            try {
+              $out = & $Command 2>&1 | Out-String
+              $code = $LASTEXITCODE
+            } finally {
+              Pop-Location
+            }
+            Write-Output $out
+            if ($code -ne 0) { throw "$Name exited with code $code" }
+            if ($out -match 'CLASS_NOT_FOUND|Unable to locate appender|An exception occurred processing Appender') { throw "$Name failed: $($Matches[0])" }
+          }
+
+          Invoke-Demo 'Demo with dependencies' log4jna-demo { java -jar (Get-Item target/log4jna-demo-*-jar-with-dependencies.jar).FullName }
+
+          Expand-Archive log4jna-assembly/target/run-demo.zip -DestinationPath run-demo
+          Invoke-Demo 'Demo assembly' run-demo { cmd /c rundemo.cmd }

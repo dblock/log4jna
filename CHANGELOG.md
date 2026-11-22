@@ -5,6 +5,7 @@
 * [#264](https://github.com/dblock/log4jna/pull/264): Replace Renovate with Dependabot for grouped Maven and GitHub Actions updates - [@dblock](https://github.com/dblock).
 * [#268](https://github.com/dblock/log4jna/pull/268): Publish snapshots to the Central Portal instead of the retired OSSRH repository - [@dblock](https://github.com/dblock).
 * [#269](https://github.com/dblock/log4jna/pull/269): Replace download links with Maven Central and the snapshots repository, and update release steps for the Central Portal - [@dblock](https://github.com/dblock).
+* [#270](https://github.com/dblock/log4jna/pull/270): Fix [#51](https://github.com/dblock/log4jna/issues/51): Win32EventLog CLASS_NOT_FOUND when running the demo, include log4jna-api in the run-demo assembly, merge Log4j plugin caches in the demo jar with dependencies, and fix its main class - [@dblock](https://github.com/dblock).
 * Your contribution here. 
 
 2.1.0 (2022/07/15)
