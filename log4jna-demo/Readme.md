@@ -1,17 +1,16 @@
-Demo.
+# Log4JNA Demo
 
-Work in progress.
+A demo application that logs to Event Viewer with the `Win32EventLog` appender.
 
-To run the demo:.
+## Running the Demo
 
-	1 checkout log4jna project and run "maven install" on it.
-	
-	2 create the registry entries HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Win32LogApplication\WinLogger
-	
-  		Name:            CategoryCount
-  		Type:            REG_DWORD
-  		Data:            0x6
+Build the project with `mvn install`, then run the demo jar with dependencies from the `log4jna-demo` directory. Run it as Administrator the first time, so that Log4JNA can create the registry entries, or [set up the registry manually](../ENVIRONMENT.md#for-the-demo-application).
 
-  		Name:            TypesSupported
-  		Type:            REG_DWORD
-  		Data:            0x7
+```
+cd log4jna-demo
+java -jar target\log4jna-demo-<version>-jar-with-dependencies.jar
+```
+
+The demo uses [`src/main/resources/log4j2.xml`](src/main/resources/log4j2.xml), which logs to *Applications and Services Logs -> Win32LogApplication* with *DemoLogger1* as the *Source*, and the message file in `src/test/resources`.
+
+You can also extract `log4jna-assembly/target/run-demo.zip` and run `rundemo.cmd`.

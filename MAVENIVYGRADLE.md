@@ -2,7 +2,7 @@
 
 Configure your build system to get dependencies from Maven Central.
 
-### Apache Maven
+## Apache Maven
 
 Add the following to your `pom.xml` file.
 
@@ -16,22 +16,22 @@ Add the following to your `pom.xml` file.
 </dependencies>
 ```
 
-### Apache Ivy
+## Apache Ivy
 
 Add the following to your `ivy.xml` file.
 
 ```xml
 <dependencies>
-  <dependency org="org.dblock.log4jna" name="log4jna-api"  rev="2.1.0" />
+  <dependency org="org.dblock.log4jna" name="log4jna-api" rev="2.1.0" />
 </dependencies>
 ```
 
-### Gradle
+## Gradle
 
-Add the following to your `build.gradle` file
+Add the following to your `build.gradle` file.
 
 ```gradle
 dependencies {
-  compile group: 'org.dblock.log4jna', name: 'log4jna-api', version: '2.1.0'
+  implementation 'org.dblock.log4jna:log4jna-api:2.1.0'
 }
 ```
