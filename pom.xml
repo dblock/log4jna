@@ -181,6 +181,10 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>3.2.8</version>
+          <configuration>
+            <!-- Sign with BouncyCastle using the MAVEN_GPG_KEY and MAVEN_GPG_PASSPHRASE environment variables; no gpg binary or keyring needed. -->
+            <signer>bc</signer>
+          </configuration>
         </plugin>
         <!-- By default we skip site:deploy -->
         <!-- We generate the site for the assembly in the prepare-package phase -->
@@ -290,12 +294,6 @@
                 </goals>
               </execution>
             </executions>
-            <configuration>
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>org.sonatype.central</groupId>
@@ -327,12 +325,6 @@
                 </goals>
               </execution>
             </executions>
-            <configuration>
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>org.sonatype.central</groupId>
