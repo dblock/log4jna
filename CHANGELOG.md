@@ -9,6 +9,7 @@
 * [#271](https://github.com/dblock/log4jna/pull/271): Fix [#41](https://github.com/dblock/log4jna/issues/41): Document packaging Log4JNA in a single jar without losing the `Win32EventLog` plugin - [@dblock](https://github.com/dblock).
 * [#272](https://github.com/dblock/log4jna/pull/272): Add minimal installation and usage instructions to README, and tidy its sections - [@dblock](https://github.com/dblock).
 * [#273](https://github.com/dblock/log4jna/pull/273): Remove trademark superscripts from the documentation - [@dblock](https://github.com/dblock).
+* [#275](https://github.com/dblock/log4jna/pull/275): Remove the Gitter badge - [@dblock](https://github.com/dblock).
 * Your contribution here. 
 
 2.1.0 (2022/07/15)

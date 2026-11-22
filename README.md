@@ -1,5 +1,4 @@
 ![Log4JNA](https://github.com/dblock/log4jna/raw/master/log4jna.jpg?raw=true "Log4JNA")
-[![Gitter](https://badges.gitter.im/dblock/log4jna.svg)](https://gitter.im/dblock/log4jna?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge)
 [![Build status](https://github.com/dblock/log4jna/actions/workflows/Default.yml/badge.svg)](https://github.com/dblock/log4jna/actions/workflows/Default.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.dblock.log4jna/log4jna)](https://search.maven.org/artifact/org.dblock.log4jna/log4jna)
 
